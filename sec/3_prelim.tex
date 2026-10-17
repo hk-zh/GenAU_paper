@@ -1,0 +1,9 @@
+\section{Preliminaries}
+\label{sec:prelims}
+We address three tasks under a common cross-dataset protocol. A model is trained only on a source dataset $\mathcal{D}_{\text{train}}=\{(\boldsymbol{x}_i,\boldsymbol{y}_i)\}_{i=1}^{N_1}$ with inputs $\boldsymbol{x}_i\sim\mathcal{P}(\mathcal{X})$, and evaluated, without retraining, on a target dataset $\mathcal{D}_{\text{target}}$ whose inputs are drawn from a different distribution $\mathcal{P}(\mathcal{X}')\nsim\mathcal{P}(\mathcal{X})$ (a distribution shift). At test time the model may optionally use target-domain metadata such as a product description, but no target labels. What the literature calls \emph{zero-shot} anomaly detection/segmentation is, more precisely, binary detection/segmentation under this category-level distribution shift; we use the terms interchangeably and retain \emph{zero-shot} for comparability with prior work.
+
+\smallskip\noindent\textbf{Binary anomaly detection.} Each image $\boldsymbol{x}\in\mathbb{R}^{H\times W}$ carries a label $y\in\{0,1\}$ indicating anomaly presence; the model classifies each target image as normal or anomalous.
+
+\smallskip\noindent\textbf{Binary anomaly segmentation.} Each image is paired with a pixel mask $\boldsymbol{y}\in\{0,1\}^{H\times W}$; the model classifies each target pixel as normal or anomalous.
+
+\smallskip\noindent\textbf{Conditional defect-type recognition.} On known-anomalous images, the model selects one coarse label from the target object's supplied candidate set, including compound labels where defined. The target vocabulary mixes seen and novel defect types. This cross-dataset forced-choice task, called multi-type detection for comparability, does not measure joint anomaly detection or independent multi-label prediction. Full definitions are in Appendix~\ref{app:tasks}.

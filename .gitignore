@@ -1,0 +1,38 @@
+# --- LaTeX build artifacts (regenerated on every compile) ---
+*.aux
+*.log
+*.out
+*.blg
+*.brf
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.toc
+*.lof
+*.lot
+*.bcf
+*.run.xml
+*.nav
+*.snm
+*.vrb
+
+# --- compiled paper PDFs (built from source) ---
+/main.pdf
+# (no supp.pdf here: the appendix is authored inside main.tex and the compiled
+#  main.pdf is SPLIT into paper + supplementary before submission -- see main.tex)
+
+# Note: *.bbl is intentionally NOT ignored (kept for submission/reproducibility).
+
+# --- figures the paper includes that the repo-wide *.pdf / visa* rules would drop ---
+!/imgs/GenAU_Arch_final.pdf
+!/imgs/text.pdf
+!/imgs/visa-missing.jpg
+
+# --- uncompressed originals of the included figures (on disk only) ---
+/imgs/originals/
+
+# --- large figures (> 1 MB) the paper does not include (on disk only) ---
+/imgs/Defects.svg
+/imgs/GenAU_arch.png
+/imgs/misplaced.png
+/imgs/text.png

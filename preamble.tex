@@ -1,0 +1,34 @@
+%
+% CVPR preamble.
+%
+% cvpr.sty already provides: times, xspace, xcolor[dvipsnames], graphicx,
+% amsmath, amssymb, booktabs, natbib[numbers,sort&compress], silence, etoolbox,
+% caption, subcaption, url and enumitem -- and it loads cleveref itself via
+% \AtEndPreamble (i.e. strictly after hyperref), so none of those may be loaded
+% here. (This is the same package set wacv.sty supplied; the ICLR port had to
+% declare them all by hand because iclr2027_conference.sty supplied only
+% fancyhdr + natbib.)
+%
+% Disable PDF object-stream compression: the large included architecture
+% figure (imgs/GenAU_Arch_final.pdf) otherwise overflows pdfTeX's
+% object-stream buffer ("TeX capacity exceeded [PDF object stream buffer]").
+\ifdefined\pdfobjcompresslevel \pdfobjcompresslevel=0 \fi
+
+% --- required by this paper and NOT provided by cvpr.sty ---
+\usepackage{multirow}   % \multirow in the result/ablation tables
+\usepackage{colortbl}   % \rowcolor{gray!20} (the "table" feature of xcolor)
+\usepackage{tikz}       % motivation radar chart (Fig. 1)
+\usepackage{microtype}  % char protrusion + font expansion: tighter lines, fewer runts
+
+% --- compact (but standard) float spacing to help fit the page limit ---
+\setlength{\textfloatsep}{10pt plus 2pt minus 2pt}      % top/bottom single-col floats
+\setlength{\intextsep}{10pt plus 2pt minus 2pt}         % [h] floats
+\setlength{\dbltextfloatsep}{12pt plus 2pt minus 2pt}   % full-width figure*/table*
+
+% --- inline annotations
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\todo}[1]{{\color{red}#1}}
+\newcommand{\TODO}[1]{\textbf{\color{red}[TODO: #1]}}
+% --- disable by uncommenting
+% \renewcommand{\TODO}[1]{}
+% \renewcommand{\todo}[1]{#1}

@@ -1,0 +1,122 @@
+\section{Introduction}
+\label{sec:intro}
+\begin{figure}[t]
+    \centering
+    % ====================== Motivation radar chart ======================
+    % Six metric axes (clockwise from top), all on a 0-100 scale (VisA / VisA-D&R):
+    %   Detection AUROC (90), Detection AP (30), Segmentation AUROC (-30),
+    %   Segmentation AUPRO (-90), Multi-type F1 (-150), Reasoning GPT-Score x10 (150).
+    %   A value of 0 = the model cannot perform that task (capability gap).
+    % Single-column float at scale 1.0: the picture is ~7.3cm wide against a 8.26cm
+    % column, which is how this figure was sized for the identical WACV geometry.
+    \definecolor{cGenAU}{RGB}{197,90,17}   % GenAU (ours) -- orange
+    \definecolor{cAOV}{RGB}{123,50,148}    % Anomaly-OV -- purple
+    \definecolor{cMADS}{RGB}{31,119,180}   % MultiADS -- blue
+    \definecolor{cCLIP}{RGB}{44,160,44}    % AnomalyCLIP -- green
+    \begin{tikzpicture}[scale=1.0]
+      \def\R{1.9}            % radius at score = 100
+      % concentric reference rings (decorative; each axis is scaled independently)
+      \foreach \f in {0.25,0.5,0.75,1.0}{
+        \draw[gray!30,line width=0.4pt]
+          (90:{\f*\R}) -- (30:{\f*\R}) -- (-30:{\f*\R}) --
+          (-90:{\f*\R}) -- (-150:{\f*\R}) -- (150:{\f*\R})
+          -- cycle;
+      }
+      % axis spokes
+      \foreach \ang in {90,30,-30,-90,-150,150}{
+        \draw[gray!55,line width=0.5pt] (0,0) -- (\ang:\R);
+      }
+      % --- series macro: #1..#6 = radius FRACTIONS = clamp((value-lo)/(hi-lo), 0, 1).
+      %     Per-axis ranges [lo,hi] (drawn as axis labels): DetAUROC[70,95] DetAP[70,95]
+      %     SegAUROC[70,95] SegAUPRO[70,95] MultiF1[20,70] Reason[4,7].
+      %     Det = VisA; Seg = mean over VisA+MPDD+Real-IAD; Multi = mean over VisA+MPDD; Reason = VisA-D&R.
+      %     0 (capability gap) -> center. NOTE: SegAUROC MultiADS 95.8 / AnomalyCLIP 96.1 > 95 -> clamped to rim.
+      \newcommand{\radarpath}[6]{
+        (90:{#1*\R}) -- (30:{#2*\R}) -- (-30:{#3*\R}) --
+        (-90:{#4*\R}) -- (-150:{#5*\R}) -- (150:{#6*\R})
+        -- cycle}
+      % baselines first (lines only), GenAU drawn last on top (filled)
+      % AnomalyCLIP  (det 82.1/85.4, seg 96.1/87.1, multi --, reason --)
+      \draw[cCLIP,line width=0.9pt,fill=cCLIP,fill opacity=0.08] \radarpath{0.484}{0.616}{1.0}{0.684}{0}{0};
+      % MultiADS     (det 83.6/86.9, seg 95.8/88.8, multi 25.7, reason --)
+      \draw[cMADS,line width=0.9pt,fill=cMADS,fill opacity=0.08] \radarpath{0.544}{0.676}{1.0}{0.752}{0.114}{0};
+      % Anomaly-OV-7B   (det 88.9/90.5, seg --/--, multi 43.1 = mean(VisA 21.1, MPDD 65.1), reason 6.34 complex)
+      \draw[cAOV,line width=1.0pt,fill=cAOV,fill opacity=0.08] \radarpath{0.726}{0.74}{0}{0}{0.462}{0.78};
+      % GenAU-7B halfmix (det 90.05/91.85, seg 95.82/88.46 = mean VisA/MPDD/Real-IAD -> AUROC clamped to rim, multi 61.45 = mean(VisA 33.4, MPDD 89.5), reason 6.43)
+      % TODO(GPT-Score): reason 6.43 is the full-reasoning-mix checkpoint; replace with the halfmix checkpoint's complex GPT-Score.
+      \draw[cGenAU,line width=1.4pt,fill=cGenAU,fill opacity=0.16]
+        \radarpath{0.802}{0.874}{1.0}{0.738}{0.829}{0.810};
+      % --- per-metric axis labels (full task name + metric) ---
+      \node[font=\footnotesize\bfseries,above=3pt,align=center,
+            text width=2.5cm] at (90:\R) {Detection\\AUROC\\{\small\mdseries 70--95}};
+      \node[font=\footnotesize\bfseries,anchor=west,xshift=3pt,align=left,
+            text width=2.0cm] at (30:\R) {Detection\\AP\\{\small\mdseries 70--95}};
+      \node[font=\footnotesize\bfseries,anchor=west,xshift=3pt,align=left,
+            text width=2.2cm] at (-30:\R) {Segmentation\\AUROC\\{\small\mdseries 70--95}};
+      \node[font=\footnotesize\bfseries,below=3pt,align=center,
+            text width=2.5cm] at (-90:\R) {Segmentation\\AUPRO\\{\small\mdseries 70--95}};
+      \node[font=\footnotesize\bfseries,anchor=east,xshift=-3pt,align=right,
+            text width=1.9cm] at (-150:\R) {Multi-type\\F1\\{\small\mdseries 20--70}};
+      \node[font=\footnotesize\bfseries,anchor=east,xshift=-3pt,align=right,
+            text width=2.0cm] at (150:\R) {Reasoning\\GPT-Score\\{\small\mdseries 4--7}};
+      % --- legend (placed below the bottom axis label) ---
+      % Every swatch carries its model name, so series identity is never colour-alone
+      % (the worst adjacent pair, MultiADS blue / Anomaly-OV purple, is CVD dE 8.3).
+      \begin{scope}[shift={(-3.6,-3.5)},font=\scriptsize]
+        \draw[cGenAU,line width=1.4pt] (0,0) -- (0.28,0)
+          node[right,black,inner sep=1.5pt]{\textbf{GenAU-7B}};
+        \draw[cAOV,line width=1.0pt] (1.75,0) -- (2.03,0)
+          node[right,black,inner sep=1.5pt]{Anomaly-OV-7B};
+        \draw[cMADS,line width=0.9pt] (4.05,0) -- (4.33,0)
+          node[right,black,inner sep=1.5pt]{MultiADS};
+        \draw[cCLIP,line width=0.9pt] (5.55,0) -- (5.83,0)
+          node[right,black,inner sep=1.5pt]{AnomalyCLIP};
+      \end{scope}
+    \end{tikzpicture}
+    % ====================================================================
+    \caption{Industrial inspection asks four questions per image, mapped to six metrics.
+    Each radar axis is scaled to the range beneath its label, and a vertex at the
+    centre marks a task the model cannot perform (AnomalyCLIP and MultiADS emit no
+    language; Anomaly-OV produces no segmentation). GenAU's curve is one checkpoint. Detection: VisA; segmentation: mean over
+    VisA/MPDD/Real-IAD; type F1: mean over VisA/MPDD; reasoning: complex GPT-Score.}
+    \label{fig:motivation}
+\end{figure}
+Industrial anomaly detection (AD) is fundamental to modern manufacturing, ensuring product quality, operational reliability, and safety. Automated visual inspection systems prevent defective products from reaching customers, thereby reducing financial losses, reputational risks, and safety hazards~\cite{effect-recall, HORA2011766}, while reducing reliance on human operators and supporting earlier intervention in production pipelines.
+% Early and reliable defect detection also enables proactive process optimization and waste reduction. However, traditional visual inspection still relies heavily on human operators, which is time-consuming, physically demanding, and prone to fatigue-induced inconsistency~\cite{reason1990human}. 
+However, real-world industrial inspection involves more than simply deciding whether an image is normal or not. Instead, in practice, users often care about four closely related questions: 1) Is there an anomaly? 2) Where is it? 3) What type of anomaly is it? 4) Why are they anomalies? Therefore, a practical system should not only detect anomalies, but also localize them, recognize their types, and provide evidence for decisions. 
+
+Despite this progress, most methods address only part of these needs. Recent zero-shot approaches~\cite{ad-review, ad-survery, zhou2024anomalyclip, chen2023zero, sadikaj2025multiadsdefectawaresupervisionmultitype} build on CLIP~\cite{radford2021} to distinguish normal from anomalous samples and derive anomaly maps, but remain focused on visual discrimination and localization, with limited support for semantic understanding; even multi-type extensions like MultiADS~\cite{sadikaj2025multiadsdefectawaresupervisionmultitype} do not explain \emph{why} a region is anomalous.
+
+Large instruction-following VLMs (e.g., LLaVA~\cite{liu2023visualinstructiontuning}, Qwen-VL~\cite{bai2023qwenvlversatilevisionlanguagemodel}, and NVILA~\cite{liu2025nvilaefficientfrontiervisual}) offer a complementary direction with strong multimodal reasoning, but their potential for industrial anomaly understanding is underexplored. Existing VLM approaches such as AnomalyGPT~\cite{gu2023anomalygptdetectingindustrialanomalies} obtain localization from an external detector rather than the VLM itself, so prior methods emphasize either localization or language reasoning without tightly unifying detection, segmentation, type recognition, and explanation in one model.
+% Most existing approaches build on CLIP~\cite{radford2021} due to its strong zero-shot generalization ability. These methods~\cite{sadikaj2025multiadsdefectawaresupervisionmultitype, zhou2024anomalyclip, chen2023zero} adapt CLIP by crafting prompts for ``normal'' and ``anomalous'' states and computing image-text similarity. However, CLIP’s limited input resolution and the scalability restrict its fine-grained visual reasoning capability. Additionally, most CLIP-based methods are constrained to binary focus, that is, detecting the presence of an anomaly without recognizing its defect type, which limits their usefulness for root-cause analysis and process optimization.
+
+% \noindent
+% Large instruction-following vision-language models (VLMs), such as LLaVA~\cite{liu2023visualinstructiontuning}, Qwen-VL~\cite{bai2023qwenvlversatilevisionlanguagemodel}, and NVILA~\cite{liu2025nvilaefficientfrontiervisual}, offer a promising alternative. These models combine scalable architectures, multimodal reasoning, and high-resolution visual understanding. They have rapidly become the foundation for general-purpose visual reasoning, due to their ability to follow natural language instructions and integrate contextual understanding across modalities. Furthermore, their modular design supports scalable configurations, ranging from lightweight models to those with over 100 billion parameters, providing a flexible balance between performance and efficiency. Yet, their potential for industrial anomaly detection and segmentation remains largely unexplored.
+
+To address this gap, we present GenAU, a Generalist vision-language framework for industrial Anomaly Understanding. GenAU unifies anomaly detection, anomaly segmentation, multi-type anomaly recognition, and defect analysis within a single instruction-following architecture and training recipe (cf. Figure~\ref{fig:motivation}). Specifically, we extend an instruction-following VLM with two dedicated segmentation tokens, \texttt{[SEG\_defect]} and \texttt{[SEG\_normal]}, which act as text-based anchors for defective and normal regions. By aligning their embeddings with multi-scale visual features from the visual encoder, GenAU produces fine-grained anomaly maps while preserving the model’s ability to recognize and describe specific defect types in natural language. In this way, GenAU combines the reasoning capabilities of large VLMs with pixel-level localization, moving beyond text-only defect recognition toward joint semantic understanding and spatial grounding.
+
+% We introduce \textbf{GenAU}, Instructed Anomaly Detection and Segmentation, to adapt large instruction-following VLMs for industrial anomaly detection and segmentation within a single framework (see \ref{fig:motivation}). We extend the model’s vocabulary with two dedicated segmentation tokens, \texttt{[SEG\_defect]} and \texttt{[SEG\_normal]}, which serve as text-based anchors for defective and normal regions. By aligning these tokens with multi-scale visual features, GenAU produces fine-grained, text-conditioned anomaly maps while retaining the model’s ability to describe specific defect types in natural language. We fine-tune the language component using synthesized instruction-response pairs derived from standard industrial datasets, injecting domain-specific inspection knowledge while preserving pre-trained reasoning capabilities.
+
+We construct instruction-response data from standard benchmarks, training on MVTec-AD~\cite{Bergmann_2019_CVPR} and evaluating cross-dataset on VisA~\cite{VisA}, MPDD~\cite{mpdd}, and Real-IAD~\cite{wang2024realiadrealworldmultiviewdataset} under distribution shift. At inference GenAU is single-image, requiring no reference images or task-specific retraining.
+% We train GenAU on MVTec-AD~\cite{Bergmann_2019_CVPR} and evaluate it on two challenging benchmarks, VisA~\cite{VisA} and Real-IAD~\cite{wang2024realiadrealworldmultiviewdataset}, covering binary anomaly detection, segmentation under distribution shift, and zero-shot multi-type defect recognition. Despite no access to reference images or task-specific retraining, GenAU achieves competitive performance against ten strong baselines and sets a new state-of-the-art image-level AUROC on VisA.
+% Our main contributions are:
+% \begin{itemize}
+%     \item We present GenAU, a framework to leverage large instruction-following VLMs for industrial anomaly detection and segmentation.
+%     \item We extend instruction-following VLMs with segmentation tokens that enable text-conditioned fine-grained localization of defects.
+%     \item We conduct extensive experiments across multiple datasets like MVTec-AD, VisA, and Real-IAD, demonstrating competitive zero-shot performance against state-of-the-art baselines. The code base is available in the supplementary materials. 
+% \end{itemize}
+% Our contributions are summarized as follows:
+% \begin{itemize}
+%     \item We introduce GenAU, a generalist vision-language framework that unifies anomaly detection, anomaly segmentation, multi-type anomaly detection, and defect analysis in a single model.
+%     \item We extend instruction-following VLMs with dedicated segmentation tokens and a visual-text alignment mechanism, enabling joint semantic reasoning and pixel-level localization.
+%     \item We demonstrate that a single instruction-following VLM can achieve competitive performance on binary anomaly detection and segmentation while providing strong zero-shot generalization for multi-type defect recognition.
+% \end{itemize}
+Our contributions are summarized as follows:
+\begin{itemize}
+    \item We introduce GenAU, a generalist vision-language framework for industrial anomaly understanding. Through a unified instruction interface, GenAU supports image-level anomaly detection, pixel-level anomaly segmentation, multi-type anomaly detection, and textual defect analysis through a single instruction-following architecture and training recipe.
+
+    \item We introduce a decoder-conditioned segmentation readout that aligns dedicated normal and defect token states with frozen multi-scale visual features, without an external mask decoder. Matched learned-query controls characterize its dataset-dependent localization benefit.
+
+    \item We evaluate cross-dataset detection, segmentation, conditional defect-type recognition, and textual reasoning. A single checkpoint covers all four tasks and exceeds the image-AUROC of all compared CLIP baselines on VisA and Real-IAD.
+\end{itemize}
+

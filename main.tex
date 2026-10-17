@@ -1,0 +1,97 @@
+% CVPR 2027 submission — GenAU.
+% Ported from the ICLR 2027 version (this same directory, before the rename) and,
+% for the two-column scaffolding, from the WACV 2027 version in ../GenAU.
+% See PORTING_NOTES.md.
+%
+% Build: pdflatex main -> bibtex main -> pdflatex main -> pdflatex main -> pdflatex main
+% (the third pass after bibtex is needed for the pagebackref lists to settle)
+%
+% NOTE ON THE TEMPLATE YEAR: there is no CVPR 2027 author kit yet (the newest
+% official release is CVPR2026-v1(latex); github.com/cvpr-org/author-kit main was
+% last updated 2026-05-28 and still says 2026). cvpr.sty is byte-identical to that
+% official file — every user-visible year comes from \confYear below, which is the
+% only thing that has changed between kit years. Re-check when the 2027 kit drops.
+
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+%%%%%%%%% PAPER TYPE  - PLEASE UPDATE FOR FINAL VERSION
+\usepackage[review]{cvpr}      % To produce the REVIEW version
+% \usepackage{cvpr}              % To produce the CAMERA-READY version
+% \usepackage[pagenumbers]{cvpr} % To force page numbers, e.g. for an arXiv version
+
+% Import additional packages in the preamble file, before hyperref
+\input{preamble}
+
+% hyperref with pagebackref eases the reviewers' job. cvpr.sty loads cleveref
+% itself (\AtEndPreamble, i.e. strictly after hyperref), so do NOT load it here.
+\definecolor{cvprblue}{rgb}{0.21,0.49,0.74}
+\usepackage[pagebackref,breaklinks,colorlinks,allcolors=cvprblue]{hyperref}
+
+%%%%%%%%% PAPER ID  - PLEASE UPDATE
+\def\paperID{*****} % *** Enter the Paper ID here
+\def\confName{CVPR}
+\def\confYear{2027}
+
+%%%%%%%%% TITLE - PLEASE UPDATE
+\title{GenAU: Language-Grounded Industrial Anomaly Understanding with Vision-Language Models}
+
+%%%%%%%%% AUTHORS - PLEASE UPDATE
+% CVPR review submissions are double-blind. With \usepackage[review]{cvpr} the
+% style prints "Anonymous CVPR submission / Paper ID \paperID" instead of this
+% block, so it only matters for the camera-ready.
+\author{First Author\\
+Institution1\\
+Institution1 address\\
+{\tt\small firstauthor@i1.org}
+% For a paper whose authors are all at the same institution,
+% omit the following lines up until the closing ``}''.
+% Additional authors and addresses can be added with ``\and'',
+% just like the second author.
+% To save space, use either the email address or home page, not both
+\and
+Second Author\\
+Institution2\\
+First line of institution2 address\\
+{\tt\small secondauthor@i2.org}
+}
+
+\begin{document}
+\maketitle
+
+\input{sec/0_abstract}
+\input{sec/1_intro}
+\input{sec/2_related}
+\input{sec/3_prelim}
+\input{sec/4_method}
+\input{sec/5_experiments}
+\input{sec/6_discussion}
+
+% The ICLR-only end-of-main-text statements (AI use / Ethics / Reproducibility)
+% are NOT inputted: CVPR requires none of them. sec/8_statements.tex is kept on
+% disk unused, in case it is wanted for arXiv or for a venue that asks again.
+
+{
+    \small
+    \bibliographystyle{ieeenat_fullname}
+    \bibliography{custom}
+}
+
+%%%%%%%%% SUPPLEMENTARY MATERIAL
+% CVPR caps the main paper at 8 pages excluding references, and supplementary
+% material is uploaded as a SEPARATE PDF. Following the official author kit
+% (sec/X_suppl.tex), the appendix is authored in this same document so that
+% cross-references resolve in one compile, and the resulting PDF is SPLIT before
+% submission: pages 1..N -> the paper, the rest -> the supplementary.
+% *** DO NOT UPLOAD THIS PDF UNSPLIT. ***
+% Appendix floats keep the "A" prefix (Table A1, Figure A1) so they are never
+% confused with the main paper's Table 1 / Figure 1; the counters restart at 1.
+\clearpage
+\setcounter{page}{1}
+\maketitlesupplementary
+\renewcommand{\thetable}{A\arabic{table}}
+\renewcommand{\thefigure}{A\arabic{figure}}
+\setcounter{table}{0}
+\setcounter{figure}{0}
+\input{sec/7_appendix}
+
+\end{document}

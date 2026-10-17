@@ -1,0 +1,62 @@
+% ICLR 2027 end-of-main-text statements. All three sit AFTER the discussion and
+% BEFORE the references, and NONE of them count toward the 9-page limit.
+%   - AI use statement      : REQUIRED by the ICLR 2027 AI Policy for Authors, max 1 page
+%   - Ethics statement      : recommended, max 1 page
+%   - Reproducibility stmt  : recommended
+% Use \subsection*/\section* (unnumbered) so they do not disturb section numbering.
+
+\section*{AI use statement}
+% ============================ DRAFT — AUTHOR REVIEW REQUIRED ============================
+% This is a first draft written from the actual record of how this project was run.
+% Verify every sentence against your own recollection before submitting: you are the
+% one taking responsibility for it. Trim anything that does not apply.
+% =======================================================================================
+\TODO{Author: review and edit this statement before submission.}
+We used a generative AI coding assistant extensively in the \emph{execution} of this
+work: writing and debugging experiment, evaluation and data-preparation code,
+launching and monitoring cluster jobs, aggregating metrics from raw per-sample
+result dumps, and producing diagnostic figures. We also used it as a discussion
+partner when interpreting results and when deciding which experiments to run
+next. All research questions, experimental designs, and claims in this paper were
+set by the authors, and every quantitative result reported here was recomputed by
+the authors from the on-disk artifacts produced by the evaluation runs.
+
+We did not use generative AI to fabricate, extrapolate, or impute any experimental
+number, nor to generate any figure content that is not a direct rendering of
+measured data. All prose in this paper was written or rewritten by the authors.
+
+We highlight two cases where AI-assisted analysis produced an error that the
+authors' verification caught, because they bear on how the results should be
+read. First, an offline re-analysis of our anomaly maps initially reported a gain
+from replacing the max-pooled image score with a high percentile; this turned out
+to be an artifact of nearest-neighbour upsampling in the analysis script, and the
+effect reverses under the bilinear interpolation the model actually uses. Second,
+an early causal explanation of our MPDD failure mode was retracted after the
+intervention it implied was measured and made results worse. Both are reported as
+negative results in this paper. We take responsibility for the final content of
+this work, including all text, claims, and artifacts.
+
+\section*{Ethics statement}
+\TODO{Author: confirm or delete.}
+This work studies defect detection on public industrial anomaly-detection
+benchmarks (MVTec-AD, VisA, MPDD, Real-IAD). It involves no human subjects, no
+personally identifying information, and no new data collection. The datasets are
+used under their published licences and for their intended research purpose. We
+note one deployment consideration: the image-level detector reported here is not
+calibrated for a specific operating point, and our per-object results show that
+accuracy varies substantially across object classes, so it should not be treated
+as drop-in quality control without per-class validation.
+
+\section*{Reproducibility statement}
+\TODO{Author: confirm the code/artifact release plan, then delete this note.}
+All models are trained on a single public dataset (MVTec-AD) and evaluated
+zero-shot on the others; no test-set data enters training or calibration. The
+training recipe, LoRA configuration, loss and readout hyper-parameters, and the
+frozen image-score calibration constants are given in \cref{app:impl}, and the
+construction of the instruction data in \cref{app:data}. The evaluation protocol,
+including how images with no segmentation readout are handled, is specified in
+\cref{app:eval}. Reported aggregates are means over object categories; the seed
+sensitivity of each metric is quantified in \cref{app:ablation}, and all
+configuration comparisons are reported against those bands. We release the
+training and evaluation code together with the per-sample result dumps from which
+every table in this paper can be recomputed.
