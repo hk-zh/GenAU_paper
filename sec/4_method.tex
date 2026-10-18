@@ -4,7 +4,7 @@
 GenAU couples two jointly-trained pathways (Figure~\ref{fig:Model-Arch}): (1) a \emph{text} pathway that generates text conversation and (2) a \emph{visual grounding} pathway that uses the hidden states of the generated \texttt{[SEG\_normal]}/\texttt{[SEG\_defect]} tokens as language-grounded anchors, aligned with multi-scale visual features to produce pixel-level anomaly maps; the image-level score fuses the map maximum with the decoder's normal/defect decision.
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=1.0\textwidth]{imgs/GenAU_Arch_final.pdf}
+  \includegraphics[width=\textwidth]{imgs/GenAU_Arch.pdf}
   \caption[Overview of the training phase of GenAU.]{Overview of GenAU training. A frozen image encoder feeds the LLM, which generates the defect type and the \texttt{[SEG]} tokens (cross-entropy). In parallel, per-layer projections of the intermediate patch features are matched against the \texttt{[SEG]} hidden states to form the similarity map (focal + Tversky + Dice).}
    \label{fig:Model-Arch}
 \end{figure*}
