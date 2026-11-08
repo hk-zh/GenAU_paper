@@ -24,8 +24,8 @@
 # Note: *.bbl is intentionally NOT ignored (kept for submission/reproducibility).
 
 # --- figures the paper includes that the repo-wide *.pdf / visa* rules would drop ---
-!/imgs/GenAU_Arch_final.pdf
-!/imgs/text.pdf
+!/imgs/GenAU_Arch.pdf
+!/imgs/GenAU_Dialogue.pdf
 !/imgs/visa-missing.jpg
 
 # --- uncompressed originals of the included figures (on disk only) ---
@@ -33,5 +33,6 @@
 
 # --- large figures (> 1 MB) the paper does not include (on disk only) ---
 /imgs/Defects.svg
+/imgs/GenAU_arch.png
 /imgs/misplaced.png
 /imgs/text.png

@@ -1,7 +1,7 @@
 \section{Methodology}
 
 \subsection{Framework Overview}
-GenAU couples two jointly-trained pathways (Figure~\ref{fig:Model-Arch}): (1) a \emph{text} pathway that generates text conversation and (2) a \emph{visual grounding} pathway that uses the hidden states of the generated \texttt{[SEG\_normal]}/\texttt{[SEG\_defect]} tokens as language-grounded anchors, aligned with multi-scale visual features to produce pixel-level anomaly maps; the image-level score fuses the map maximum with the decoder's normal/defect decision.
+GenAU couples two jointly-trained pathways (Figure~\ref{fig:Model-Arch}): (1) a \emph{text} pathway that generates text conversation and (2) a \emph{visual grounding} pathway that uses the hidden states of the generated \texttt{[SEG\_normal]}/\texttt{[SEG\_defect]} tokens as decoder-conditioned anchors, aligned with multi-scale visual features to produce pixel-level anomaly maps; the image-level score fuses the map maximum with the decoder's normal/defect decision.
 \begin{figure*}[t]
   \centering
   \includegraphics[width=\textwidth]{imgs/GenAU_Arch.pdf}
@@ -20,8 +20,7 @@ GenAU couples two jointly-trained pathways (Figure~\ref{fig:Model-Arch}): (1) a 
 % $\mathbf{S}_i = \frac{\mathbf{z}_i^p}{\|\mathbf{z}_i^p\|} \cdot \frac{\mathbf{z}_i^t}{\|\mathbf{z}_i^t\|},$
 % where $\mathbf{S}_i \in \mathbb{R}^{h \times w \times 2}$, and the two channels correspond to the similarity with the normal and defect descriptors, respectively.
 % The similarity maps are upsampled to the input resolution and normalized across channels via softmax, yielding a per-pixel anomaly probability map. A higher activation in the anomaly channel indicates stronger confidence of defect presence.
-GenAU performs anomaly localization by grounding visual features with the hidden states of generated segmentation tokens. Given an image $\mathbf{X}_v$ and an instruction $\mathbf{X}_q$, the autoregressive decoder generates a structured response containing the special tokens \texttt{[SEG\_normal]} and \texttt{[SEG\_defect]}. Let $\mathbf{h}_{\mathrm{normal}}, \mathbf{h}_{\mathrm{defect}}\in\mathbb{R}^{D}$ denote their final-layer decoder hidden states. These two vectors serve as language-grounded anchors for the normal and defective states:
-Here, language-grounded denotes conditioning on the image, instruction, and preceding response through the decoder; it is not a claim that linguistic semantics alone explain the localization gain.
+GenAU performs anomaly localization by grounding visual features with the hidden states of generated segmentation tokens. Given an image $\mathbf{X}_v$ and an instruction $\mathbf{X}_q$, the autoregressive decoder generates a structured response containing the special tokens \texttt{[SEG\_normal]} and \texttt{[SEG\_defect]}. Let $\mathbf{h}_{\mathrm{normal}}, \mathbf{h}_{\mathrm{defect}}\in\mathbb{R}^{D}$ denote their final-layer decoder hidden states. These two vectors serve as anchors for the normal and defective states; through the decoder they are conditioned on the image, the instruction, and the preceding response:
 \begin{equation}
     \mathbf{T}
     =
@@ -68,13 +67,14 @@ The stage-wise maps are aggregated by summation across the $m$ stages to form th
 The backbone encodes high-resolution inputs with an AnyRes scheme that, besides a global low-resolution view, splits the image into a grid of higher-resolution tiles. Applying the readout above to the global view alone yields a coarse low-resolution grid. To recover fine spatial detail, GenAU reassembles the patch features of the AnyRes tiles into a single high-resolution feature grid and computes the same anchor-grounded similarity maps on it. At inference, the high-resolution map $\mathbf{A}^{\mathrm{hi}}$ and the global-view map $\mathbf{A}^{\mathrm{g}}$ are fused per stage as $\mathbf{A}=(1-\beta)\,\mathbf{A}^{\mathrm{g}}+\beta\,\mathbf{A}^{\mathrm{hi}}$ with a fixed weight $\beta$. This high-resolution readout is used for all reported segmentation results.
 
 \subsection{Image-level Anomaly Scoring}
+\label{subsec:img}
 Building on the segmentation map above, GenAU computes the image-level anomaly score without training a separate image-level classifier. Let $\mathbf{A}$ denote the final anomaly map of Section~\ref{subsec:seg} (the stage-aggregated defect response). The image-level anomaly score is its spatial maximum,
 \begin{equation}
     s_{\mathrm{img}}
     =
     \max_{(u,v)}\mathbf{A}(u,v),
 \end{equation}
-where a larger $s_{\mathrm{img}}$ indicates a higher probability that the image contains an anomaly. This score introduces no additional trainable parameters and is obtained entirely from the language-grounded segmentation readout.
+where a larger $s_{\mathrm{img}}$ indicates a higher probability that the image contains an anomaly. This score introduces no additional trainable parameters and is obtained entirely from the segmentation readout.
 
 \paragraph{Fused image-level score.}
 The map maximum $s_{\mathrm{img}}$ is a purely visual readout. Because the decoder additionally emits an explicit normal/defect decision, the image-level score we report is
@@ -106,7 +106,7 @@ GenAU is optimized with a joint objective that supervises textual reasoning and 
     \lambda_{\mathrm{seg}}\mathcal{L}_{\mathrm{seg}},
     \label{eq:overall-loss}
 \end{equation}
-where $\lambda_{\mathrm{seg}}$ balances the language-modeling and pixel-level supervision terms. The image-level anomaly score is computed at inference from the segmentation map and the decoder's yes/no log-odds (Sec.~\ref{subsec:seg}) and thus requires no dedicated training term.
+where $\lambda_{\mathrm{seg}}$ balances the language-modeling and pixel-level supervision terms. The image-level anomaly score is computed at inference from the segmentation map and the decoder's yes/no log-odds (Sec.~\ref{subsec:img}) and thus requires no dedicated training term.
 
 \paragraph{Text generation loss.}
 The textual reasoning objective is the standard autoregressive cross-entropy loss over the target response tokens:
