@@ -33,6 +33,5 @@
 
 # --- large figures (> 1 MB) the paper does not include (on disk only) ---
 /imgs/Defects.svg
-/imgs/GenAU_arch.png
 /imgs/misplaced.png
 /imgs/text.png
