@@ -12,7 +12,7 @@
     \definecolor{cGenAU}{RGB}{197,90,17}   % GenAU (ours) -- orange
     \definecolor{cAOV}{RGB}{123,50,148}    % Anomaly-OV -- purple
     \definecolor{cMADS}{RGB}{31,119,180}   % MultiADS -- blue
-    \definecolor{cCLIP}{RGB}{44,160,44}    % AnomalyCLIP -- green
+    \definecolor{cCLIP}{RGB}{44,160,44}    % TokenCLIP -- green
     \begin{tikzpicture}[scale=1.0]
       \def\R{1.9}            % radius at score = 100
       % concentric reference rings (decorative; each axis is scaled independently)
@@ -30,14 +30,15 @@
       %     Per-axis ranges [lo,hi] (drawn as axis labels): DetAUROC[70,95] DetAP[70,95]
       %     SegAUROC[70,95] SegAUPRO[70,95] MultiF1[20,70] Reason[4,7].
       %     Det = VisA; Seg = mean over VisA+MPDD+Real-IAD; Multi = mean over VisA+MPDD; Reason = VisA-D&R.
-      %     0 (capability gap) -> center. NOTE: SegAUROC MultiADS 95.8 / AnomalyCLIP 96.1 > 95 -> clamped to rim.
+      %     0 (capability gap) -> center. NOTE: SegAUROC MultiADS 95.8 / TokenCLIP 96.35 > 95 -> clamped to rim.
+      %     TokenCLIP reports no Real-IAD -> its Seg = mean over VisA+MPDD (stated in the caption).
       \newcommand{\radarpath}[6]{
         (90:{#1*\R}) -- (30:{#2*\R}) -- (-30:{#3*\R}) --
         (-90:{#4*\R}) -- (-150:{#5*\R}) -- (150:{#6*\R})
         -- cycle}
       % baselines first (lines only), GenAU drawn last on top (filled)
-      % AnomalyCLIP  (det 82.1/85.4, seg 96.1/87.1, multi --, reason --)
-      \draw[cCLIP,line width=0.9pt,fill=cCLIP,fill opacity=0.08] \radarpath{0.484}{0.616}{1.0}{0.684}{0}{0};
+      % TokenCLIP    (det 85.8/88.2, seg 96.35/88.9 = mean VisA/MPDD, multi --, reason --)
+      \draw[cCLIP,line width=0.9pt,fill=cCLIP,fill opacity=0.08] \radarpath{0.632}{0.728}{1.0}{0.756}{0}{0};
       % MultiADS     (det 83.6/86.9, seg 95.8/88.8, multi 25.7, reason --)
       \draw[cMADS,line width=0.9pt,fill=cMADS,fill opacity=0.08] \radarpath{0.544}{0.676}{1.0}{0.752}{0.114}{0};
       % Anomaly-OV-7B   (det 88.9/90.5, seg --/--, multi 43.1 = mean(VisA 21.1, MPDD 65.1), reason 6.34 complex)
@@ -70,15 +71,15 @@
         \draw[cMADS,line width=0.9pt] (4.05,0) -- (4.33,0)
           node[right,black,inner sep=1.5pt]{MultiADS};
         \draw[cCLIP,line width=0.9pt] (5.55,0) -- (5.83,0)
-          node[right,black,inner sep=1.5pt]{AnomalyCLIP};
+          node[right,black,inner sep=1.5pt]{TokenCLIP};
       \end{scope}
     \end{tikzpicture}
     % ====================================================================
     \caption{Industrial inspection asks four questions per image, mapped to six metrics.
     Each radar axis is scaled to the range beneath its label, and a vertex at the
-    centre marks a task the model cannot perform (AnomalyCLIP and MultiADS emit no
+    centre marks a task the model cannot perform (TokenCLIP and MultiADS emit no
     language; Anomaly-OV produces no segmentation). GenAU's curve is one checkpoint. Detection: VisA; segmentation: mean over
-    VisA/MPDD/Real-IAD; type F1: mean over VisA/MPDD; reasoning: complex GPT-Score.}
+    VisA/MPDD/Real-IAD (TokenCLIP: VisA/MPDD); type F1: mean over VisA/MPDD; reasoning: complex GPT-Score.}
     \label{fig:motivation}
 \end{figure}
 Industrial anomaly detection (AD) is fundamental to modern manufacturing, ensuring product quality, operational reliability, and safety. Automated visual inspection systems prevent defective products from reaching customers, thereby reducing financial losses, reputational risks, and safety hazards~\cite{effect-recall, HORA2011766}, while reducing reliance on human operators and supporting earlier intervention in production pipelines.

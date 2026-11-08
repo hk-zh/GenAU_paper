@@ -1,4 +1,4 @@
-\begin{thebibliography}{33}
+\begin{thebibliography}{36}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -8,20 +8,30 @@
 \bibitem[Aota et~al.(2023)Aota, Tong, and Okatani]{aota2023zero}
 Toshimichi Aota, Lloyd Teh~Tzer Tong, and Takayuki Okatani.
 \newblock Zero-shot versus many-shot: Unsupervised texture anomaly detection.
-\newblock In \emph{Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision}, pages 5564--5572, 2023.
+\newblock In \emph{Proceedings of the IEEE/CVF Winter Conference on
+  Applications of Computer Vision}, pages 5564--5572, 2023.
 
-\bibitem[Bai et~al.(2023)Bai, Bai, Yang, Wang, Tan, Wang, Lin, Zhou, and Zhou]{bai2023qwenvlversatilevisionlanguagemodel}
-Jinze Bai, Shuai Bai, Shusheng Yang, Shijie Wang, Sinan Tan, Peng Wang, Junyang Lin, Chang Zhou, and Jingren Zhou.
-\newblock Qwen-vl: A versatile vision-language model for understanding, localization, text reading, and beyond, 2023.
+\bibitem[Bai et~al.(2023)Bai, Bai, Yang, Wang, Tan, Wang, Lin, Zhou, and
+  Zhou]{bai2023qwenvlversatilevisionlanguagemodel}
+Jinze Bai, Shuai Bai, Shusheng Yang, Shijie Wang, Sinan Tan, Peng Wang, Junyang
+  Lin, Chang Zhou, and Jingren Zhou.
+\newblock Qwen-vl: A versatile vision-language model for understanding,
+  localization, text reading, and beyond, 2023.
 
-\bibitem[Bergmann et~al.(2019)Bergmann, Fauser, Sattlegger, and Steger]{Bergmann_2019_CVPR}
+\bibitem[Bergmann et~al.(2019)Bergmann, Fauser, Sattlegger, and
+  Steger]{Bergmann_2019_CVPR}
 Paul Bergmann, Michael Fauser, David Sattlegger, and Carsten Steger.
-\newblock Mvtec ad -- a comprehensive real-world dataset for unsupervised anomaly detection.
-\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}, 2019.
+\newblock Mvtec ad -- a comprehensive real-world dataset for unsupervised
+  anomaly detection.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition (CVPR)}, 2019.
 
-\bibitem[Cao et~al.(2024)Cao, Zhang, Frittoli, Cheng, Shen, and Boracchi]{Cao_2024}
-Yunkang Cao, Jiangning Zhang, Luca Frittoli, Yuqi Cheng, Weiming Shen, and Giacomo Boracchi.
-\newblock \emph{AdaCLIP: Adapting CLIP with Hybrid Learnable Prompts for Zero-Shot Anomaly Detection}, page 55–72.
+\bibitem[Cao et~al.(2024)Cao, Zhang, Frittoli, Cheng, Shen, and
+  Boracchi]{Cao_2024}
+Yunkang Cao, Jiangning Zhang, Luca Frittoli, Yuqi Cheng, Weiming Shen, and
+  Giacomo Boracchi.
+\newblock \emph{AdaCLIP: Adapting CLIP with Hybrid Learnable Prompts
+  for Zero-Shot Anomaly Detection}, page 55–72.
 \newblock Springer Nature Switzerland, 2024.
 
 \bibitem[Chandola et~al.(2009)Chandola, Banerjee, and Kumar]{ad-survery}
@@ -31,130 +41,222 @@ Varun Chandola, Arindam Banerjee, and Vipin Kumar.
 
 \bibitem[Chen et~al.(2023)Chen, Han, and Zhang]{chen2023zero}
 Xuhai Chen, Yue Han, and Jiangning Zhang.
-\newblock A zero-/fewshot anomaly classification and segmentation method for cvpr 2023 vand workshop challenge tracks 1\&2: 1st place on zero-shot ad and 4th place on few-shot ad.
+\newblock A zero-/fewshot anomaly classification and segmentation method for
+  cvpr 2023 vand workshop challenge tracks 1\&2: 1st place on zero-shot ad and
+  4th place on few-shot ad.
 \newblock \emph{arXiv preprint arXiv:2305.17382}, 2\penalty0 (4), 2023.
 
-\bibitem[Deng et~al.(2024{\natexlab{a}})Deng, Xu, Chen, Xu, Tu, Ding, and Huang]{simclip}
-Chenghao Deng, Haote Xu, Xiaolu Chen, Haodi Xu, Xiaotong Tu, Xinghao Ding, and Yue Huang.
-\newblock Simclip: Refining image-text alignment with simple prompts for zero-/few-shot anomaly detection.
-\newblock In \emph{Proceedings of the 32nd ACM International Conference on Multimedia}, page 1761–1770, New York, NY, USA, 2024{\natexlab{a}}. Association for Computing Machinery.
+\bibitem[Deng et~al.(2024{\natexlab{a}})Deng, Xu, Chen, Xu, Tu, Ding, and
+  Huang]{simclip}
+Chenghao Deng, Haote Xu, Xiaolu Chen, Haodi Xu, Xiaotong Tu, Xinghao Ding, and
+  Yue Huang.
+\newblock Simclip: Refining image-text alignment with simple prompts for
+  zero-/few-shot anomaly detection.
+\newblock In \emph{Proceedings of the 32nd ACM International Conference on
+  Multimedia}, page 1761–1770, New York, NY, USA, 2024{\natexlab{a}}.
+  Association for Computing Machinery.
 
 \bibitem[Deng et~al.(2024{\natexlab{b}})Deng, Zhang, Bao, and Li]{deng2024}
 Hanqiu Deng, Zhaoxiang Zhang, Jinan Bao, and Xingyu Li.
-\newblock Bootstrap fine-grained vision-language alignment for unified zero-shot anomaly localization, 2024{\natexlab{b}}.
+\newblock Bootstrap fine-grained vision-language alignment for unified
+  zero-shot anomaly localization, 2024{\natexlab{b}}.
 
 \bibitem[Fang et~al.(2024)Fang, Wang, Shao, and Banerjee]{effect-recall}
 Xiang Fang, Xiaoyu Wang, Yingying Shao, and Pramit Banerjee.
-\newblock Examining the effect of a firm’s product recall on financial values of its competitors.
+\newblock Examining the effect of a firm’s product recall on financial values
+  of its competitors.
 \newblock \emph{Journal of Business Research}, 176:\penalty0 114586, 2024.
 
-\bibitem[Gu et~al.(2023)Gu, Zhu, Zhu, Chen, Tang, and Wang]{gu2023anomalygptdetectingindustrialanomalies}
+\bibitem[Gu et~al.(2023)Gu, Zhu, Zhu, Chen, Tang, and
+  Wang]{gu2023anomalygptdetectingindustrialanomalies}
 Zhaopeng Gu, Bingke Zhu, Guibo Zhu, Yingying Chen, Ming Tang, and Jinqiao Wang.
-\newblock Anomalygpt: Detecting industrial anomalies using large vision-language models, 2023.
+\newblock Anomalygpt: Detecting industrial anomalies using large
+  vision-language models, 2023.
 
-\bibitem[Gu et~al.(2024)Gu, Zhu, Zhu, Chen, Li, Tang, and Wang]{gu2024filozeroshotanomalydetection}
-Zhaopeng Gu, Bingke Zhu, Guibo Zhu, Yingying Chen, Hao Li, Ming Tang, and Jinqiao Wang.
-\newblock Filo: Zero-shot anomaly detection by fine-grained description and high-quality localization, 2024.
+\bibitem[Gu et~al.(2024)Gu, Zhu, Zhu, Chen, Li, Tang, and
+  Wang]{gu2024filozeroshotanomalydetection}
+Zhaopeng Gu, Bingke Zhu, Guibo Zhu, Yingying Chen, Hao Li, Ming Tang, and
+  Jinqiao Wang.
+\newblock Filo: Zero-shot anomaly detection by fine-grained description and
+  high-quality localization.
+\newblock In \emph{Proceedings of the 32nd ACM International Conference on
+  Multimedia}, 2024.
 
 \bibitem[Hora et~al.(2011)Hora, Bapuji, and Roth]{HORA2011766}
 Manpreet Hora, Hari Bapuji, and Aleda~V. Roth.
-\newblock Safety hazard and time to recall: The role of recall strategy, product defect type, and supply chain player in the u.s. toy industry.
-\newblock \emph{Journal of Operations Management}, 29\penalty0 (7):\penalty0 766--777, 2011.
-\newblock Special Issue: Product Safety and Security on the Global Supply Chain.
+\newblock Safety hazard and time to recall: The role of recall strategy,
+  product defect type, and supply chain player in the u.s. toy industry.
+\newblock \emph{Journal of Operations Management}, 29\penalty0 (7):\penalty0
+  766--777, 2011.
+\newblock Special Issue: Product Safety and Security on the Global Supply
+  Chain.
 
-\bibitem[Hu et~al.(2021)Hu, Shen, Wallis, Allen-Zhu, Li, Wang, Wang, and Chen]{hu2021loralowrankadaptationlarge}
-Edward~J. Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean Wang, Lu Wang, and Weizhu Chen.
+\bibitem[Hu et~al.(2021)Hu, Shen, Wallis, Allen-Zhu, Li, Wang, Wang, and
+  Chen]{hu2021loralowrankadaptationlarge}
+Edward~J. Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean
+  Wang, Lu Wang, and Weizhu Chen.
 \newblock Lora: Low-rank adaptation of large language models, 2021.
 
-\bibitem[Jeong et~al.(2023)Jeong, Zou, Kim, Zhang, Ravichandran, and Dabeer]{jeong2023winclip}
-Jongheon Jeong, Yang Zou, Taewan Kim, Dongqing Zhang, Avinash Ravichandran, and Onkar Dabeer.
+\bibitem[Jeong et~al.(2023)Jeong, Zou, Kim, Zhang, Ravichandran, and
+  Dabeer]{jeong2023winclip}
+Jongheon Jeong, Yang Zou, Taewan Kim, Dongqing Zhang, Avinash Ravichandran, and
+  Onkar Dabeer.
 \newblock Winclip: Zero-/few-shot anomaly classification and segmentation.
-\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition}, pages 19606--19616, 2023.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition}, pages 19606--19616, 2023.
 
 \bibitem[Jezek et~al.(2021)Jezek, Jonak, Burget, Dvorak, and Skotak]{mpdd}
 Stepan Jezek, Martin Jonak, Radim Burget, Pavel Dvorak, and Milos Skotak.
-\newblock Deep learning-based defect detection of metal parts: evaluating current methods in complex conditions.
-\newblock In \emph{2021 13th International Congress on Ultra Modern Telecommunications and Control Systems and Workshops (ICUMT)}, pages 66--71, 2021.
+\newblock Deep learning-based defect detection of metal parts: evaluating
+  current methods in complex conditions.
+\newblock In \emph{2021 13th International Congress on Ultra Modern
+  Telecommunications and Control Systems and Workshops (ICUMT)}, pages 66--71,
+  2021.
 
-\bibitem[Lai et~al.(2024)Lai, Tian, Chen, Li, Yuan, Liu, and Jia]{lai2024lisareasoningsegmentationlarge}
-Xin Lai, Zhuotao Tian, Yukang Chen, Yanwei Li, Yuhui Yuan, Shu Liu, and Jiaya Jia.
+\bibitem[Lai et~al.(2024)Lai, Tian, Chen, Li, Yuan, Liu, and
+  Jia]{lai2024lisareasoningsegmentationlarge}
+Xin Lai, Zhuotao Tian, Yukang Chen, Yanwei Li, Yuhui Yuan, Shu Liu, and Jiaya
+  Jia.
 \newblock Lisa: Reasoning segmentation via large language model, 2024.
 
-\bibitem[Li et~al.(2025)Li, Zhang, Guo, Zhang, Li, Zhang, Zhang, Zhang, Li, Liu, and Li]{li2025llavaonevision}
-Bo Li, Yuanhan Zhang, Dong Guo, Renrui Zhang, Feng Li, Hao Zhang, Kaichen Zhang, Peiyuan Zhang, Yanwei Li, Ziwei Liu, and Chunyuan Li.
+\bibitem[Li et~al.(2025)Li, Zhang, Guo, Zhang, Li, Zhang, Zhang, Zhang, Li,
+  Liu, and Li]{li2025llavaonevision}
+Bo Li, Yuanhan Zhang, Dong Guo, Renrui Zhang, Feng Li, Hao Zhang, Kaichen
+  Zhang, Peiyuan Zhang, Yanwei Li, Ziwei Liu, and Chunyuan Li.
 \newblock {LL}a{VA}-onevision: Easy visual task transfer.
 \newblock \emph{Transactions on Machine Learning Research}, 2025.
 
-\bibitem[Li et~al.(2024{\natexlab{a}})Li, Cao, Ye, Ding, Tu, and Chen]{li2024clipsamclipsamcollaboration}
+\bibitem[Li et~al.(2024{\natexlab{a}})Li, Cao, Ye, Ding, Tu, and
+  Chen]{li2024clipsamclipsamcollaboration}
 Shengze Li, Jianjian Cao, Peng Ye, Yuhan Ding, Chongjun Tu, and Tao Chen.
-\newblock Clipsam: Clip and sam collaboration for zero-shot anomaly segmentation, 2024{\natexlab{a}}.
+\newblock Clipsam: Clip and sam collaboration for zero-shot anomaly
+  segmentation, 2024{\natexlab{a}}.
 
-\bibitem[Li et~al.(2024{\natexlab{b}})Li, Huang, Xue, and Zhou]{li2024musczeroshotindustrialanomaly}
+\bibitem[Li et~al.(2024{\natexlab{b}})Li, Huang, Xue, and
+  Zhou]{li2024musczeroshotindustrialanomaly}
 Xurui Li, Ziming Huang, Feng Xue, and Yu Zhou.
-\newblock Musc: Zero-shot industrial anomaly classification and segmentation with mutual scoring of the unlabeled images, 2024{\natexlab{b}}.
+\newblock Musc: Zero-shot industrial anomaly classification and segmentation
+  with mutual scoring of the unlabeled images, 2024{\natexlab{b}}.
 
 \bibitem[Li et~al.(2024{\natexlab{c}})Li, Goodge, Liu, and Foo]{Li_2024_WACV}
 Yiting Li, Adam Goodge, Fayao Liu, and Chuan-Sheng Foo.
 \newblock Promptad: Zero-shot anomaly detection using text prompts.
-\newblock In \emph{Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)}, pages 1093--1102, 2024{\natexlab{c}}.
+\newblock In \emph{Proceedings of the IEEE/CVF Winter Conference on
+  Applications of Computer Vision (WACV)}, pages 1093--1102,
+  2024{\natexlab{c}}.
 
 \bibitem[Liu et~al.(2023)Liu, Li, Wu, and Lee]{liu2023visualinstructiontuning}
 Haotian Liu, Chunyuan Li, Qingyang Wu, and Yong~Jae Lee.
 \newblock Visual instruction tuning, 2023.
 
-\bibitem[Liu et~al.(2025)Liu, Zhu, Shi, Zhang, Lou, Yang, Xi, Cao, Gu, Li, Li, Fang, Chen, Hsieh, Huang, Cheng, Nath, Hu, Liu, Krishna, Xu, Wang, Molchanov, Kautz, Yin, Han, and Lu]{liu2025nvilaefficientfrontiervisual}
-Zhijian Liu, Ligeng Zhu, Baifeng Shi, Zhuoyang Zhang, Yuming Lou, Shang Yang, Haocheng Xi, Shiyi Cao, Yuxian Gu, Dacheng Li, Xiuyu Li, Yunhao Fang, Yukang Chen, Cheng-Yu Hsieh, De-An Huang, An-Chieh Cheng, Vishwesh Nath, Jinyi Hu, Sifei Liu, Ranjay Krishna, Daguang Xu, Xiaolong Wang, Pavlo Molchanov, Jan Kautz, Hongxu Yin, Song Han, and Yao Lu.
+\bibitem[Liu et~al.(2025)Liu, Zhu, Shi, Zhang, Lou, Yang, Xi, Cao, Gu, Li, Li,
+  Fang, Chen, Hsieh, Huang, Cheng, Nath, Hu, Liu, Krishna, Xu, Wang, Molchanov,
+  Kautz, Yin, Han, and Lu]{liu2025nvilaefficientfrontiervisual}
+Zhijian Liu, Ligeng Zhu, Baifeng Shi, Zhuoyang Zhang, Yuming Lou, Shang Yang,
+  Haocheng Xi, Shiyi Cao, Yuxian Gu, Dacheng Li, Xiuyu Li, Yunhao Fang, Yukang
+  Chen, Cheng-Yu Hsieh, De-An Huang, An-Chieh Cheng, Vishwesh Nath, Jinyi Hu,
+  Sifei Liu, Ranjay Krishna, Daguang Xu, Xiaolong Wang, Pavlo Molchanov, Jan
+  Kautz, Hongxu Yin, Song Han, and Yao Lu.
 \newblock Nvila: Efficient frontier visual language models, 2025.
 
-\bibitem[Mokhtar et~al.(2025)Mokhtar, Mousakhan, Galesso, Tayyub, and Brox]{mokhtar2025detectclassifyactcategorizing}
+\bibitem[Mokhtar et~al.(2025)Mokhtar, Mousakhan, Galesso, Tayyub, and
+  Brox]{mokhtar2025detectclassifyactcategorizing}
 Sassan Mokhtar, Arian Mousakhan, Silvio Galesso, Jawad Tayyub, and Thomas Brox.
-\newblock Detect, classify, act: Categorizing industrial anomalies with multi-modal large language models, 2025.
+\newblock Detect, classify, act: Categorizing industrial anomalies with
+  multi-modal large language models, 2025.
+
+\bibitem[Nazer et~al.(2026)Nazer, Zhou, Halilaj, Sadikaj, and
+  Staab]{nazer2025dapo}
+Nadeem Nazer, Hongkuan Zhou, Lavdim Halilaj, Ylli Sadikaj, and Steffen Staab.
+\newblock Defect-aware hybrid prompt optimization for zero-shot multi-type
+  anomaly detection and segmentation.
+\newblock In \emph{Computer Vision -- ECCV 2026}. Springer Nature Switzerland,
+  2026.
 
 \bibitem[Pang et~al.(2021)Pang, Shen, Cao, and Hengel]{ad-review}
 Guansong Pang, Chunhua Shen, Longbing Cao, and Anton Van~Den Hengel.
 \newblock Deep learning for anomaly detection: A review.
 \newblock \emph{ACM Comput. Surv.}, 54\penalty0 (2), 2021.
 
-\bibitem[Radford et~al.(2021)Radford, Kim, Hallacy, Ramesh, Goh, Agarwal, Sastry, Askell, Mishkin, Clark, et~al.]{radford2021}
-Alec Radford, Jong~Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark, et~al.
-\newblock Learning transferable visual models from natural language supervision.
-\newblock In \emph{International conference on machine learning}, pages 8748--8763. PMLR, 2021.
+\bibitem[Radford et~al.(2021)Radford, Kim, Hallacy, Ramesh, Goh, Agarwal,
+  Sastry, Askell, Mishkin, Clark, et~al.]{radford2021}
+Alec Radford, Jong~Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh,
+  Sandhini Agarwal, Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark,
+  et~al.
+\newblock Learning transferable visual models from natural language
+  supervision.
+\newblock In \emph{International conference on machine learning}, pages
+  8748--8763. PMLR, 2021.
 
-\bibitem[Sadikaj et~al.(2025)Sadikaj, Zhou, Halilaj, Schmid, Staab, and Plant]{sadikaj2025multiadsdefectawaresupervisionmultitype}
-Ylli Sadikaj, Hongkuan Zhou, Lavdim Halilaj, Stefan Schmid, Steffen Staab, and Claudia Plant.
-\newblock Multiads: Defect-aware supervision for multi-type anomaly detection and segmentation in zero-shot learning.
-\newblock \emph{arXiv preprint arXiv:2504.06740}, 2025.
+\bibitem[Sadikaj et~al.(2025)Sadikaj, Zhou, Halilaj, Schmid, Staab, and
+  Plant]{sadikaj2025multiadsdefectawaresupervisionmultitype}
+Ylli Sadikaj, Hongkuan Zhou, Lavdim Halilaj, Stefan Schmid, Steffen Staab, and
+  Claudia Plant.
+\newblock Multiads: Defect-aware supervision for multi-type anomaly detection
+  and segmentation in zero-shot learning.
+\newblock In \emph{Proceedings of the IEEE/CVF International Conference on
+  Computer Vision}, pages 22978--22988, 2025.
 
-\bibitem[Schwartz et~al.(2024)Schwartz, Arbelle, Karlinsky, Harary, Scheidegger, Doveh, and Giryes]{schwartz2024maeday}
-Eli Schwartz, Assaf Arbelle, Leonid Karlinsky, Sivan Harary, Florian Scheidegger, Sivan Doveh, and Raja Giryes.
+\bibitem[Salehi et~al.(2026)Salehi, Salehi, Hosseini, Snoek, Yamada, and
+  Sabokrou]{salehi2026crane}
+Alireza Salehi, Mohammadreza Salehi, Reshad Hosseini, Cees G.~M. Snoek, Makoto
+  Yamada, and Mohammad Sabokrou.
+\newblock Crane: Context-guided prompt learning and attention refinement for
+  zero-shot anomaly detection.
+\newblock In \emph{British Machine Vision Conference}, 2026.
+
+\bibitem[Schwartz et~al.(2024)Schwartz, Arbelle, Karlinsky, Harary,
+  Scheidegger, Doveh, and Giryes]{schwartz2024maeday}
+Eli Schwartz, Assaf Arbelle, Leonid Karlinsky, Sivan Harary, Florian
+  Scheidegger, Sivan Doveh, and Raja Giryes.
 \newblock Maeday: Mae for few-and zero-shot anomaly-detection.
-\newblock \emph{Computer Vision and Image Understanding}, 241:\penalty0 103958, 2024.
+\newblock \emph{Computer Vision and Image Understanding}, 241:\penalty0 103958,
+  2024.
 
-\bibitem[Wang et~al.(2024)Wang, Zhu, Gao, Gan, Zhang, Gu, Qian, Chen, and Ma]{wang2024realiadrealworldmultiviewdataset}
-Chengjie Wang, Wenbing Zhu, Bin-Bin Gao, Zhenye Gan, Jianning Zhang, Zhihao Gu, Shuguang Qian, Mingang Chen, and Lizhuang Ma.
-\newblock Real-iad: A real-world multi-view dataset for benchmarking versatile industrial anomaly detection, 2024.
+\bibitem[Wang et~al.(2024)Wang, Zhu, Gao, Gan, Zhang, Gu, Qian, Chen, and
+  Ma]{wang2024realiadrealworldmultiviewdataset}
+Chengjie Wang, Wenbing Zhu, Bin-Bin Gao, Zhenye Gan, Jianning Zhang, Zhihao Gu,
+  Shuguang Qian, Mingang Chen, and Lizhuang Ma.
+\newblock Real-iad: A real-world multi-view dataset for benchmarking versatile
+  industrial anomaly detection, 2024.
 
 \bibitem[Xu et~al.(2025)Xu, Lo, Safaei, Patel, and Dwivedi]{xu2025towards}
 Jiacong Xu, Shao-Yuan Lo, Bardia Safaei, Vishal~M Patel, and Isht Dwivedi.
-\newblock Towards zero-shot anomaly detection and reasoning with multimodal large language models.
+\newblock Towards zero-shot anomaly detection and reasoning with multimodal
+  large language models.
 \newblock \emph{arXiv preprint arXiv:2502.07601}, 2025.
 
 \bibitem[Zhou et~al.(2022{\natexlab{a}})Zhou, Yang, Loy, and Liu]{CoOp}
 Kaiyang Zhou, Jingkang Yang, Chen~Change Loy, and Ziwei Liu.
 \newblock Learning to prompt for vision-language models.
-\newblock \emph{International Journal of Computer Vision}, 130\penalty0 (9):\penalty0 2337–2348, 2022{\natexlab{a}}.
+\newblock \emph{International Journal of Computer Vision}, 130\penalty0
+  (9):\penalty0 2337–2348, 2022{\natexlab{a}}.
 
-\bibitem[Zhou et~al.(2022{\natexlab{b}})Zhou, Yang, Loy, and Liu]{zhou2022conditionalpromptlearningvisionlanguage}
+\bibitem[Zhou et~al.(2022{\natexlab{b}})Zhou, Yang, Loy, and
+  Liu]{zhou2022conditionalpromptlearningvisionlanguage}
 Kaiyang Zhou, Jingkang Yang, Chen~Change Loy, and Ziwei Liu.
-\newblock Conditional prompt learning for vision-language models, 2022{\natexlab{b}}.
+\newblock Conditional prompt learning for vision-language models.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition}, pages 16816--16825, 2022{\natexlab{b}}.
 
 \bibitem[Zhou et~al.(2024)Zhou, Pang, Tian, He, and Chen]{zhou2024anomalyclip}
 Qihang Zhou, Guansong Pang, Yu Tian, Shibo He, and Jiming Chen.
-\newblock Anomalyclip: Object-agnostic prompt learning for zero-shot anomaly detection, 2024.
+\newblock Anomalyclip: Object-agnostic prompt learning for zero-shot anomaly
+  detection.
+\newblock In \emph{International Conference on Learning Representations}, 2024.
+
+\bibitem[Zhou et~al.(2026)Zhou, Gao, Pang, Wang, Chen, and
+  He]{zhou2026tokenclip}
+Qihang Zhou, Bin-Bin Gao, Guansong Pang, Xin Wang, Jiming Chen, and Shibo He.
+\newblock Tokenclip: Token-wise prompt learning for zero-shot anomaly
+  detection.
+\newblock In \emph{Advances in Neural Information Processing Systems}, 2026.
 
 \bibitem[Zou et~al.(2022)Zou, Jeong, Pemula, Zhang, and Dabeer]{VisA}
 Yang Zou, Jongheon Jeong, Latha Pemula, Dongqing Zhang, and Onkar Dabeer.
-\newblock Spot-the-difference self-supervised pre-training for anomaly detection and segmentation.
-\newblock In \emph{Computer Vision -- ECCV 2022}, pages 392--408, Cham, 2022. Springer Nature Switzerland.
+\newblock Spot-the-difference self-supervised pre-training for anomaly
+  detection and segmentation.
+\newblock In \emph{Computer Vision -- ECCV 2022}, pages 392--408, Cham, 2022.
+  Springer Nature Switzerland.
 
 \end{thebibliography}

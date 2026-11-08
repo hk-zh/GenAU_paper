@@ -11,7 +11,7 @@ High-resolution inputs use AnyRes (\texttt{anyres\_max\_9}, up to a $6\times6$ g
 We report image-level AUROC and AP for detection; pixel-level AUROC and AUPRO for segmentation; weighted Precision/Recall/F1 for multi-type detection (to handle class imbalance); and, for reasoning, the VisA-D\&R GPT-Score~\cite{xu2025towards}, where GPT-4o rates each response $1$--$10$ for low-level (perception) and complex (causal-reasoning) questions separately (full definitions in Appendix).
 
 \subsection{Baselines}
-All baselines, like GenAU, access only the query image at test time: no reference, support, or exemplar images. As \emph{CLIP-based} zero-shot detectors and segmenters we compare against CLIP, CLIP-AC~\cite{radford2021}, WinCLIP~\cite{jeong2023winclip}, APRIL-GAN~\cite{chen2023zero}, CoOp~\cite{CoOp}, CoCoOp~\cite{zhou2022conditionalpromptlearningvisionlanguage}, AnomalyCLIP~\cite{zhou2024anomalyclip}, AdaCLIP~\cite{Cao_2024}, FiLo~\cite{gu2024filozeroshotanomalydetection}, and MultiADS together with its variant MultiADS-F~\cite{sadikaj2025multiadsdefectawaresupervisionmultitype}, the only CLIP-based baseline that additionally performs multi-type detection. For the multi-type and reasoning tasks we further compare against \emph{vision--language} baselines: the anomaly-reasoning specialist Anomaly-OV~\cite{xu2025towards} and our LLaVA-OneVision~\cite{li2025llavaonevision} backbone, both at the $0.5$B and $7$B scales. Methods without public implementations (e.g., SimCLIP~\cite{simclip}) are excluded for reproducible comparison.
+All baselines, like GenAU, access only the query image at test time: no reference, support, or exemplar images. As \emph{CLIP-based} zero-shot detectors and segmenters we compare against CLIP-AC~\cite{radford2021}, WinCLIP~\cite{jeong2023winclip}, APRIL-GAN~\cite{chen2023zero}, CoOp~\cite{CoOp}, CoCoOp~\cite{zhou2022conditionalpromptlearningvisionlanguage}, AnomalyCLIP~\cite{zhou2024anomalyclip}, AdaCLIP~\cite{Cao_2024}, FiLo~\cite{gu2024filozeroshotanomalydetection}, DAPO~\cite{nazer2025dapo}, TokenCLIP~\cite{zhou2026tokenclip}, Crane~\cite{salehi2026crane}, and MultiADS together with its variant MultiADS-F~\cite{sadikaj2025multiadsdefectawaresupervisionmultitype}, which, like DAPO, additionally performs multi-type detection. For the multi-type and reasoning tasks we further compare against \emph{vision--language} baselines: the anomaly-reasoning specialist Anomaly-OV~\cite{xu2025towards} and our LLaVA-OneVision~\cite{li2025llavaonevision} backbone, both at the $0.5$B and $7$B scales. Methods without public implementations (e.g., SimCLIP~\cite{simclip}) are excluded for reproducible comparison.
 
 \subsection{Results}
 Next, we present and discuss results for binary anomaly detection and segmentation under distribution shift, multi-type zero-shot anomaly detection, and defect reasoning, the four tasks GenAU addresses within a single model.
@@ -19,65 +19,71 @@ Next, we present and discuss results for binary anomaly detection and segmentati
 Shift}
 Table~\ref{tab:binary} reports the performance of GenAU on VisA, MPDD, and Real-IAD, compared with state-of-the-art CLIP-based methods. Pixel-level metrics (AUROC, AUPRO) and image-level metrics (AUROC, AP) are reported.
 
-On VisA, the 7B model achieves the best image-level AUROC ($90.1\%$) among the methods in Table~\ref{tab:binary}; the VLM reasoning specialist Anomaly-OV-7B reports a VisA image-AUROC of $88.9\%$ but is trained under an instruction-tuning rather than our cross-dataset protocol and produces no segmentation, so we note it here only for context. On MPDD, GenAU-7B attains the highest pixel-level AUROC and AUPRO ($96.7\%$, $89.8\%$) and image-level AP ($85.1\%$), while its image-level AUROC ($78.7\%$) stays below MultiADS-F ($79.7\%$), reflecting the logical and large-area anomalies of this dataset. On Real-IAD, it reaches an image-level AUROC of $85.1\%$ and the highest pixel-level AUPRO ($88.2\%$). Its pixel-level scores on VisA, however, remain below the strongest CLIP-based segmenters. The 0.5B variant remains competitive, with the second-best image-level AUROC on VisA and Real-IAD.
+On VisA, the 7B model achieves the best image-level AUROC ($90.1\%$) among the methods in Table~\ref{tab:binary}; the VLM reasoning specialist Anomaly-OV-7B reports a VisA image-AUROC of $88.9\%$ but is trained under an instruction-tuning rather than our cross-dataset protocol and produces no segmentation, so we note it here only for context. On MPDD, GenAU-7B attains the highest pixel-level AUPRO ($89.8\%$) and image-level AP ($85.1\%$), with a pixel-level AUROC ($96.7\%$) $0.3$ points below Crane ($97.0\%$), while its image-level AUROC ($78.7\%$) stays below Crane ($81.4\%$), DAPO ($81.2\%$), and MultiADS-F ($79.7\%$), reflecting the logical and large-area anomalies of this dataset. On Real-IAD, it reaches an image-level AUROC of $85.1\%$ and the highest pixel-level AUPRO ($88.2\%$). Its pixel-level scores on VisA, however, remain below the strongest CLIP-based segmenters. The 0.5B variant remains competitive, with the second-best image-level AUROC on VisA and Real-IAD (on Real-IAD tied with DAPO).
 Overall, GenAU demonstrates that a single instruction-following VLM can achieve strong binary detection and segmentation performance under distribution shift.
 \begin{table}
+\footnotesize
 \setlength{\tabcolsep}{2pt}
 \centering
-	\caption[Results of GenAU for binary anomaly detection and segmentation under distribution shift]{Zero-shot binary detection and segmentation under distribution shift (\%). \textbf{Bold}/\underline{underline}: best/second best. Baseline numbers are quoted from MultiADS~\cite{sadikaj2025multiadsdefectawaresupervisionmultitype} and FiLo~\cite{gu2024filozeroshotanomalydetection} and are \emph{not} recomputed in our harness.}
+	\caption[Results of GenAU for binary anomaly detection and segmentation under distribution shift]{Zero-shot binary detection and segmentation under distribution shift (\%). \textbf{Bold}/\underline{underline}: best/second best. Baseline numbers are quoted from MultiADS~\cite{sadikaj2025multiadsdefectawaresupervisionmultitype}, FiLo~\cite{gu2024filozeroshotanomalydetection}, DAPO~\cite{nazer2025dapo}, TokenCLIP~\cite{zhou2026tokenclip}, and Crane~\cite{salehi2026crane} and are \emph{not} recomputed in our harness.}
 	\label{tab:binary}
-\begin{tabular}{c|ccccc}
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}ccccccc@{}}
 \toprule
-\multirow{2}{*}{\textbf{Dataset}} & \multirow{2}{*}{\textbf{Method}}  
+ & \multirow{2}{*}{\textbf{Method}} & \multirow{2}{*}{\textbf{Venue}}
 & \multicolumn{2}{c}{\textbf{Pixel-Level}} & \multicolumn{2}{c}{\textbf{Image-Level}} \\
-\cmidrule{3-6}
-& & \textbf{AUROC} & \textbf{AUPRO} & \textbf{AUROC} & \textbf{AP} \\
+\cmidrule{4-7}
+& & & \textbf{AUROC} & \textbf{AUPRO} & \textbf{AUROC} & \textbf{AP} \\
 \midrule
-\multirow{13}{*}{VisA}
-& CLIP        & 46.6 & 14.8 & 66.4 & 71.5 \\
-& CLIP-AC     & 47.8 & 17.3 & 65.0 & 70.1 \\
-& CoOp        & 24.2 & 3.8 & 62.8 & 68.1 \\
-& CoCoOp      & 93.6 & - & 78.1 & - \\
-& WinCLIP     & 79.6 & 56.8 & 78.1 & 81.2 \\
-& APRIL-GAN   & 94.2 & 86.8 & 78.0 & 81.4 \\
-& AnomalyCLIP  & \underline{95.5} & 87.0 & 82.1 & 85.4 \\
-& AdaCLIP     & 95.0 & - & 75.4 & 79.3 \\
-& FiLo     & \textbf{95.9} & - & 83.9 & - \\
-& MultiADS   & 95.0 & \textbf{89.7} & 83.6 & 86.9\\
-& MultiADS-F & 94.5 & 87.4 & 82.5 & 86.5 \\
-\cmidrule(lr){2-6}
+\multirow{15}{*}{\rotatebox[origin=c]{90}{VisA}}
+& CLIP-AC & ICML'21 & 47.8 & 17.3 & 65.0 & 70.1 \\
+& CoOp & IJCV'22 & 24.2 & 3.8 & 62.8 & 68.1 \\
+& CoCoOp & CVPR'22 & 93.6 & - & 78.1 & - \\
+& WinCLIP & CVPR'23 & 79.6 & 56.8 & 78.1 & 81.2 \\
+& APRIL-GAN & arXiv'23 & 94.2 & 86.8 & 78.0 & 81.4 \\
+& AnomalyCLIP & ICLR'24 & \underline{95.5} & 87.0 & 82.1 & 85.4 \\
+& AdaCLIP & ECCV'24 & 95.0 & - & 75.4 & 79.3 \\
+& FiLo & ACM MM'24 & \textbf{95.9} & - & 83.9 & - \\
+& MultiADS & ICCV'25 & 95.0 & \textbf{89.7} & 83.6 & 86.9\\
+& MultiADS-F & ICCV'25 & 94.5 & 87.4 & 82.5 & 86.5 \\
+& DAPO & ECCV'26 & 94.3 & 84.0 & 84.9 & 87.1 \\
+& TokenCLIP & NeurIPS'26 & \textbf{95.9} & \underline{88.5} & 85.8 & 88.2 \\
+& Crane & BMVC'26 & 95.1 & 87.5 & 85.3 & 87.9 \\
+\cmidrule(lr){2-7}
 % 2026-10-17: GenAU rows = halfmix checkpoints (hires-tversky{,-05b}-halfmix-proj), runs halfmix-{7b,05b}-<ds>-fair,
 % fused with their own MVTec calibration (evaluation/fusion_calib_halfmix{,05b}_ens8.json).
-&  GenAU-0.5b &      95.0 & \underline{88.2} & \underline{89.2} & \underline{90.9} \\
-&  GenAU-7b &      94.4 & 87.4 & \textbf{90.1} & \textbf{91.8} \\
+&  GenAU-0.5b & -- &      95.0 & 88.2 & \underline{89.2} & \underline{90.9} \\
+&  GenAU-7b & -- &      94.4 & 87.4 & \textbf{90.1} & \textbf{91.8} \\
 \midrule
-\multirow{12}{*}{MPDD}
-& CLIP        & 62.1 & 33.0 & 54.3 & 65.4 \\
-& CLIP-AC     & 58.7 & 29.1 & 56.2 & 66.0 \\
-& CoOp        & 15.4 & 2.3  & 55.1 & 64.2 \\
-& CoCoOp      & 95.2 & - & 61.0 & - \\
-& WinCLIP      & 76.4 & 48.9 & 63.6 & 69.9 \\
-& APRIL-GAN    & 94.1 & 83.2 & 73.0 & 80.2 \\
-& AnomalyCLIP  & 96.5 & 88.7 & 77.0 & 82.0 \\
-& AdaCLIP      & 96.3 & - & 66.3 & 75.0 \\
-& MultiADS   & 95.8 & \underline{89.7} &  78.3 & 78.4 \\
-& MultiADS-F & 96.3 & 89.5 & \textbf{79.7} & 80.5 \\
-\cmidrule(lr){2-6}
-& GenAU-0.5b &   \underline{96.6} & 88.1 & 76.2 & \underline{82.6} \\
-& GenAU-7b &       \textbf{96.7} & \textbf{89.8} & \underline{78.7} & \textbf{85.1} \\
+\multirow{14}{*}{\rotatebox[origin=c]{90}{MPDD}}
+& CLIP-AC & ICML'21 & 58.7 & 29.1 & 56.2 & 66.0 \\
+& CoOp & IJCV'22 & 15.4 & 2.3  & 55.1 & 64.2 \\
+& CoCoOp & CVPR'22 & 95.2 & - & 61.0 & - \\
+& WinCLIP & CVPR'23 & 76.4 & 48.9 & 63.6 & 69.9 \\
+& APRIL-GAN & arXiv'23 & 94.1 & 83.2 & 73.0 & 80.2 \\
+& AnomalyCLIP & ICLR'24 & 96.5 & 88.7 & 77.0 & 82.0 \\
+& AdaCLIP & ECCV'24 & 96.3 & - & 66.3 & 75.0 \\
+& MultiADS & ICCV'25 & 95.8 & \underline{89.7} &  78.3 & 78.4 \\
+& MultiADS-F & ICCV'25 & 96.3 & 89.5 & 79.7 & 80.5 \\
+& DAPO & ECCV'26 & 95.1 & 84.4 & \underline{81.2} & 83.6 \\
+& TokenCLIP & NeurIPS'26 & \underline{96.8} & 89.3 & 80.0 & 82.3 \\
+& Crane & BMVC'26 & \textbf{97.0} & 89.3 & \textbf{81.4} & \underline{84.8} \\
+\cmidrule(lr){2-7}
+& GenAU-0.5b & -- &   96.6 & 88.1 & 76.2 & 82.6 \\
+& GenAU-7b & -- &       96.7 & \textbf{89.8} & 78.7 & \textbf{85.1} \\
 \midrule
-\multirow{8}{*}{Real-IAD} 
-& WinCLIP      & 87.1 & 59.9 & 75.0 & 72.3 \\
-& APRIL-GAN    & 96.0 & 86.8 & 75.7 & 73.5 \\
-& AnomalyCLIP  & 96.2 & 85.7 & 78.4 & 76.7 \\
-& AdaCLIP      & 95.3 & - & 70.1 & 68.5 \\
-& MultiADS   & \textbf{96.6} & 87.1 & 78.7 & 79.1\\
-& MultiADS-F   &  \underline{96.3} & \underline{87.2} & 78.2 & 78.5 \\
-\cmidrule(lr){2-6}
-& GenAU-0.5b &        89.5 & 75.1 & \underline{84.3} & \underline{84.9}\\
-& GenAU-7b &        \underline{96.3} & \textbf{88.2} & \textbf{85.1} & \textbf{85.4}\\
+\multirow{9}{*}{\rotatebox[origin=c]{90}{Real-IAD}} 
+& WinCLIP & CVPR'23 & 87.1 & 59.9 & 75.0 & 72.3 \\
+& APRIL-GAN & arXiv'23 & 96.0 & 86.8 & 75.7 & 73.5 \\
+& AnomalyCLIP & ICLR'24 & 96.2 & 85.7 & 78.4 & 76.7 \\
+& AdaCLIP & ECCV'24 & 95.3 & - & 70.1 & 68.5 \\
+& MultiADS & ICCV'25 & \textbf{96.6} & 87.1 & 78.7 & 79.1\\
+& MultiADS-F & ICCV'25 &  96.3 & \underline{87.2} & 78.2 & 78.5 \\
+& DAPO & ECCV'26 & \underline{96.4} & 80.3 & \underline{84.3} & 84.0 \\
+\cmidrule(lr){2-7}
+& GenAU-0.5b & -- &        89.5 & 75.1 & \underline{84.3} & \underline{84.9}\\
+& GenAU-7b & -- &        96.3 & \textbf{88.2} & \textbf{85.1} & \textbf{85.4}\\
 \bottomrule
-\end{tabular}
+\end{tabular*}
 \end{table}
 Qualitative results of GenAU and the best overall performer, MultiADS, are shown in Figure~\ref{fig:visa-visual-good} (and, for a failure case, Figure~\ref{fig:visa-visual-bad}). GenAU accurately segments visually salient defects such as \textit{hole}, \textit{broken}, and \textit{crack}, and produces cleaner, lower-noise segmentation maps than MultiADS. However, global-context or logic-dependent defects such as \textit{missing} components remain challenging. For these cases, similarity maps are low-confidence, often resulting in incomplete localization or misclassification of normal regions for both models (Figure~\ref{fig:visa-visual-bad}).
 
@@ -93,15 +99,15 @@ Replacing decoder-conditioned anchors with randomly initialized, trainable const
 Table~\ref{tab:ablations_main} varies one factor at a time on VisA. Removing the LM fusion (\emph{map-max only}) lowers image-AUROC by $5.6$ points ($90.1\!\rightarrow\!84.5$); fusing the log-odds of only the single question an image is asked recovers $2.2$ of them ($86.7$), so averaging over phrasings supplies most of the gain. The VLM prior is useful by itself: untrained LLaVA-OneVision, asked the same eight questions, reaches $87.0$ image-AUROC from its yes/no log-odds alone, above every CLIP baseline in Table~\ref{tab:binary} (on Real-IAD, $84.4$ versus $78.7$); fine-tuning raises this term to $89.2$. Training on segmentation alone, at the same $53$ steps, adds $1.8$ pixel-AUPRO but no detection, and segmentation-only checkpoints answer complex VisA-D\&R questions poorly (SBERT similarity $0.576$ versus $0.664$; Appendix~\ref{app:eval}). Giving every training image a reasoning conversation (\emph{full reasoning mix}) instead doubles the optimization steps and costs $3.5$ image-AUROC and $2.9$ pixel-AUPRO, so our default embeds reasoning in half of the samples at an unchanged budget. Freezing the LLM decoder -- keeping the adapter attached but untrained -- leaves detection and localization nearly unchanged ($90.0$ image-AUROC, $88.0$ AUPRO), but the frozen decoder rarely emits the segmentation tokens on its own (they are appended for $1{,}984$ of $2{,}162$ VisA images): adapting the decoder lets the model request segmentation itself, rather than improving the readout or the decision. The ablation studies of hyper-parameters are in Appendix.
 
 \begin{table}
-\small
+\footnotesize
 \centering
-\setlength{\tabcolsep}{3pt}
-\caption{GenAU-7B ablations on VisA (\%). The shaded row is our default; each indented row changes one factor of the nearest less-indented row above it. $^\ast$Also halves the text-loss weight. Image columns use the fused score of Table~\ref{tab:binary}.}
+\setlength{\tabcolsep}{2pt}
+\caption{GenAU-7B ablations on VisA (\%). The shaded row is our default; each indented row changes one factor of the nearest less-indented row above it. Subscripts give the difference to the default row. $^\ast$Also halves the text-loss weight. $^\dagger$With a frozen projector, as in the reference row of Table~\ref{tab:ablations}. Image columns use the fused score of Table~\ref{tab:binary}.}
 \label{tab:ablations_main}
-\begin{tabular}{@{}l|cc|cc@{}}
+\begin{tabularx}{\columnwidth}{@{}X*{4}{c}@{}}
 \toprule
- & \multicolumn{2}{c|}{\textbf{Pixel}} & \multicolumn{2}{c}{\textbf{Image}} \\
-\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+ & \multicolumn{2}{c}{\textbf{Pixel}} & \multicolumn{2}{c}{\textbf{Image}} \\
+\cmidrule(lr){2-3}\cmidrule(l){4-5}
  & AUROC & AUPRO & AUROC & AP \\
 \midrule
 % 2026-10-07: every row re-evaluated with the appended-token inference step (SEG_FORCE_ANCHORS=1,
@@ -114,20 +120,19 @@ Table~\ref{tab:ablations_main} varies one factor at a time on VisA. Removing the
 % These rows use fusion_calib_tversky_ens8.json. frozen LLM = noreason-proj-lm05-nolora-s42 (projector trained, LM-loss weight 0.5).
 % LQA image columns: 8-phrasing dump job 5190332 (single-question score was 86.7 / 89.1).
 \rowcolor{gray!20}
-GenAU-7B (default) & 94.4 & 87.4 & 90.1 & 91.8 \\
+GenAU-7B (default) & 94.4\abno & 87.4\abno & 90.1\abno & 91.8\abno \\
 \midrule
-\quad w/o LM fusion & 94.4 & 87.4 & 84.5 & 87.6 \\
-\quad single-question LM term & 94.4 & 87.4 & 86.7 & 89.2 \\
-\quad segmentation only & 95.6 & 89.2 & 89.9 & 91.5 \\
-\qquad frozen LLM$^\ast$ & 95.2 & 88.0 & 90.0 & 91.7 \\
-\qquad frozen projector & 95.1 & 88.7 & 90.5 & 91.9 \\
-\qquad\quad learned-query anchors & 94.3 & 87.4 & 89.0 & 90.9 \\
-\qquad\quad full reasoning mix & 95.1 & 85.8 & 87.0 & 89.6 \\
+\quad w/o LM fusion & 94.4\abeq & 87.4\abeq & 84.5\abdn{5.6} & 87.6\abdn{4.2} \\
+\quad single-question LM term & 94.4\abeq & 87.4\abeq & 86.7\abdn{3.4} & 89.2\abdn{2.6} \\
+\quad segmentation only & 95.6\abup{1.2} & 89.2\abup{1.8} & 89.9\abdn{0.2} & 91.5\abdn{0.3} \\
+\qquad frozen LLM$^\ast$ & 95.2\abup{0.8} & 88.0\abup{0.6} & 90.0\abdn{0.1} & 91.7\abdn{0.1} \\
+\qquad learned-query anchors$^\dagger$ & 94.3\abdn{0.1} & 87.4\abeq & 89.0\abdn{1.1} & 90.9\abdn{0.9} \\
+\qquad full reasoning mix$^\dagger$ & 95.1\abup{0.7} & 85.8\abdn{1.6} & 87.0\abdn{3.1} & 89.6\abdn{2.2} \\
 \midrule
 % Base LLaVA-OV-7B, no anomaly training: mean yes/no log-odds over the 8 phrasings only (evaluation/lm_decision/base-visa_s*.npz).
-untrained LLaVA-OV, LM only & -- & -- & 87.0 & 89.4 \\
+untrained LLaVA-OV, LM only & --\abno & --\abno & 87.0\abdn{3.1} & 89.4\abdn{2.4} \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{table}
 
 
