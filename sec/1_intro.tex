@@ -27,10 +27,10 @@
         \draw[gray!55,line width=0.5pt] (0,0) -- (\ang:\R);
       }
       % --- series macro: #1..#6 = radius FRACTIONS = clamp((value-lo)/(hi-lo), 0, 1).
-      %     Per-axis ranges [lo,hi] (drawn as axis labels): DetAUROC[70,95] DetAP[70,95]
-      %     SegAUROC[70,95] SegAUPRO[70,95] MultiF1[20,70] Reason[4,7].
+      %     Per-axis ranges [lo,hi] (drawn as axis labels): DetAUROC[70,97] DetAP[70,97]
+      %     SegAUROC[70,97] SegAUPRO[70,97] MultiF1[20,70] Reason[4,7].
       %     Det = VisA; Seg = mean over VisA+MPDD+Real-IAD; Multi = mean over VisA+MPDD; Reason = VisA-D&R.
-      %     0 (capability gap) -> center. NOTE: SegAUROC MultiADS 95.8 / TokenCLIP 96.35 > 95 -> clamped to rim.
+      %     0 (capability gap) -> center.
       %     TokenCLIP reports no Real-IAD -> its Seg = mean over VisA+MPDD (stated in the caption).
       \newcommand{\radarpath}[6]{
         (90:{#1*\R}) -- (30:{#2*\R}) -- (-30:{#3*\R}) --
@@ -38,24 +38,24 @@
         -- cycle}
       % baselines first (lines only), GenAU drawn last on top (filled)
       % TokenCLIP    (det 85.8/88.2, seg 96.35/88.9 = mean VisA/MPDD, multi --, reason --)
-      \draw[cCLIP,line width=0.9pt,fill=cCLIP,fill opacity=0.08] \radarpath{0.632}{0.728}{1.0}{0.756}{0}{0};
+      \draw[cCLIP,line width=0.9pt,fill=cCLIP,fill opacity=0.08] \radarpath{0.585}{0.674}{0.976}{0.700}{0}{0};
       % MultiADS     (det 83.6/86.9, seg 95.8/88.8, multi 25.7, reason --)
-      \draw[cMADS,line width=0.9pt,fill=cMADS,fill opacity=0.08] \radarpath{0.544}{0.676}{1.0}{0.752}{0.114}{0};
+      \draw[cMADS,line width=0.9pt,fill=cMADS,fill opacity=0.08] \radarpath{0.504}{0.626}{0.956}{0.696}{0.114}{0};
       % Anomaly-OV-7B   (det 88.9/90.5, seg --/--, multi 43.1 = mean(VisA 21.1, MPDD 65.1), reason 6.34 complex)
-      \draw[cAOV,line width=1.0pt,fill=cAOV,fill opacity=0.08] \radarpath{0.726}{0.74}{0}{0}{0.462}{0.78};
-      % GenAU-7B halfmix (det 90.05/91.85, seg 95.82/88.46 = mean VisA/MPDD/Real-IAD -> AUROC clamped to rim, multi 61.45 = mean(VisA 33.4, MPDD 89.5), reason 6.43)
+      \draw[cAOV,line width=1.0pt,fill=cAOV,fill opacity=0.08] \radarpath{0.700}{0.759}{0}{0}{0.462}{0.78};
+      % GenAU-7B halfmix (det 90.05/91.85, seg 95.82/88.46 = mean VisA/MPDD/Real-IAD, multi 61.45 = mean(VisA 33.4, MPDD 89.5), reason 6.43)
       % TODO(GPT-Score): reason 6.43 is the full-reasoning-mix checkpoint; replace with the halfmix checkpoint's complex GPT-Score.
       \draw[cGenAU,line width=1.4pt,fill=cGenAU,fill opacity=0.16]
-        \radarpath{0.802}{0.874}{1.0}{0.738}{0.829}{0.810};
+        \radarpath{0.743}{0.809}{0.956}{0.684}{0.829}{0.810};
       % --- per-metric axis labels (full task name + metric) ---
       \node[font=\footnotesize\bfseries,above=3pt,align=center,
-            text width=2.5cm] at (90:\R) {Detection\\AUROC\\{\small\mdseries 70--95}};
+            text width=2.5cm] at (90:\R) {Detection\\AUROC\\{\small\mdseries 70--97}};
       \node[font=\footnotesize\bfseries,anchor=west,xshift=3pt,align=left,
-            text width=2.0cm] at (30:\R) {Detection\\AP\\{\small\mdseries 70--95}};
+            text width=2.0cm] at (30:\R) {Detection\\AP\\{\small\mdseries 70--97}};
       \node[font=\footnotesize\bfseries,anchor=west,xshift=3pt,align=left,
-            text width=2.2cm] at (-30:\R) {Segmentation\\AUROC\\{\small\mdseries 70--95}};
+            text width=2.2cm] at (-30:\R) {Segmentation\\AUROC\\{\small\mdseries 70--97}};
       \node[font=\footnotesize\bfseries,below=3pt,align=center,
-            text width=2.5cm] at (-90:\R) {Segmentation\\AUPRO\\{\small\mdseries 70--95}};
+            text width=2.5cm] at (-90:\R) {Segmentation\\AUPRO\\{\small\mdseries 70--97}};
       \node[font=\footnotesize\bfseries,anchor=east,xshift=-3pt,align=right,
             text width=1.9cm] at (-150:\R) {Multi-type\\F1\\{\small\mdseries 20--70}};
       \node[font=\footnotesize\bfseries,anchor=east,xshift=-3pt,align=right,
