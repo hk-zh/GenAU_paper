@@ -171,9 +171,9 @@ GenAU-7B, the checkpoint of Table~\ref{tab:binary}, obtains weighted F1 of $33.4
 
 
 \subsubsection{Defect Reasoning and Analysis}
-Beyond detecting and localizing defects, GenAU answers open-ended questions about them. We evaluate on VisA-D\&R~\cite{xu2025towards} (low-level perception and complex causal-reasoning questions) against the reasoning specialist Anomaly-OV~\cite{xu2025towards}; here GenAU augments its segmentation training with a reasoning instruction mix, so one model both localizes and explains, whereas Anomaly-OV produces no segmentation.
+Beyond detecting and localizing defects, GenAU answers open-ended questions about them. We evaluate on VisA-D\&R~\cite{xu2025towards} (low-level perception and complex causal-reasoning questions) against the reasoning specialist Anomaly-OV~\cite{xu2025towards}. Here GenAU augments its segmentation training with a reasoning instruction mix, so one model both localizes and explains, whereas Anomaly-OV produces no segmentation.
 
-Table~\ref{tab:reasoning} gives GPT-Scores and SBERT similarities. All rows are judged by the same GPT-4o model with the same prompt, and Anomaly-OV is retrained with its public code on exactly GenAU's training data and with GenAU's LoRA recipe, so the two differ only in method. Relative to its LLaVA-OneVision initialization, GenAU improves both low-level ($2.07\!\rightarrow\!3.01$, $2.93\!\rightarrow\!4.02$) and complex scores ($4.75\!\rightarrow\!6.24$, $5.77\!\rightarrow\!6.43$) at both scales. At 7B, GenAU outperforms Anomaly-OV on both question types under both metrics (GPT-Score $4.02$/$6.43$ versus $3.93$/$6.06$; SBERT $0.596$/$0.648$ versus $0.565$/$0.599$) while additionally producing segmentation masks. % TODO: 0.5B comparison sentence once the Anomaly-OV-0.5B LoRA run (LSF job 13166393) is scored.
+Table~\ref{tab:reasoning} gives GPT-Scores and SBERT similarities. All rows are judged by the same GPT-4o model with the same prompt, and Anomaly-OV is retrained with its public code on exactly GenAU's training data and with GenAU's LoRA recipe, so the two differ only in method. Relative to its LLaVA-OneVision initialization, GenAU improves both low-level ($2.07\!\rightarrow\!3.01$, $2.93\!\rightarrow\!4.02$) and complex scores ($4.75\!\rightarrow\!6.24$, $5.77\!\rightarrow\!6.43$) at both scales. At 7B, GenAU outperforms Anomaly-OV on both question types under both metrics (GPT-Score $4.02$/$6.43$ versus $3.93$/$6.06$; SBERT $0.596$/$0.648$ versus $0.565$/$0.599$) while additionally producing segmentation masks. At 0.5B, GenAU matches or exceeds Anomaly-OV on complex questions (GPT-Score $6.24$ versus $6.19$; SBERT $0.634$ versus $0.630$) and is on par in SBERT on low-level questions ($0.562$ versus $0.566$), but trails in low-level GPT-Score ($3.01$ versus $3.33$).
 Textual plausibility or reference agreement does not, however, establish the correctness of a causal diagnosis.
 
 \begin{table}
@@ -190,7 +190,7 @@ Textual plausibility or reference agreement does not, however, establish the cor
 \midrule
 LLaVA-OV-0.5B   & 2.07 & 4.75 & 0.506 & 0.607 \\
 LLaVA-OV-7B     & 2.93 & 5.77 & 0.524 & 0.632 \\
-Anomaly-OV-0.5B & -- & -- & -- & -- \\ % TODO: LoRA run, LSF job 13166393 (anomalyov-05b-halfmix-noseg-noexpert-lora)
+Anomaly-OV-0.5B & 3.33 & 6.19 & 0.566 & 0.630 \\
 Anomaly-OV-7B   & 3.93 & 6.06 & 0.565 & 0.599 \\
 \cmidrule(lr){1-5}
 GenAU-0.5B & 3.01 & 6.24 & 0.562 & 0.634 \\

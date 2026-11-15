@@ -41,8 +41,8 @@
       \draw[cCLIP,line width=0.9pt,fill=cCLIP,fill opacity=0.08] \radarpath{0.585}{0.674}{0.976}{0.700}{0}{0};
       % MultiADS     (det 83.6/86.9, seg 95.8/88.8, multi 25.7, reason --)
       \draw[cMADS,line width=0.9pt,fill=cMADS,fill opacity=0.08] \radarpath{0.504}{0.626}{0.956}{0.696}{0.114}{0};
-      % Anomaly-OV-7B   (det 88.9/90.5, seg --/--, multi 43.1 = mean(VisA 21.1, MPDD 65.1), reason 6.34 complex)
-      \draw[cAOV,line width=1.0pt,fill=cAOV,fill opacity=0.08] \radarpath{0.700}{0.759}{0}{0}{0.462}{0.78};
+      % Anomaly-OV-7B   (det 88.9/90.5, seg --/--, multi 43.1 = mean(VisA 21.1, MPDD 65.1), reason 6.06 complex = Table 4 GPT-Score (same-data LoRA retrain, same GPT-4o judge as GenAU))
+      \draw[cAOV,line width=1.0pt,fill=cAOV,fill opacity=0.08] \radarpath{0.700}{0.759}{0}{0}{0.462}{0.687};
       % GenAU-7B halfmix (det 90.05/91.85, seg 95.82/88.46 = mean VisA/MPDD/Real-IAD, multi 61.45 = mean(VisA 33.4, MPDD 89.5), reason 6.43 complex with the "If yes, segment it." turn-0 suffix as in Table 4, halfmix retrain, LLM Farm GPT-4o judge)
       \draw[cGenAU,line width=1.4pt,fill=cGenAU,fill opacity=0.16]
         \radarpath{0.743}{0.809}{0.956}{0.684}{0.829}{0.810};
@@ -78,7 +78,7 @@
     Each radar axis is scaled to the range beneath its label, and a vertex at the
     centre marks a task the model cannot perform (TokenCLIP and MultiADS emit no
     language; Anomaly-OV produces no segmentation). GenAU's curve is one checkpoint. Detection: VisA; segmentation: mean over
-    VisA/MPDD/Real-IAD (TokenCLIP: VisA/MPDD); type F1: mean over VisA/MPDD; reasoning: complex GPT-Score.}
+    VisA/MPDD/Real-IAD (TokenCLIP: VisA/MPDD); type F1: mean over VisA/MPDD; reasoning: complex GPT-Score of Table~\ref{tab:reasoning}.}
     \label{fig:motivation}
 \end{figure}
 Industrial anomaly detection (AD) is fundamental to modern manufacturing, ensuring product quality, operational reliability, and safety. Automated visual inspection systems prevent defective products from reaching customers, thereby reducing financial losses, reputational risks, and safety hazards~\cite{effect-recall, HORA2011766}, while reducing reliance on human operators and supporting earlier intervention in production pipelines.
