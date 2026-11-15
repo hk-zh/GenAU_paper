@@ -79,22 +79,6 @@ First line of institution2 address\\
     \bibliography{custom}
 }
 
-%%%%%%%%% SUPPLEMENTARY MATERIAL
-% CVPR caps the main paper at 8 pages excluding references, and supplementary
-% material is uploaded as a SEPARATE PDF. Following the official author kit
-% (sec/X_suppl.tex), the appendix is authored in this same document so that
-% cross-references resolve in one compile, and the resulting PDF is SPLIT before
-% submission: pages 1..N -> the paper, the rest -> the supplementary.
-% *** DO NOT UPLOAD THIS PDF UNSPLIT. ***
-% Appendix floats keep the "A" prefix (Table A1, Figure A1) so they are never
-% confused with the main paper's Table 1 / Figure 1; the counters restart at 1.
-\clearpage
-\setcounter{page}{1}
-\maketitlesupplementary
-\renewcommand{\thetable}{A\arabic{table}}
-\renewcommand{\thefigure}{A\arabic{figure}}
-\setcounter{table}{0}
-\setcounter{figure}{0}
-\input{sec/7_appendix}
+% The supplementary material is a separate document: suppl.tex (own compile, own PDF).
 
 \end{document}
