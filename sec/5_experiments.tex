@@ -134,7 +134,7 @@ untrained LLaVA-OV, LM only & --\abno & --\abno & 87.0\abdn{3.1} & 89.4\abdn{2.4
 
 \subsubsection{Conditional Defect-Type Recognition}
 We evaluate candidate-list-conditioned defect-type classification on known-anomalous images of VisA and MPDD (Table~\ref{tab:multytype_zero_shot_detection_performance}). The prompt supplies the target object's possible coarse defect labels and asks for one label; compound defects may form a \emph{combined} class, rather than being decoded as multiple independent labels. The mapped evaluation subsets contain $916$ VisA and $282$ MPDD images; unmapped labels are excluded (supplement).
-GenAU-7B, the checkpoint of Table~\ref{tab:binary}, obtains weighted F1 of $33.4\%$ and $89.5\%$, respectively, the highest values in this table. Three of the six MPDD objects have a single candidate label, so an oracle predicting each object's most frequent label already reaches $76.0\%$ there ($31.4\%$ on VisA). Anomaly-OV-0.5B/7B are our MVTec-trained reproductions with a two-turn detect-then-classify prompt. MultiADS, designed for multi-type segmentation, is converted to detection by thresholding its per-type channels at $0.5$; its comparison is therefore operating-point-dependent, not evidence of superiority under an optimized threshold. VisA's finer, object-dependent taxonomy remains difficult despite its higher precision.
+GenAU-7B, the checkpoint of Table~\ref{tab:binary}, obtains weighted F1 of $33.4\%$ and $89.5\%$, respectively, the highest values in this table. MultiADS is converted to detection by thresholding its per-type channels at $0.5$, so its comparison depends on that operating point.
 
 \begin{table}
 \small

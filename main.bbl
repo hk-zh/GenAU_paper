@@ -1,4 +1,4 @@
-\begin{thebibliography}{43}
+\begin{thebibliography}{42}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -192,12 +192,6 @@ Wenxin Ma, Xu Zhang, Qingsong Yao, Fenghe Tang, Chenxu Wu, Yingtai Li, Rui Yan,
   {CLIP}.
 \newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
   and Pattern Recognition (CVPR)}, 2025.
-
-\bibitem[Mokhtar et~al.(2025)Mokhtar, Mousakhan, Galesso, Tayyub, and
-  Brox]{mokhtar2025detectclassifyactcategorizing}
-Sassan Mokhtar, Arian Mousakhan, Silvio Galesso, Jawad Tayyub, and Thomas Brox.
-\newblock Detect, classify, act: Categorizing industrial anomalies with
-  multi-modal large language models, 2025.
 
 \bibitem[Nazer et~al.(2026)Nazer, Zhou, Halilaj, Sadikaj, and
   Staab]{nazer2025dapo}
