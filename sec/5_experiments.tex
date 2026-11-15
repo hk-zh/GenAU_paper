@@ -139,13 +139,12 @@ GenAU-7B, the checkpoint of Table~\ref{tab:binary}, obtains weighted F1 of $33.4
 \begin{table}
 \small
 \centering
-\caption[Conditional defect-type recognition.]{Conditional defect-type recognition on mapped anomalous images (\%). GenAU uses the checkpoints of Table~\ref{tab:binary}; the prompt and scorer exclude normal as an option. \textbf{Bold}: highest reported value per column. Anomaly-OV uses our MVTec-trained two-turn reproductions; MultiADS uses a fixed $0.5$ channel threshold. Majority label: each object's most frequent label.}
+\caption[Conditional defect-type recognition.]{Conditional defect-type recognition on mapped anomalous images (\%). GenAU uses the checkpoints of Table~\ref{tab:binary}; the prompt and scorer exclude normal as an option. \textbf{Bold}: highest reported value per column. Anomaly-OV uses our MVTec-trained two-turn reproductions; MultiADS uses a fixed $0.5$ channel threshold.}
 \label{tab:multytype_zero_shot_detection_performance}
 \begin{tabular}{@{}llccc@{}}
 \toprule
 \textbf{Dataset}          & \textbf{Model} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} \\ \midrule
-\multirow{6}{*}{VisA}     & Majority label   & --            & --            & 31.4          \\
-                          & MultiADS         & 17.4          & \textbf{57.7} & 18.6          \\
+\multirow{5}{*}{VisA}     & MultiADS         & 17.4          & \textbf{57.7} & 18.6          \\
                           & Anomaly-OV-0.5b  & 18.4          & 11.1          & 9.3           \\
                           & Anomaly-OV-7b  & 42.1          & 30.9          & 21.1           \\
                           \cline{2-5}
@@ -153,8 +152,7 @@ GenAU-7B, the checkpoint of Table~\ref{tab:binary}, obtains weighted F1 of $33.4
 % Segmentation-only checkpoints gave 0.5b 20.3/21.5/16.4, 18.7/30.5/23.2 and 7b 51.3/42.6/37.4, 92.7/87.9/89.2.
                           & GenAU-0.5b         & 31.1 & 20.9          & 13.8 \\
                           & GenAU-7b         & \textbf{52.4} & 38.3          & \textbf{33.4} \\ \midrule
-\multirow{6}{*}{MPDD}     & Majority label   & --            & --            & 76.0          \\
-                          & MultiADS         & 34.0          & 51.3          & 32.7          \\
+\multirow{5}{*}{MPDD}     & MultiADS         & 34.0          & 51.3          & 32.7          \\
                           & Anomaly-OV-0.5b  & 60.1          & 30.5           & 29.9          \\
                           & Anomaly-OV-7b  & 87.1          & 65.8           & 65.1          \\
                           \cline{2-5}
