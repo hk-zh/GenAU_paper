@@ -119,10 +119,12 @@ author-reviewed.)
 
 ## Still to do
 
-- [ ] 👤 **Pick the title.** Unchanged from the ICLR draft and still says *"Language-Grounded"*,
-      which the `lqa` learned-query control refutes (random anchors tie or beat text anchors on both
-      datasets). `../GenAU/ICLR_TODO.md` LOCKED DECISION 1 says it must change and lists candidates.
-      Flagged in a comment in `main.tex`. **Nothing else is blocked on this.**
+- [x] 👤 **Title.** *"GenAU: Language-Grounded Industrial Anomaly Understanding with One
+      Vision-Language Model"* (author's choice, reverses `../GenAU/ICLR_TODO.md` LOCKED DECISION 1).
+      The term is used in the weak sense defined in `sec/1_intro.tex`: localization is read out from
+      tokens generated within the textual response. The `lqa` learned-query control (decoder anchors
+      lead on VisA, trail on MPDD and Real-IAD in mean pixel-AUPRO) does NOT support the stronger
+      reading that linguistic semantics drive localization -- do not claim it.
 - [ ] 👤 Fill in `\def\paperID{*****}` once CVPR assigns one.
 - [ ] 👤 Split the PDF before submission (above).
 - [ ] Visual pass on the two-column tables and figures — **nothing has been eyeballed**; there is no

@@ -1,4 +1,4 @@
-\begin{thebibliography}{36}
+\begin{thebibliography}{43}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -25,6 +25,15 @@ Paul Bergmann, Michael Fauser, David Sattlegger, and Carsten Steger.
   anomaly detection.
 \newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
   and Pattern Recognition (CVPR)}, 2019.
+
+\bibitem[Bergmann et~al.(2022)Bergmann, Batzner, Fauser, Sattlegger, and
+  Steger]{bergmann2022loco}
+Paul Bergmann, Kilian Batzner, Michael Fauser, David Sattlegger, and Carsten
+  Steger.
+\newblock Beyond dents and scratches: Logical constraints in unsupervised
+  anomaly detection and localization.
+\newblock \emph{International Journal of Computer Vision}, 130\penalty0
+  (4):\penalty0 947--969, 2022.
 
 \bibitem[Cao et~al.(2024)Cao, Zhang, Frittoli, Cheng, Shen, and
   Boracchi]{Cao_2024}
@@ -113,6 +122,15 @@ Stepan Jezek, Martin Jonak, Radim Burget, Pavel Dvorak, and Milos Skotak.
   Telecommunications and Control Systems and Workshops (ICUMT)}, pages 66--71,
   2021.
 
+\bibitem[Jiang et~al.(2025)Jiang, Li, Deng, Liu, Gao, Zhou, Li, Wang, and
+  Zheng]{jiang2025mmad}
+Xi Jiang, Jian Li, Hanqiu Deng, Yong Liu, Bin-Bin Gao, Yifeng Zhou, Jialin Li,
+  Chengjie Wang, and Feng Zheng.
+\newblock {MMAD}: A comprehensive benchmark for multimodal large language
+  models in industrial anomaly detection.
+\newblock In \emph{International Conference on Learning Representations
+  (ICLR)}, 2025.
+
 \bibitem[Lai et~al.(2024)Lai, Tian, Chen, Li, Yuan, Liu, and
   Jia]{lai2024lisareasoningsegmentationlarge}
 Xin Lai, Zhuotao Tian, Yukang Chen, Yanwei Li, Yuhui Yuan, Shu Liu, and Jiaya
@@ -138,6 +156,13 @@ Xurui Li, Ziming Huang, Feng Xue, and Yu Zhou.
 \newblock Musc: Zero-shot industrial anomaly classification and segmentation
   with mutual scoring of the unlabeled images, 2024{\natexlab{b}}.
 
+\bibitem[Li et~al.(2023)Li, Wang, Yuan, Liu, Zhao, Guo, Xu, Shi, and
+  Zuo]{li2023myriad}
+Yuanze Li, Haolin Wang, Shihao Yuan, Ming Liu, Debin Zhao, Yiwen Guo, Chen Xu,
+  Guangming Shi, and Wangmeng Zuo.
+\newblock Myriad: Large multimodal model by applying vision experts for
+  industrial anomaly detection, 2023.
+
 \bibitem[Li et~al.(2024{\natexlab{c}})Li, Goodge, Liu, and Foo]{Li_2024_WACV}
 Yiting Li, Adam Goodge, Fayao Liu, and Chuan-Sheng Foo.
 \newblock Promptad: Zero-shot anomaly detection using text prompts.
@@ -159,6 +184,15 @@ Zhijian Liu, Ligeng Zhu, Baifeng Shi, Zhuoyang Zhang, Yuming Lou, Shang Yang,
   Kautz, Hongxu Yin, Song Han, and Yao Lu.
 \newblock Nvila: Efficient frontier visual language models, 2025.
 
+\bibitem[Ma et~al.(2025)Ma, Zhang, Yao, Tang, Wu, Li, Yan, Jiang, and
+  Zhou]{ma2025aaclip}
+Wenxin Ma, Xu Zhang, Qingsong Yao, Fenghe Tang, Chenxu Wu, Yingtai Li, Rui Yan,
+  Zihang Jiang, and S.~Kevin Zhou.
+\newblock {AA-CLIP}: Enhancing zero-shot anomaly detection via anomaly-aware
+  {CLIP}.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition (CVPR)}, 2025.
+
 \bibitem[Mokhtar et~al.(2025)Mokhtar, Mousakhan, Galesso, Tayyub, and
   Brox]{mokhtar2025detectclassifyactcategorizing}
 Sassan Mokhtar, Arian Mousakhan, Silvio Galesso, Jawad Tayyub, and Thomas Brox.
@@ -178,6 +212,14 @@ Guansong Pang, Chunhua Shen, Longbing Cao, and Anton Van~Den Hengel.
 \newblock Deep learning for anomaly detection: A review.
 \newblock \emph{ACM Comput. Surv.}, 54\penalty0 (2), 2021.
 
+\bibitem[Qu et~al.(2024)Qu, Tao, Prasad, Shen, Zhang, Gong, and
+  Ding]{qu2024vcpclip}
+Zhen Qu, Xian Tao, Mukesh Prasad, Fei Shen, Zhengtao Zhang, Xinyi Gong, and
+  Guiguang Ding.
+\newblock {VCP-CLIP}: A visual context prompting model for zero-shot anomaly
+  segmentation.
+\newblock In \emph{European Conference on Computer Vision (ECCV)}, 2024.
+
 \bibitem[Radford et~al.(2021)Radford, Kim, Hallacy, Ramesh, Goh, Agarwal,
   Sastry, Askell, Mishkin, Clark, et~al.]{radford2021}
 Alec Radford, Jong~Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh,
@@ -187,6 +229,23 @@ Alec Radford, Jong~Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh,
   supervision.
 \newblock In \emph{International conference on machine learning}, pages
   8748--8763. PMLR, 2021.
+
+\bibitem[Rasheed et~al.(2024)Rasheed, Maaz, Shaji, Shaker, Khan, Cholakkal,
+  Anwer, Xing, Yang, and Khan]{rasheed2024glamm}
+Hanoona Rasheed, Muhammad Maaz, Sahal Shaji, Abdelrahman Shaker, Salman Khan,
+  Hisham Cholakkal, Rao~M. Anwer, Eric Xing, Ming-Hsuan Yang, and Fahad~S.
+  Khan.
+\newblock {GLaMM}: Pixel grounding large multimodal model.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition (CVPR)}, 2024.
+
+\bibitem[Ren et~al.(2024)Ren, Huang, Wei, Zhao, Fu, Feng, and
+  Jin]{ren2024pixellm}
+Zhongwei Ren, Zhicheng Huang, Yunchao Wei, Yao Zhao, Dongmei Fu, Jiashi Feng,
+  and Xiaojie Jin.
+\newblock {PixelLM}: Pixel reasoning with large multimodal model.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition (CVPR)}, 2024.
 
 \bibitem[Sadikaj et~al.(2025)Sadikaj, Zhou, Halilaj, Schmid, Staab, and
   Plant]{sadikaj2025multiadsdefectawaresupervisionmultitype}
