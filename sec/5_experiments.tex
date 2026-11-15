@@ -179,10 +179,11 @@ Textual plausibility or reference agreement does not, however, establish the cor
 \begin{table}
 \small
 \centering
-\setlength{\tabcolsep}{6pt}
-\caption{Defect reasoning on VisA-D\&R~\cite{xu2025towards}, scored by GPT-4o (2024-08-06) on a $1$--$10$ scale with the same judge prompt for every row, and by SBERT, the cosine similarity between all-MiniLM-L6-v2 embeddings of answer and reference. VisA-D\&R poses two question categories per image: \emph{Low-level} perception questions, which ask the model to describe the anomaly, and \emph{Complex} causal-reasoning questions about its significance, likely cause, and prevention; we report both scores separately for each. Anomaly-OV is our retraining with its public code on GenAU's training data (segmentation conversations removed), without its pretrained anomaly expert, and with GenAU's LoRA recipe. GenAU uses the recipe of Table~\ref{tab:binary} (GPT-Scores from a retrained run of the same recipe); its first question carries the training instruction ``If yes, segment it.'', and segmentation tokens are removed from its answers before scoring.}
+\setlength{\tabcolsep}{2pt}
+\caption{Defect reasoning on VisA-D\&R~\cite{xu2025towards}, scored by 1) GPT-4o (2024-08-06) on a $1$--$10$ scale with the same judge prompt for every row, and by 2) SBERT, the cosine similarity between all-MiniLM-L6-v2 embeddings of answer and reference. \emph{Low-level} perception questions, which ask the model to describe the anomaly, and \emph{Complex} causal-reasoning questions about its significance, likely cause, and prevention.}
 \label{tab:reasoning}
 \begin{tabular}{@{}lcccc@{}}
+
 \toprule
 \multirow{2}{*}{\textbf{Model}} & \multicolumn{2}{c}{\textbf{GPT-Score}} & \multicolumn{2}{c}{\textbf{SBERT}} \\
 \cmidrule(lr){2-3} \cmidrule(lr){4-5}
