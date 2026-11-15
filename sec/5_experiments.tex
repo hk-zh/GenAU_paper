@@ -85,12 +85,12 @@ Overall, GenAU demonstrates that a single instruction-following VLM can achieve 
 \bottomrule
 \end{tabular*}
 \end{table}
-Qualitative results of GenAU and the best overall performer, MultiADS, are shown in Figure~\ref{fig:visa-visual-good} (and, for a failure case, Figure~\ref{fig:visa-visual-bad}). GenAU accurately segments visually salient defects such as \textit{hole}, \textit{broken}, and \textit{crack}, and produces cleaner, lower-noise segmentation maps than MultiADS. However, global-context or logic-dependent defects such as \textit{missing} components remain challenging. For these cases, similarity maps are low-confidence, often resulting in incomplete localization or misclassification of normal regions for both models (Figure~\ref{fig:visa-visual-bad}).
+Figure~\ref{fig:visa-visual-good} compares GenAU with AnomalyCLIP and Crane on VisA. GenAU localizes defects that both baselines miss or only partially cover, such as the misshapen capsule and the bent LED on the PCB, and matches them on clear-cut cases such as the cashew breakage, although its maps also respond weakly to some object boundaries. However, global-context or logic-dependent defects such as \textit{missing} components remain challenging: all three methods produce low-confidence maps that do not cover the absent part and respond to normal components instead (Figure~\ref{fig:visa-visual-bad}, right; see Section~\ref{subsec:logical}).
 
 \begin{figure}[h]
   \centering
   \includegraphics[width=1.0\columnwidth]{imgs/Visa-visual.jpg}
-  \caption{Visualization of anomaly segmentation under distribution shift from VisA. Results are compared with MultiADS.}
+  \caption{Anomaly segmentation on VisA (capsules, PCB, chewing gum, pipe fryum, cashew), compared with AnomalyCLIP and Crane. Ground truth is outlined in red (small defects are additionally marked with a dashed box). Each method uses one colour range across all samples; GenAU maps are smoothed with a Gaussian filter ($\sigma{=}4$), as in the baselines' test code.}
    \label{fig:visa-visual-good}
 \end{figure}
 
