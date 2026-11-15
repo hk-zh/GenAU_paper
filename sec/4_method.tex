@@ -85,14 +85,14 @@ The map maximum $s_{\mathrm{img}}$ is a purely visual readout. Because the decod
     +
     \tfrac{1}{2}\,\tilde{\ell}_{\mathrm{nd}},
 \end{equation}
-where $\ell_{\mathrm{nd}}$ is the decoder's normal/defect (yes/no) log-odds averaged over eight phrasings of the detection question (generic templates naming only the object category, listed in the supplement; the image prefix is encoded once and reused), and the visual score $\tilde{s}_{\mathrm{img}}$ and $\tilde{\ell}_{\mathrm{nd}}$ are each standardized by a frozen calibration estimated once on the training data, and no target-domain labels are used. Unless stated otherwise, all reported image-level results use $s_{\mathrm{fused}}$.
+where $\ell_{\mathrm{nd}}$ is the decoder's normal/defect (yes/no) log-odds averaged over eight phrasings of the detection question (generic templates naming only the object category, listed in Supp.~Sec.~B; the image prefix is encoded once and reused), and the visual score $\tilde{s}_{\mathrm{img}}$ and $\tilde{\ell}_{\mathrm{nd}}$ are each standardized by a frozen calibration estimated once on the training data, and no target-domain labels are used. Unless stated otherwise, all reported image-level results use $s_{\mathrm{fused}}$.
 
 
 
 \subsection{Textual Reasoning and Multi-Type Anomaly Detection}
 %We leverage the general-purpose visual understanding of large VLMs and adapt them for industrial anomaly detection through targeted fine-tuning on a single-label classification task. 
 % The model is trained to predict the specific defect type present in an image, enabling it to capture subtle, domain-specific visual cues such as surface imperfections, texture irregularities, and localized damage that are critical for industrial inspection. 
-For conditional defect-type recognition, GenAU receives a known-anomalous target image $\mathbf{X}_v$ and an instruction listing its object's coarse candidate labels $C_{\mathrm{target}}(o)$. It generates a response $\mathbf{X}_a$; a deterministic parser $\pi(\cdot)$ selects one label $\hat{y}'\in C_{\mathrm{target}}(o)$, or an unmatched sentinel counted as an error (supplement). Compound labels represent combinations as one class, rather than independent per-type predictions.
+For conditional defect-type recognition, GenAU receives a known-anomalous target image $\mathbf{X}_v$ and an instruction listing its object's coarse candidate labels $C_{\mathrm{target}}(o)$. It generates a response $\mathbf{X}_a$; a deterministic parser $\pi(\cdot)$ selects one label $\hat{y}'\in C_{\mathrm{target}}(o)$, or an unmatched sentinel counted as an error (Supp.~Sec.~E). Compound labels represent combinations as one class, rather than independent per-type predictions.
 % Thus, instead of learning a fixed classifier over $C_{\mathrm{train}}$, GenAU formulates multi-type anomaly detection as constrained conditional generation over $C_{\mathrm{target}}$, preserving language reasoning while producing domain-specific, machine-readable predictions.
 
 \subsection{Training Objective}
