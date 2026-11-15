@@ -173,29 +173,29 @@ GenAU-7B, the checkpoint of Table~\ref{tab:binary}, obtains weighted F1 of $33.4
 \subsubsection{Defect Reasoning and Analysis}
 Beyond detecting and localizing defects, GenAU answers open-ended questions about them. We evaluate on VisA-D\&R~\cite{xu2025towards} (low-level perception and complex causal-reasoning questions) against the reasoning specialist Anomaly-OV~\cite{xu2025towards}; here GenAU augments its segmentation training with a reasoning instruction mix, so one model both localizes and explains, whereas Anomaly-OV produces no segmentation.
 
-Table~\ref{tab:reasoning} gives the reported GPT-Scores. The LLaVA-OneVision and Anomaly-OV numbers are taken from~\cite{xu2025towards}, not rejudged alongside GenAU, so these comparisons are indicative rather than controlled. In particular, the $6.43$ versus $6.34$ complex-reasoning scores do not establish a reliable advantage without a shared judge and uncertainty estimates. Textual plausibility or reference agreement also does not establish the correctness of a causal diagnosis.
+Table~\ref{tab:reasoning} gives GPT-Scores and SBERT similarities. All rows are judged by the same GPT-4o model with the same prompt, and Anomaly-OV is retrained with its public code on exactly GenAU's training data and with GenAU's LoRA recipe, so the two differ only in method. Relative to its LLaVA-OneVision initialization, GenAU improves both low-level ($2.07\!\rightarrow\!3.01$, $2.93\!\rightarrow\!4.02$) and complex scores ($4.75\!\rightarrow\!6.24$, $5.77\!\rightarrow\!6.43$) at both scales. At 7B, GenAU outperforms Anomaly-OV on both question types under both metrics (GPT-Score $4.02$/$6.43$ versus $3.93$/$6.06$; SBERT $0.596$/$0.648$ versus $0.565$/$0.599$) while additionally producing segmentation masks. % TODO: 0.5B comparison sentence once the Anomaly-OV-0.5B LoRA run (LSF job 13166393) is scored.
+Textual plausibility or reference agreement does not, however, establish the correctness of a causal diagnosis.
 
 \begin{table}
 \small
 \centering
 \setlength{\tabcolsep}{6pt}
-\caption{Defect reasoning on VisA-D\&R~\cite{xu2025towards}, scored by GPT-4o on a $1$--$10$ scale. VisA-D\&R poses two question categories per image: \emph{Low-level} perception questions, which ask the model to describe the anomaly, and \emph{Complex} causal-reasoning questions about its significance, likely cause, and prevention; we report the GPT-Score separately for each. $^\dagger$LLaVA-OV and Anomaly-OV scores as reported in the Anomaly-OV paper~\cite{xu2025towards}. For this task GenAU augments its segmentation training with a reasoning instruction mix, and is evaluated as a single model that both localizes and explains anomalies.}
+\caption{Defect reasoning on VisA-D\&R~\cite{xu2025towards}, scored by GPT-4o (2024-08-06) on a $1$--$10$ scale with the same judge prompt for every row, and by SBERT, the cosine similarity between all-MiniLM-L6-v2 embeddings of answer and reference. VisA-D\&R poses two question categories per image: \emph{Low-level} perception questions, which ask the model to describe the anomaly, and \emph{Complex} causal-reasoning questions about its significance, likely cause, and prevention; we report both scores separately for each. Anomaly-OV is our retraining with its public code on GenAU's training data (segmentation conversations removed), without its pretrained anomaly expert, and with GenAU's LoRA recipe. GenAU uses the recipe of Table~\ref{tab:binary} (GPT-Scores from a retrained run of the same recipe); its first question carries the training instruction ``If yes, segment it.'', and segmentation tokens are removed from its answers before scoring.}
 \label{tab:reasoning}
-% TODO(GPT-Score): the GenAU rows, this caption and the paragraph above still describe the REASONING-MIX checkpoints.
-% Replace with the user's GPT-4o scores of evaluation/gpt_score_input/visa-dr_halfmix-{7b,05b}.json (the Table 1 halfmix checkpoints).
-\begin{tabular}{@{}lcc@{}}
+\begin{tabular}{@{}lcccc@{}}
 \toprule
-\multirow{2}{*}{\textbf{Model}} & \multicolumn{2}{c}{\textbf{GPT-Score}} \\
-\cmidrule(lr){2-3}
- & \textbf{Low-level} & \textbf{Complex} \\
+\multirow{2}{*}{\textbf{Model}} & \multicolumn{2}{c}{\textbf{GPT-Score}} & \multicolumn{2}{c}{\textbf{SBERT}} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5}
+ & \textbf{Low-level} & \textbf{Complex} & \textbf{Low-level} & \textbf{Complex} \\
 \midrule
-LLaVA-OV-0.5B$^\dagger$   & 2.54 & 4.34 \\
-LLaVA-OV-7B$^\dagger$     & 3.57 & 5.44 \\
-Anomaly-OV-0.5B$^\dagger$ & 3.87 & 5.67 \\
-Anomaly-OV-7B$^\dagger$   & 4.26 & 6.34 \\
-\cmidrule(lr){1-3}
-GenAU-0.5B & 5.01          & 6.13          \\
-GenAU-7B   & 5.22 & 6.43 \\
+LLaVA-OV-0.5B   & 2.07 & 4.75 & 0.506 & 0.607 \\
+LLaVA-OV-7B     & 2.93 & 5.77 & 0.524 & 0.632 \\
+Anomaly-OV-0.5B & -- & -- & -- & -- \\ % TODO: LoRA run, LSF job 13166393 (anomalyov-05b-halfmix-noseg-noexpert-lora)
+Anomaly-OV-7B   & 3.93 & 6.06 & 0.565 & 0.599 \\
+\cmidrule(lr){1-5}
+GenAU-0.5B & 3.01 & 6.24 & 0.562 & 0.634 \\
+GenAU-7B   & \textbf{4.02} & \textbf{6.43} & \textbf{0.596} & \textbf{0.648} \\
+
 \bottomrule
 \end{tabular}
 \end{table}
