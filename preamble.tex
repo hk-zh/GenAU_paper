@@ -17,6 +17,7 @@
 % --- required by this paper and NOT provided by cvpr.sty ---
 \usepackage{multirow}   % \multirow in the result/ablation tables
 \usepackage{colortbl}   % \rowcolor{gray!20} (the "table" feature of xcolor)
+\usepackage{tabularx}   % column-width ablation table (Table 2)
 \usepackage{tikz}       % motivation radar chart (Fig. 1)
 \usepackage{microtype}  % char protrusion + font expansion: tighter lines, fewer runts
 
@@ -24,6 +25,13 @@
 \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}      % top/bottom single-col floats
 \setlength{\intextsep}{10pt plus 2pt minus 2pt}         % [h] floats
 \setlength{\dbltextfloatsep}{12pt plus 2pt minus 2pt}   % full-width figure*/table*
+
+% --- ablation-table deltas to the default row: fixed-width box keeps the numbers aligned
+\newcommand{\abd}[2]{\makebox[1.9em][l]{\textsubscript{\textcolor{#1}{#2}}}}
+\newcommand{\abup}[1]{\abd{ForestGreen}{$+$#1}}
+\newcommand{\abdn}[1]{\abd{BrickRed}{$-$#1}}
+\newcommand{\abeq}{\abd{gray}{$\pm$0.0}}
+\newcommand{\abno}{\abd{black}{}}
 
 % --- inline annotations
 \newcommand{\red}[1]{{\color{red}#1}}

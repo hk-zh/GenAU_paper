@@ -608,7 +608,7 @@ Every task uses the checkpoint of Table~\ref{tab:binary}, without weight changes
 
 \section{Additional Ablations}
 \label{app:ablation}
-Table~\ref{tab:ablations} ablates, on MVTec-AD$\rightarrow$VisA, four training choices of the segmentation-only recipe with a frozen cross-modal projector (the \emph{frozen projector} row of Table~\ref{tab:ablations_main}): the text-to-segmentation loss weight $\lambda$, the number of intermediate vision-encoder stages $m$ supplying the segmentation readout, whether the cross-modal projection to the LLM is trainable, and whether the vision encoder itself is unfrozen. Each row changes a single factor relative to the shaded reference row.
+Table~\ref{tab:ablations} ablates, on MVTec-AD$\rightarrow$VisA, four training choices of the segmentation-only recipe with a frozen cross-modal projector: the text-to-segmentation loss weight $\lambda$, the number of intermediate vision-encoder stages $m$ supplying the segmentation readout, whether the cross-modal projection to the LLM is trainable, and whether the vision encoder itself is unfrozen. Each row changes a single factor relative to the shaded reference row.
 
 Raising the text-to-segmentation weight to $\lambda=5$ changes little: pixel-AUROC rises by $0.6$, and pixel-AUPRO and image-AUROC each fall by $0.2$ points, so we keep the balanced $\lambda=1$. Reducing the segmentation readout to $m=3$ intermediate stages is also close to neutral (pixel-AUPRO $88.4$ vs.\ $88.7$, image-AUROC $90.7$ vs.\ $90.5$), so the fourth stage adds little. Making the cross-modal projection trainable slightly improves both pixel metrics ($+0.5$ AUROC and AUPRO) but lowers image-AUROC by $0.6$ points; on segmentation-only data the difference is small, and the default recipe trains the projector because, with reasoning conversations in the training data, it recovered localization in our development runs. Finally, unfreezing the vision encoder is markedly harmful, collapsing pixel-AUPRO to $81.8$ and image-AUROC to $75.6$ --- far below every other configuration --- as the encoder over-fits the small fine-tuning set and forgets its general visual features; freezing it is therefore essential.
 
@@ -616,7 +616,7 @@ Raising the text-to-segmentation weight to $\lambda=5$ changes little: pixel-AUR
 \centering
 \small
 \setlength{\tabcolsep}{3pt}
-\caption{Ablation of single training factors on MVTec-AD$\rightarrow$VisA. The shaded row is the segmentation-only GenAU-7B with a frozen projector ($m{=}4$, $\lambda{=}1$, vision encoder frozen; \emph{frozen projector} in Table~\ref{tab:ablations_main}); each subsequent row changes one factor. Image columns use the fused score of Table~\ref{tab:binary}. All metrics in \%.}
+\caption{Ablation of single training factors on MVTec-AD$\rightarrow$VisA. The shaded row is the segmentation-only GenAU-7B with a frozen projector ($m{=}4$, $\lambda{=}1$, vision encoder frozen); each subsequent row changes one factor. Image columns use the fused score of Table~\ref{tab:binary}. All metrics in \%.}
 \label{tab:ablations}
 \begin{tabular}{@{}l|cc|cc@{}}
 \toprule
@@ -695,7 +695,7 @@ Autoregressive VLMs provide a different paradigm for anomaly understanding by en
 \section{Detailed Evaluation Metrics}
 \label{app:metrics}
 We adopt standard metrics for each task. For image-level anomaly detection, we report the Area Under the Receiver Operating Characteristic Curve (AUROC) and Average Precision (AP). For segmentation, we report the pixel-level AUROC and the Area Under the Per-Region Overlap (AUPRO). For multi-type anomaly detection, we use weighted Precision, Recall, and F1-score to account for the strong class imbalance across defect categories. For defect reasoning, we follow the VisA-D\&R protocol~\cite{xu2025towards} and report a GPT-Score in which GPT-4o rates each response on a $1$--$10$ scale, separately for low-level (perception) and complex (causal-reasoning) questions.
-The local reference-similarity evaluation uses $1{,}000$ VisA-D\&R entries: turn $0$ is low-level perception and later turns are complex reasoning. ROUGE-L uses stemmed token overlap and has overall F-measure $0.306$; SBERT uses \texttt{all-MiniLM-L6-v2} cosine similarity, with low-level/complex scores $0.571$/$0.666$ and overall $0.643$. These metrics quantify reference agreement, not verified root causes. Published GPT baseline scores were not rejudged alongside GenAU; no significance claim is made from their numerical ordering.
+The local reference-similarity evaluation uses $1{,}000$ VisA-D\&R entries: turn $0$ is low-level perception and later turns are complex reasoning. SBERT uses \texttt{all-MiniLM-L6-v2} cosine similarity, with low-level/complex scores $0.579$/$0.664$ and overall $0.643$. These metrics quantify reference agreement, not verified root causes. All baselines in Table~\ref{tab:reasoning} are generated and scored with this same pipeline; published scores are not used.
 
 \section{Qualitative Results}
 \label{app:qualitative}
