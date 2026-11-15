@@ -20,7 +20,7 @@ GenAU couples two jointly-trained pathways (Figure~\ref{fig:Model-Arch}): (1) a 
 % $\mathbf{S}_i = \frac{\mathbf{z}_i^p}{\|\mathbf{z}_i^p\|} \cdot \frac{\mathbf{z}_i^t}{\|\mathbf{z}_i^t\|},$
 % where $\mathbf{S}_i \in \mathbb{R}^{h \times w \times 2}$, and the two channels correspond to the similarity with the normal and defect descriptors, respectively.
 % The similarity maps are upsampled to the input resolution and normalized across channels via softmax, yielding a per-pixel anomaly probability map. A higher activation in the anomaly channel indicates stronger confidence of defect presence.
-GenAU performs anomaly localization by grounding visual features with the hidden states of generated segmentation tokens. Given an image $\mathbf{X}_v$ and an instruction $\mathbf{X}_q$, the autoregressive decoder generates a structured response containing the special tokens \texttt{[SEG\_normal]} and \texttt{[SEG\_defect]}. Let $\mathbf{h}_{\mathrm{normal}}, \mathbf{h}_{\mathrm{defect}}\in\mathbb{R}^{D}$ denote their final-layer decoder hidden states. These two vectors serve as anchors for the normal and defective states; through the decoder they are conditioned on the image, the instruction, and the preceding response:
+GenAU performs anomaly localization by grounding visual features with the hidden states of generated segmentation tokens. Given an image $\mathbf{X}_v$ and an instruction $\mathbf{X}_q$, the autoregressive decoder generates a structured response containing the special tokens \texttt{[SEG\_normal]} and \texttt{[SEG\_defect]}. Let $\mathbf{h}_{\mathrm{normal}}, \mathbf{h}_{\mathrm{defect}}\in\mathbb{R}^{D}$ denote their final-layer decoder hidden states. These two vectors serve as anchors for the normal and defective states; via the decoder they are conditioned on the image, instruction, and preceding response:
 \begin{equation}
     \mathbf{T}
     =
@@ -64,7 +64,7 @@ where \(\gamma\) is a fixed temperature scale. The two channels of \(\mathbf{S}_
 The stage-wise maps are aggregated by summation across the $m$ stages to form the final anomaly map $\mathbf{A}$, where higher values indicate a higher probability that the corresponding pixels belong to defective regions.
 
 \paragraph{AnyRes high-resolution readout.}
-The backbone encodes high-resolution inputs with an AnyRes scheme that, besides a global low-resolution view, splits the image into a grid of higher-resolution tiles. Applying the readout above to the global view alone yields a coarse low-resolution grid. To recover fine spatial detail, GenAU reassembles the patch features of the AnyRes tiles into a single high-resolution feature grid and computes the same anchor-grounded similarity maps on it. At inference, the high-resolution map $\mathbf{A}^{\mathrm{hi}}$ and the global-view map $\mathbf{A}^{\mathrm{g}}$ are fused per stage as $\mathbf{A}=(1-\beta)\,\mathbf{A}^{\mathrm{g}}+\beta\,\mathbf{A}^{\mathrm{hi}}$ with a fixed weight $\beta$. This high-resolution readout is used for all reported segmentation results.
+The backbone encodes high-resolution inputs with an AnyRes scheme that, besides a global low-resolution view, splits the image into a grid of higher-resolution tiles. Applying the readout above to the global view alone yields a coarse low-resolution grid. To recover fine spatial detail, GenAU reassembles the patch features of the AnyRes tiles into a single high-resolution feature grid and computes the same anchor-grounded similarity maps on it. At inference, the high-resolution map $\mathbf{A}^{\mathrm{hi}}$ and the global-view map $\mathbf{A}^{\mathrm{g}}$ are fused per stage as $\mathbf{A}=(1-\beta)\,\mathbf{A}^{\mathrm{g}}+\beta\,\mathbf{A}^{\mathrm{hi}}$ with a fixed weight $\beta$. All segmentation results use this high-resolution readout.
 
 \subsection{Image-level Anomaly Scoring}
 \label{subsec:img}
@@ -74,7 +74,7 @@ Building on the segmentation map above, GenAU computes the image-level anomaly s
     =
     \max_{(u,v)}\mathbf{A}(u,v),
 \end{equation}
-where a larger $s_{\mathrm{img}}$ indicates a higher probability that the image contains an anomaly. This score introduces no additional trainable parameters and is obtained entirely from the segmentation readout.
+where a larger $s_{\mathrm{img}}$ indicates a higher probability that the image contains an anomaly.
 
 \paragraph{Fused image-level score.}
 The map maximum $s_{\mathrm{img}}$ is a purely visual readout. Because the decoder additionally emits an explicit normal/defect decision, the image-level score we report is
@@ -85,7 +85,7 @@ The map maximum $s_{\mathrm{img}}$ is a purely visual readout. Because the decod
     +
     \tfrac{1}{2}\,\tilde{\ell}_{\mathrm{nd}},
 \end{equation}
-where $\ell_{\mathrm{nd}}$ is the decoder's normal/defect (yes/no) log-odds averaged over eight phrasings of the detection question (the question templates of the VisA and MPDD benchmarks; the image prefix is encoded once and reused), and the visual score $\tilde{s}_{\mathrm{img}}$ and $\tilde{\ell}_{\mathrm{nd}}$ are each standardized by a frozen calibration estimated once on MVTec (Appendix~\ref{app:impl}); no target-domain labels are used. Unless stated otherwise, all reported image-level results use $s_{\mathrm{fused}}$.
+where $\ell_{\mathrm{nd}}$ is the decoder's normal/defect (yes/no) log-odds averaged over eight phrasings of the detection question (generic templates naming only the object category, listed in Appendix~\ref{app:impl}; the image prefix is encoded once and reused), and the visual score $\tilde{s}_{\mathrm{img}}$ and $\tilde{\ell}_{\mathrm{nd}}$ are each standardized by a frozen calibration estimated once on MVTec (Appendix~\ref{app:impl}); no target-domain labels are used. Unless stated otherwise, all reported image-level results use $s_{\mathrm{fused}}$.
 
 
 
@@ -106,7 +106,7 @@ GenAU is optimized with a joint objective that supervises textual reasoning and 
     \lambda_{\mathrm{seg}}\mathcal{L}_{\mathrm{seg}},
     \label{eq:overall-loss}
 \end{equation}
-where $\lambda_{\mathrm{seg}}$ balances the language-modeling and pixel-level supervision terms. The image-level anomaly score is computed at inference from the segmentation map and the decoder's yes/no log-odds (Sec.~\ref{subsec:img}) and thus requires no dedicated training term.
+where $\lambda_{\mathrm{seg}}$ balances the language-modeling and pixel-level supervision terms.
 
 \paragraph{Text generation loss.}
 The textual reasoning objective is the standard autoregressive cross-entropy loss over the target response tokens:
@@ -124,7 +124,7 @@ The textual reasoning objective is the standard autoregressive cross-entropy los
     \right).
     \label{eq:text-loss}
 \end{equation}
-This term trains the model to generate domain-specific inspection responses, including defect-type descriptions and the required segmentation tokens. Prompt tokens and inserted visual tokens are excluded from the language modeling loss.
+This term trains the model to generate domain-specific inspection responses, including defect-type descriptions and the required segmentation tokens. Prompt tokens and inserted visual tokens are excluded from the loss.
 
 \paragraph{Pixel-level segmentation loss.}
 For anomaly segmentation, GenAU predicts stage-wise similarity maps $\{\mathbf{S}_i\}_{i=1}^{m}$, where each $\mathbf{S}_i$ contains normal and defect logits for visual patches at stage $i$. Let $\mathbf{A}_i$ and $\mathbf{A}_i^{\mathrm{n}}$ denote the defect- and normal-channel probability maps after upsampling and channel-wise softmax. Given a binary ground-truth mask $\mathbf{M}_x\in\{0,1\}^{H\times W}$, the segmentation loss is summed over all visual stages:
@@ -159,7 +159,7 @@ For anomaly segmentation, GenAU predicts stage-wise similarity maps $\{\mathbf{S
 The focal term mitigates the severe foreground/background imbalance; the Tversky term on the defect channel up-weights false negatives over false positives, improving region recall and AUPRO; and the Dice term on the normal channel suppresses false positives. For anomalous images $\mathbf{M}_x$ is the annotated mask; for normal images it is all-zero, giving negative supervision.
 
 \paragraph{Trainable parameters.}
-We use parameter-efficient fine-tuning: the vision encoder stays frozen, while the cross-modal projector, LoRA~\cite{hu2021loralowrankadaptationlarge} on the decoder, the token-embedding table and LM head (for the two segmentation tokens), the $m$ stage-wise projectors $\{\phi_i\}$, and the decoder layer-norms are trained jointly under Eq.~\ref{eq:overall-loss}.
+We use parameter-efficient fine-tuning: the vision encoder stays frozen, while the cross-modal projector, LoRA~\cite{hu2021loralowrankadaptationlarge} ($r{=}16$, $\alpha{=}32$) on the decoder, the token-embedding table and LM head (for the two segmentation tokens), the $m$ stage-wise projectors $\{\phi_i\}$, and the decoder layer-norms are trained jointly under Eq.~\ref{eq:overall-loss}.
 % To jointly optimize the model for textual reasoning and visual localization, we employ a composite objective combining text generation and segmentation supervision. The overall loss is defined as:
 % \begin{align}
 % \mathcal{L} =  \mathcal{L}_\text{txt} + \lambda_1 \mathcal{L}_\text{seg} + \lambda_2 \mathcal{L}_\text{img}, \label{eq:overall-loss}
@@ -215,7 +215,7 @@ We use parameter-efficient fine-tuning: the vision encoder stays frozen, while t
 % In parallel, the model produces an image-level anomaly score $a_x$, defined as the maximum activation in the anomaly channel. This score provides a quantitative measure of defect presence, complementing the text-based defect classification and enabling unified evaluation of both binary detection and segmentation performance.
 
 \subsection{Inference}
-For binary detection and segmentation, the instruction names the object category and asks \texttt{``Is there any anomaly on the \{object\}? If yes, segment it.''} Image-level scoring averages decoder yes/no log-odds over eight phrasings, reusing the image encoding. Conditional type recognition instead states that the image contains a defect and lists the object's candidate coarse labels: \texttt{``Identify the defect type. Choose exactly one option from this list: \{defect list\}.''}
+For binary detection and segmentation, the instruction names the object category and asks \texttt{``Is there any anomaly on the \{object\}? If yes, segment it.''} Conditional type recognition instead states that the image contains a defect and lists the object's candidate coarse labels: \texttt{``Identify the defect type. Choose exactly one option from this list: \{defect list\}.''}
 
-For detection and segmentation, the generated answer is followed by the two segmentation tokens. If they are omitted, we append them and read their hidden states with one additional forward pass, so every image receives a map independent of the textual normal/defect decision. Binary detection uses $s_{\mathrm{fused}}$; segmentation uses the AnyRes-fused map, with all-zero supervision on normal training images. Type recognition uses its separate forced-choice prompt and parser, and reasoning uses the conversational questions of VisA-D\&R. The same checkpoint can serve all four tasks, but these are separate task-conditioned evaluations, not necessarily one joint response per image.
+For detection and segmentation, the generated answer is followed by the two segmentation tokens. If they are omitted, we append them and read their hidden states with one additional forward pass, so every image receives a map independent of the textual normal/defect decision. Type recognition uses its separate forced-choice prompt and parser, and reasoning uses the conversational questions of VisA-D\&R. The same checkpoint can serve all four tasks, but these are separate task-conditioned evaluations, not necessarily one joint response per image.
 
