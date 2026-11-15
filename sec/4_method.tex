@@ -5,7 +5,7 @@ GenAU couples two jointly-trained pathways (Figure~\ref{fig:Model-Arch}): (1) a 
 \begin{figure*}[t]
   \centering
   \includegraphics[width=\textwidth]{imgs/GenAU_Arch.pdf}
-  \caption[Overview of the training phase of GenAU.]{Overview of GenAU training. A frozen image encoder feeds the LLM, which generates the defect type and the \texttt{[SEG]} tokens (cross-entropy). In parallel, per-layer projections of the intermediate patch features are matched against the \texttt{[SEG]} hidden states to form the similarity map (focal + Tversky + Dice).}
+  \caption[Overview of the training phase of GenAU.]{Overview of GenAU training. The frozen vision encoder feeds the trainable projector and the LoRA-adapted LLM decoder, which generates the response, here the defect type followed by \texttt{[SEG\_defect]} and \texttt{[SEG\_normal]}, supervised by cross-entropy against the ground-truth response ($\mathcal{L}_{\mathrm{txt}}$). In the visual grounding pathway, repeated for each of the $m$ encoder stages, the intermediate patch features $\mathbf{V}_i$ are linearly projected by $\phi_i$ to $\mathbf{Z}_i$ and compared by cosine similarity with the two \texttt{[SEG]} hidden states $\mathbf{T}=[\mathbf{h}_{\mathrm{normal}},\mathbf{h}_{\mathrm{defect}}]$; the upsampled, softmax-normalized maps $\mathbf{A}_i$ are supervised by the ground-truth mask with focal, Tversky, and Dice losses ($\mathcal{L}_{\mathrm{seg}}$). Both terms are optimized jointly; at inference, the stage maps are summed into the anomaly map (Sec.~\ref{subsec:seg}).}
    \label{fig:Model-Arch}
 \end{figure*}
 
