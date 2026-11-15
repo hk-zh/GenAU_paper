@@ -6,12 +6,9 @@
 % Build: pdflatex main -> bibtex main -> pdflatex main -> pdflatex main -> pdflatex main
 % (the third pass after bibtex is needed for the pagebackref lists to settle)
 %
-% NOTE ON THE TEMPLATE YEAR: there is no CVPR 2027 author kit yet (the newest
-% official release is CVPR2026-v1(latex); github.com/cvpr-org/author-kit main was
-% last updated 2026-05-28 and still says 2026). cvpr.sty is byte-identical to that
-% official file — every user-visible year comes from \confYear below, which is the
-% only thing that has changed between kit years. Re-check when the 2027 kit drops.
-
+% TEMPLATE: cvpr.sty is the official CVPR 2027 author kit file (tag CVPR2027-v1,
+% github.com/cvpr-org/author-kit, released 2026-10-28). The 2027 review format no
+% longer prints a paper ID, so \paperID is not defined.
 \documentclass[10pt,twocolumn,letterpaper]{article}
 
 %%%%%%%%% PAPER TYPE  - PLEASE UPDATE FOR FINAL VERSION
@@ -27,8 +24,6 @@
 \definecolor{cvprblue}{rgb}{0.21,0.49,0.74}
 \usepackage[pagebackref,breaklinks,colorlinks,allcolors=cvprblue]{hyperref}
 
-%%%%%%%%% PAPER ID  - PLEASE UPDATE
-\def\paperID{*****} % *** Enter the Paper ID here
 \def\confName{CVPR}
 \def\confYear{2027}
 
@@ -40,7 +35,7 @@
 
 %%%%%%%%% AUTHORS - PLEASE UPDATE
 % CVPR review submissions are double-blind. With \usepackage[review]{cvpr} the
-% style prints "Anonymous CVPR submission / Paper ID \paperID" instead of this
+% style prints "Anonymous CVPR submission" instead of this
 % block, so it only matters for the camera-ready.
 \author{First Author\\
 Institution1\\
