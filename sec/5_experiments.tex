@@ -92,7 +92,7 @@ Figure~\ref{fig:visa-visual-good} compares GenAU with AnomalyCLIP and Crane on V
 
 \noindent\textbf{Ablation Studies}.
 Replacing decoder-conditioned anchors with randomly initialized, trainable constant queries lowers VisA pixel-AUPRO from $88.7$ (its frozen-projector parent, Supp.~Sec.~F) to $87.4$. Under matched inference, decoder anchors improve pixel-AUPRO by $1.28$ points on VisA and $0.19$ on MPDD, but trail by $1.78$ on Real-IAD. Across three training seeds, the mean differences are $+4.40$, $-0.47$, and $-0.68$ points, respectively: the localization benefit is dataset-dependent, not universal. Both arms produce maps for every image, using the appended-token fallback when needed.
-Table~\ref{tab:ablations_main} varies one factor at a time on VisA. Removing the LM fusion (\emph{map-max only}) lowers image-AUROC by $2.0$ points ($90.1\!\rightarrow\!88.1$), though map-max alone already beats every CLIP baseline; fusing the log-odds of only the single question an image is asked recovers $0.8$ of them ($88.9$), so averaging over phrasings supplies most of the gain. The VLM prior is useful by itself: untrained LLaVA-OneVision, asked the same eight questions, reaches $87.0$ image-AUROC from its yes/no log-odds alone, above every CLIP baseline on VisA in Table~\ref{tab:binary} and on par with the best on Real-IAD ($84.4$ versus DAPO's $84.3$); fine-tuning raises this term to $89.2$. Training on segmentation alone, at the same $53$ steps, adds $1.8$ pixel-AUPRO but no detection, and segmentation-only checkpoints answer complex VisA-D\&R questions poorly (complex-question SBERT $0.576$ versus $0.664$ under the plain prompt; Supp.~Sec.~E). Giving every training image a reasoning conversation (\emph{full reasoning mix}) instead doubles the optimization steps and, relative to its frozen-projector parent, costs $3.5$ image-AUROC and $2.9$ pixel-AUPRO, so our default embeds reasoning in half of the samples at an unchanged budget. Freezing the LLM decoder -- keeping the adapter attached but untrained -- leaves detection and localization nearly unchanged ($90.0$ image-AUROC, $88.0$ AUPRO), but the frozen decoder rarely emits the segmentation tokens on its own (they are appended for $1{,}984$ of $2{,}162$ VisA images): adapting the decoder lets the model request segmentation itself, rather than improving the readout or the decision. Hyper-parameter ablations are in Supp.~Sec.~F.
+Table~\ref{tab:ablations_main} varies one factor at a time on VisA (hyper-parameter ablations in Supp.~Sec.~F). Removing the LM fusion (\emph{map-max only}) lowers image-AUROC by $2.0$ points ($90.1\!\rightarrow\!88.1$), though map-max alone already beats every CLIP baseline; fusing the log-odds of only the single question an image is asked recovers $0.8$ of them ($88.9$), so averaging over phrasings supplies most of the gain. The VLM prior is useful by itself: untrained LLaVA-OneVision, asked the same eight questions, reaches $87.0$ image-AUROC from its yes/no log-odds alone, above every CLIP baseline on VisA in Table~\ref{tab:binary} and on par with the best on Real-IAD ($84.4$ versus DAPO's $84.3$); fine-tuning raises this term to $89.2$. Training on segmentation alone, at the same $53$ steps, brings no gain in localization ($89.2$ versus $89.1$ pixel-AUPRO) or detection, while segmentation-only checkpoints answer complex VisA-D\&R questions poorly (complex-question SBERT $0.576$ versus $0.664$ under the plain prompt; Supp.~Sec.~E). Giving every training image a reasoning conversation (\emph{full reasoning mix}) instead doubles the optimization steps and, relative to its frozen-projector parent, costs $3.5$ image-AUROC and $2.9$ pixel-AUPRO, so our default embeds reasoning in half of the samples at an unchanged budget. Freezing the LLM decoder -- keeping the adapter attached but untrained -- leaves detection and localization nearly unchanged ($90.0$ image-AUROC, $88.0$ AUPRO), but the frozen decoder rarely emits the segmentation tokens on its own (they are appended for $1{,}984$ of $2{,}162$ VisA images): adapting the decoder lets the model request segmentation itself, rather than improving the readout or the decision.
 
 \begin{table}
 \footnotesize
@@ -116,14 +116,14 @@ Table~\ref{tab:ablations_main} varies one factor at a time on VisA. Removing the
 % These rows use fusion_calib_tversky_ens8.json. frozen LLM = noreason-proj-lm05-nolora-s42 (projector trained, LM-loss weight 0.5).
 % LQA image columns: 8-phrasing dump job 5190332 (single-question score was 86.7 / 89.1).
 \rowcolor{gray!20}
-GenAU-7B (default) & 94.4\abno & 87.4\abno & 90.1\abno & 91.8\abno \\
+GenAU-7B (default) & 94.4\abno & 89.1\abno & 90.1\abno & 91.8\abno \\
 \midrule
-\quad w/o LM fusion & 94.4\abeq & 87.4\abeq & 88.1\abdn{2.0} & 89.1\abdn{2.7} \\
-\quad single-question LM term & 94.4\abeq & 87.4\abeq & 88.9\abdn{1.2} & 90.1\abdn{1.7} \\
-\quad segmentation only & 95.6\abup{1.2} & 89.2\abup{1.8} & 89.9\abdn{0.2} & 91.5\abdn{0.3} \\
-\qquad frozen LLM$^\ast$ & 95.2\abup{0.8} & 88.0\abup{0.6} & 90.0\abdn{0.1} & 91.7\abdn{0.1} \\
-\qquad learned-query anchors$^\dagger$ & 94.3\abdn{0.1} & 87.4\abeq & 89.0\abdn{1.1} & 90.9\abdn{0.9} \\
-\qquad full reasoning mix$^\dagger$ & 95.1\abup{0.7} & 85.8\abdn{1.6} & 87.0\abdn{3.1} & 89.6\abdn{2.2} \\
+\quad w/o LM fusion & 94.4\abeq & 89.1\abeq & 88.1\abdn{2.0} & 89.1\abdn{2.7} \\
+\quad single-question LM term & 94.4\abeq & 89.1\abeq & 88.9\abdn{1.2} & 90.1\abdn{1.7} \\
+\quad segmentation only & 95.6\abup{1.2} & 89.2\abup{0.1} & 89.9\abdn{0.2} & 91.5\abdn{0.3} \\
+\qquad frozen LLM$^\ast$ & 95.2\abup{0.8} & 88.0\abdn{1.1} & 90.0\abdn{0.1} & 91.7\abdn{0.1} \\
+\qquad learned-query anchors$^\dagger$ & 94.3\abdn{0.1} & 87.4\abdn{1.7} & 89.0\abdn{1.1} & 90.9\abdn{0.9} \\
+\qquad full reasoning mix$^\dagger$ & 95.1\abup{0.7} & 85.8\abdn{3.3} & 87.0\abdn{3.1} & 89.6\abdn{2.2} \\
 \midrule
 % Base LLaVA-OV-7B, no anomaly training: mean yes/no log-odds over the 8 phrasings only (evaluation/lm_decision/base-visa_s*.npz).
 untrained LLaVA-OV, LM only & --\abno & --\abno & 87.0\abdn{3.1} & 89.4\abdn{2.4} \\
