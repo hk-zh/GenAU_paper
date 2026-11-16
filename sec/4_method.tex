@@ -27,7 +27,6 @@ GenAU performs anomaly localization by grounding visual features with the hidden
     [\mathbf{h}_{\mathrm{normal}}, \mathbf{h}_{\mathrm{defect}}]
     \in \mathbb{R}^{2\times D}.
 \end{equation}
-
 The input image is processed by the frozen vision encoder to obtain multi-scale patch features from intermediate and final stages,
 \(\{\mathbf{V}_i\}_{i=1}^{m}\), where
 \(\mathbf{V}_i\in\mathbb{R}^{H_iW_i\times C_i}\) denotes the patch features from the \(i\)-th stage. Since the visual features and decoder hidden states lie in different representation spaces, each stage is equipped with its own \emph{linear} projection layer
@@ -39,7 +38,6 @@ The input image is processed by the frozen vision encoder to obtain multi-scale 
     \in
     \mathbb{R}^{H_iW_i\times D}.
 \end{equation}
-
 For each stage, we compute cosine-similarity logits between every projected patch feature and the two segmentation-token anchors:
 \begin{equation}
     \mathbf{S}_i

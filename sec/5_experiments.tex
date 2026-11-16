@@ -98,7 +98,7 @@ Table~\ref{tab:ablations_main} varies one factor at a time on VisA (hyper-parame
 \footnotesize
 \centering
 \setlength{\tabcolsep}{2pt}
-\caption{GenAU-7B ablations on VisA (\%). The shaded row is our default; each indented row changes the stated factor of the nearest less-indented row above it. Subscripts give the difference to the default row. $^\ast$Also halves the text-loss weight. $^\dagger$Also freezes the projector; the direct parent is the frozen-projector reference row in Supp.~Sec.~F (88.7 AUPRO, 90.5 image-AUROC). Image columns use the fused score of Table~\ref{tab:binary}.}
+\caption{GenAU-7B ablations on VisA (\%). The shaded row is our default; each indented row changes the stated factor of the nearest less-indented row above it. Subscripts give the difference to the default row. $^\ast$Also halves the text-loss weight. $^\dagger$Also freezes the projector. Image columns use the fused score of Table~\ref{tab:binary}.}
 \label{tab:ablations_main}
 \begin{tabularx}{\columnwidth}{@{}X*{4}{c}@{}}
 \toprule
@@ -176,7 +176,7 @@ Textual plausibility or reference agreement does not, however, establish the cor
 \small
 \centering
 \setlength{\tabcolsep}{2pt}
-\caption{Defect reasoning on VisA-D\&R~\cite{xu2025towards}, scored by 1) GPT-4o on a $1$--$10$ scale with the same judge prompt for every row, and by 2) SBERT, the cosine similarity between all-MiniLM-L6-v2 embeddings of answer and reference. \emph{Low-level} perception questions, which ask the model to describe the anomaly, and \emph{Complex} causal-reasoning questions about its significance, likely cause, and prevention.}
+\caption{Defect reasoning on VisA-D\&R~\cite{xu2025towards}, scored by 1) GPT-4o on a $1$--$10$ scale with the same judge prompt for every row, and by 2) SBERT, the cosine similarity between all-MiniLM-L6-v2 embeddings of answer and reference. \emph{Low-level} perception questions, which ask the model to describe the anomaly, and \emph{Complex} causal-reasoning questions about its significance, cause, and prevention.}
 \label{tab:reasoning}
 \begin{tabular}{@{}lcccc@{}}
 
