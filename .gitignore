@@ -21,7 +21,8 @@
 # (no supp.pdf here: the appendix is authored inside main.tex and the compiled
 #  main.pdf is SPLIT into paper + supplementary before submission -- see main.tex)
 
-# Note: *.bbl is intentionally NOT ignored (kept for submission/reproducibility).
+# BibTeX output; regenerate with a full compile before an arXiv upload (arXiv needs it).
+*.bbl
 
 # --- figures the paper includes that the repo-wide *.pdf / visa* rules would drop ---
 !/imgs/GenAU_Arch.pdf
