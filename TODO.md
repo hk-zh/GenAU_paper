@@ -1,7 +1,7 @@
 # GenAU (CVPR 2027): supplementary checklist
 
-Status, 2026-11-21: the supplementary (`suppl.tex` → `sec/7_appendix.tex`, compiled to
-`appendix.pdf`) is ready for upload; `git log -p -- sec/7_appendix.tex` shows the changes.
+Status, 2026-11-21: the supplementary sources (`suppl.tex` → `sec/7_appendix.tex`) are final, but
+`appendix.pdf` must be recompiled (qualitative figures updated); `git log -p -- sec/7_appendix.tex` shows the changes.
 Paths starting with `../` are in the parent GenAU repo.
 
 ## Before uploading the supplementary
@@ -15,16 +15,20 @@ Paths starting with `../` are in the parent GenAU repo.
   - The Real-IAD taxonomy tables (Real-IAD is not used for type recognition).
   - The old single/multi-defect image counts in Table A1 (VisA 923/277 and MVTec-AD 1,200/58 could
     not be reproduced from `../anomaly_dataset/`).
-- [ ] Confirm that the five qualitative figures (`imgs/tubes.jpg`, `capsules.jpg`, `pipe-fryum.jpg`,
-      `mounts.jpg`, `rolled_strip_base.jpg`) come from the reported halfmix checkpoint. They date from
-      the initial commit; re-render with `../scripts/figures/render_qual.py` if not.
-- [ ] Upload `appendix.pdf` (10 pages, review format). Anonymity was checked: no author metadata or
+- [x] Re-rendered the five qualitative figures (`imgs/tubes.jpg`, `capsules.jpg`, `pipe-fryum.jpg`,
+      `mounts.jpg`, `rolled_strip_base.jpg`) from the reported 7B halfmix checkpoint
+      (`../scripts/figures/suppl_qual_maps.bsub`, `../scripts/figures/select_suppl_qual.py`, `render_qual.py`);
+      samples spread over defect types and AP quantiles, not best-case. Qualitative Results text and captions rewritten.
+- [ ] Recompile `appendix.pdf` from `suppl.tex`: the committed PDF still has the old figures (no TeX
+      install works on the cluster: tectonic's bundle is blocked by the proxy, TeX Live 2018 lacks libpoppler).
+      Check the page count afterwards.
+- [ ] Upload `appendix.pdf` (review format; was 10 pages before the figure update). Anonymity was checked: no author metadata or
       local paths; the only author name is in the MultiADS reference.
 - [ ] Optional: add a language example figure built from real outputs of the reported checkpoint
       (e.g. VisA-D&R answers), never from `imgs/text.pdf`.
 
 ## Housekeeping
 
-- [ ] `../scripts/data_prep/defect_mappings.py` is a stale taxonomy (the evaluation and the appendix
-      tables use `defect_mappings_multiads.py`); rename or delete it so it is not reused.
-- [ ] Bump the `GenAU_cvpr` submodule in the parent GenAU repo.
+- [x] Renamed the stale taxonomy to `../scripts/data_prep/defect_mappings_legacy.py` (still imported by the
+      old `merge.py`, `convert_real_iad.py`, `convert_mvtec_to_multi.py`); evaluation uses `defect_mappings_multiads.py`.
+- [x] Bump the `GenAU_cvpr` submodule in the parent GenAU repo.

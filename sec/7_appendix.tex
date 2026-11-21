@@ -424,47 +424,42 @@ We follow the VisA-D\&R protocol~\cite{xu2025towards} (Sec.~\ref{app:datasets}),
 
 \section{Qualitative Results}
 \label{app:qualitative}
-We provide additional anomaly maps of GenAU for five products, each with eight test images: tubes (\cref{fig:tubes}) from MPDD, capsules (\cref{fig:capsules}) and pipe fryum (\cref{fig:pipe-fryum}) from VisA, and mounts (\cref{fig:mounts}) and rolled strip base (\cref{fig:rolled_strip_base}) from Real-IAD.
+We provide additional anomaly maps of GenAU-7B for five products, each with eight anomalous test images: tubes (\cref{fig:tubes}) from MPDD, capsules (\cref{fig:capsules}) and pipe fryum (\cref{fig:pipe-fryum}) from VisA, and mounts (\cref{fig:mounts}) and rolled strip base (\cref{fig:rolled_strip_base}) from Real-IAD. To avoid best-case selection, the eight images of a product are spread over its defect types and, within each type, over evenly spaced quantiles of the per-image pixel AP (at most one camera view per Real-IAD specimen); each product's maps share one colour scale.
 
-For the tubes, the model precisely identifies the deformed section and preserves clean boundaries, introducing almost no spurious activations elsewhere in the images. A similar pattern holds for the capsules, where the model distinguishes among different defect manifestations, correctly localizing internal bubbles, subtle surface scratches, and areas showing signs of leakage. For the pipe fryum, the model maintains high confidence across several defect types, producing focused masks for color specks, fine scratches, and fractured edges, and doing so consistently across varying shapes and orientations. On the Real-IAD mounts and rolled strip base, GenAU localizes the annotated defect in every image, including small ones; weaker responses also appear on salient structures such as the diagonal ribs of the rolled strip base, in line with the weak boundary responses noted in Sec.~5.5.1 of the main paper.
+On the tubes, the deformed tube receives the strongest response in most images, while the intact tubes show a weaker, uniform activation. On the capsules, large defects such as leaks and misshapes are localized clearly, but small bubbles and discolorations receive only weak responses, and one map shows a diffuse response over the background. On the pipe fryum, breakage and spots near the edges are localized, while scratches are covered only coarsely and the object surface is moderately activated throughout. On the Real-IAD mounts, missing parts and pits are localized, but a contamination at the inner rim of the hole is missed (first image). On the rolled strip base, the defects are localized, and weaker responses also appear on salient structures such as the screw holes and diagonal ribs, in line with the weak boundary responses noted in Sec.~5.5.1 of the main paper.
 
 \begin{figure*}
   \centering
   \includegraphics[width=\textwidth]{imgs/tubes.jpg}
-  \caption{This visualization showcases the tube product from the MPDD dataset. The first row represents the input with the anomaly highlighted. The second row presents the segmentation results
-from our model.}
-   \label{fig:tubes}
+  \caption{Tubes (MPDD). Ground truth is outlined in red (small defects are additionally marked with a dashed box); the second row shows the GenAU-7B anomaly maps.}
+  \label{fig:tubes}
 \end{figure*}
 
 \begin{figure*}
   \centering
   \includegraphics[width=\textwidth]{imgs/capsules.jpg}
-  \caption{This visualization showcases the capsule product from the VisA dataset. The first row represents the input with the anomaly highlighted. The second row presents the segmentation results
-from our model.}
-   \label{fig:capsules}
+  \caption{Capsules (VisA). Ground truth is outlined in red (small defects are additionally marked with a dashed box); the second row shows the GenAU-7B anomaly maps.}
+  \label{fig:capsules}
 \end{figure*}
 
 \begin{figure*}
   \centering
   \includegraphics[width=\textwidth]{imgs/pipe-fryum.jpg}
-  \caption{This visualization showcases the pipe fryum product from the VisA dataset. The first row represents the input with the anomaly highlighted. The second row presents the segmentation results
-from our model.}
-   \label{fig:pipe-fryum}
+  \caption{Pipe fryum (VisA). Ground truth is outlined in red (small defects are additionally marked with a dashed box); the second row shows the GenAU-7B anomaly maps.}
+  \label{fig:pipe-fryum}
 \end{figure*}
 
 \begin{figure*}
   \centering
   \includegraphics[width=\textwidth]{imgs/mounts.jpg}
-  \caption{This visualization showcases the mount product from the Real-IAD dataset. The first row represents the input with the anomaly highlighted. The second row presents the segmentation results
-from our model.}
-   \label{fig:mounts}
+  \caption{Mounts (Real-IAD). Ground truth is outlined in red (small defects are additionally marked with a dashed box); the second row shows the GenAU-7B anomaly maps.}
+  \label{fig:mounts}
 \end{figure*}
 
 \begin{figure*}
   \centering
   \includegraphics[width=\textwidth]{imgs/rolled_strip_base.jpg}
-  \caption{This visualization showcases the rolled strip base product from the Real-IAD dataset. The first row represents the input with the anomaly highlighted. The second row presents the segmentation results
-from our model.}
-   \label{fig:rolled_strip_base}
+  \caption{Rolled strip base (Real-IAD). Ground truth is outlined in red (small defects are additionally marked with a dashed box); the second row shows the GenAU-7B anomaly maps.}
+  \label{fig:rolled_strip_base}
 \end{figure*}
 
