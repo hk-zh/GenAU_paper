@@ -2,564 +2,26 @@
 
 \section{Datasets}
 \label{app:datasets}
-Due to space limitations in the main manuscript, we provide here a detailed description of the industrial anomaly detection datasets used in our experiments: MVTec-AD~\cite{Bergmann_2019_CVPR}, VisA~\cite{VisA}, MPDD~\cite{mpdd}, and Real-IAD~\cite{wang2024realiadrealworldmultiviewdataset}. Key dataset statistics, including the number of defect types, object categories, and the proportion of single- and multi-defect images, are summarized in \cref{tab:dataset_summary}. For all datasets, each defect instance is mapped to a unified defect taxonomy as defined in \crefrange{tab:mvtec-mapping1}{tab:real-iad-mapping2}.
-MVTec-AD includes common industrial items such as bottles, cables, zippers, and hazelnuts. VisA contains a mixture of everyday products such as chewing gum and macaroni, as well as more complex components like printed circuit boards. MPDD focuses primarily on industrial parts, including metal brackets, tubes, and machined components. Real-IAD contains a broad range of real-world consumer and industrial items such as audio jacks, switches, bottle caps, and plastic toys.
+Due to space limitations in the main manuscript, we provide here a detailed description of the industrial anomaly detection datasets used in our experiments: MVTec-AD~\cite{Bergmann_2019_CVPR}, VisA~\cite{VisA}, MPDD~\cite{mpdd}, and Real-IAD~\cite{wang2024realiadrealworldmultiviewdataset}. \Cref{tab:dataset_summary} summarizes, for each split we use, the number of objects, normal and anomalous images, and defect classes.
+MVTec-AD includes common industrial items such as bottles, cables, zippers, and hazelnuts. VisA contains a mixture of everyday products such as chewing gum and macaroni, as well as more complex components like printed circuit boards. MPDD focuses primarily on industrial parts, including metal brackets, tubes, and machined components. Real-IAD contains a broad range of real-world consumer and industrial items such as audio jacks, switches, bottle caps, and plastic toys. MVTec-AD is the training source; VisA, MPDD, and Real-IAD are the evaluation targets for binary detection and segmentation, and VisA and MPDD also for defect-type recognition, using the per-object taxonomy of Sec.~\ref{app:taxonomy}.
+
+For defect reasoning we use VisA-D\&R~\cite{xu2025towards}, which pairs $1{,}000$ anomalous VisA images with multi-turn questions and reference answers. The first question of each conversation asks for a description of the anomaly (low-level perception), and the following questions ask about its significance, likely cause, and prevention (complex reasoning).
 
 % Overview of Datasets
-\begin{table*}
+\begin{table}[t]
 \centering
-\setlength{\tabcolsep}{5pt}
-\caption[Overview of the datasets used for evaluation.]{Overview of the datasets used for evaluation. The third column lists distinct defects, while the fourth column counts compound defects treated as separate categories.}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\caption[Overview of the datasets.]{Overview of the datasets. Image counts refer to the splits we use: the MVTec-AD test split for training, and the test splits of VisA, MPDD, and Real-IAD (single view) for evaluation. \emph{Classes} counts the distinct defect labels of the taxonomy in Sec.~\ref{app:taxonomy}, excluding the \emph{combined} class; Real-IAD keeps its native labels.}
 \label{tab:dataset_summary}
-\begin{tabular}{cccccc}
+\begin{tabular}{@{}llrrrr@{}}
 \toprule
-\textbf{Dataset} & \textbf{Objects} & \textbf{\begin{tabular}[c]{@{}c@{}}Unique \\ Defect Types\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Defect Types \\ Incl. Combinations\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Single Defect \\ Images\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Multi Defect \\ Images\end{tabular}} \\
+\textbf{Dataset} & \textbf{Role} & \textbf{Objects} & \textbf{Normal} & \textbf{Anomalous} & \textbf{Classes} \\
 \midrule
-MVTec-AD  & 15 & 16 & 38   & 1,200  & 58   \\
-VisA      & 12 & 14 & 56   & 923    & 277  \\
-MPDD      & 6  & 6  & 7    & 265    & 17   \\
-Real-IAD  & 30 & 9  & 9    & 51,329 & 0    \\
-\bottomrule
-\end{tabular}
-\end{table*}
-
-% MVTec Mapping
-\begin{table}
-\centering
-\footnotesize
-\caption{Defect taxonomy for the MVTec-AD dataset (Part I).}
-\label{tab:mvtec-mapping1}
-\begin{tabular}{@{}ccc@{}}
-\toprule
-\textbf{Product} & \textbf{Original Defect Types} & \textbf{Mapped Defect Types} \\
-\midrule
-
-\multirow{3}{*}{Bottle}
- & Broken Large & Broken \\
- & Broken Small & Broken \\
- & Contamination & Contamination \\
-
-\midrule
-\multirow{8}{*}{Cable}
- & Bent Wire & Bent \\
- & Cable Swap & Misplaced \\
- & Combined & Combination of Defects \\
- & Cut Inner Insulation & Cut \\
- & Cut Outer Insulation & Cut \\
- & Missing Cable & Missing \\
- & Missing Wire & Missing \\
- & Poke Insulation & Poke \\
-
-\midrule
-\multirow{5}{*}{Capsule}
- & Crack & Crack \\
- & Faulty Imprint & Scratch \\
- & Poke & Crack \\
- & Scratch & Scratch \\
- & Squeeze & Deformed \\
-
-\midrule
-\multirow{5}{*}{Carpet}
- & Color & Color \\
- & Cut & Tear \\
- & Hole & Hole \\
- & Metal Contamination & Contamination \\
- & Thread & Contamination \\
-
-\midrule
-\multirow{4}{*}{Hazelnut}
- & Crack & Crack \\
- & Cut & Cut \\
- & Hole & Hole \\
- & Print & Color \\
-
-\midrule
-\multirow{5}{*}{Grid}
- & Bent & Bent \\
- & Broken & Broken \\
- & Glue & Contamination \\
- & Metal Contamination & Contamination \\
- & Thread & Contamination \\
-
-\midrule
-\multirow{5}{*}{Leather}
- & Color & Color \\
- & Cut & Cut \\
- & Fold & Fold \\
- & Glue & Contamination \\
- & Poke & Poke \\
-
-\midrule
-\multirow{4}{*}{Metal Nut}
- & Bent & Bent \\
- & Color & Color \\
- & Flip & Misplaced \\
- & Scratch & Scratch \\
-
-\midrule
-\multirow{7}{*}{Pill}
- & Color & Color \\
- & Combined & Combination of Defects \\
- & Contamination & Contamination \\
- & Crack & Crack \\
- & Faulty Imprint & Scratch \\
- & Pill Type & Color \\
- & Scratch & Scratch \\
-
-\midrule
-\multirow{5}{*}{Screw}
- & Manipulated Front & Bent Head / Broken Tip \\
- & Scratch Head & Damaged \\
- & Scratch Neck & Damaged \\
- & Thread Side & Damaged \\
- & Thread Top & Damaged \\
-
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}
-\centering
-\footnotesize
-\caption{Defect taxonomy for the MVTec-AD dataset (Part II).}
-\label{tab:mvtec-mapping2}
-\begin{tabular}{@{}ccc@{}}
-\toprule
-\textbf{Product} & \textbf{Original Defect Types} & \textbf{Mapped Defect Types} \\
-\midrule
-
-\multirow{5}{*}{Tile}
- & Crack & Crack \\
- & Glue Strip & Contamination \\
- & Gray Stroke & Color \\
- & Oil & Contamination \\
- & Rough & Scratch \\
-
-\midrule
-\multirow{1}{*}{Toothbrush}
- & Defective & Bent / Contamination / Missing \\
-
-\midrule
-\multirow{4}{*}{Transistor}
- & Bent Lead & Bent \\
- & Cut Lead & Broken \\
- & Damaged Case & Damaged \\
- & Misplaced & Misplaced \\
-
-\midrule
-\multirow{5}{*}{Wood}
- & Color & Color \\
- & Combined & Combination of Defects \\
- & Hole & Hole \\
- & Liquid & Contamination \\
- & Scratch & Scratch \\
-
-\midrule
-\multirow{7}{*}{Zipper}
- & Broken Teeth & Broken \\
- & Combined & Combination of Defects \\
- & Fabric Border & Tear \\
- & Fabric Interior & Tear \\
- & Rough & Contamination \\
- & Split Teeth & Deformed \\
- & Squeezed Teeth & Deformed \\
-
-\bottomrule
-\end{tabular}
-\end{table}
-
-% VisA Mapping
-\begin{table}
-\centering
-\scriptsize
-\renewcommand{\arraystretch}{0.9}
-\caption{Defect taxonomy for the VisA dataset (Part I).}
-\label{tab:visa-mapping1}
-\begin{tabular}{@{}ccc@{}}
-\toprule
-\textbf{Product} & \textbf{Original Defect Types} & \textbf{Mapped Defect Types} \\
-\midrule
-
-\multirow{8}{*}{Candle}
- & Chunk of Wax Missing & Hole \\
- & Damaged Corner of Packaging & Damaged \\
- & Different Colour Spot & Color \\
- & Extra Wax in the Candle & Contamination \\
- & Foreign Particals on the Candle & Color \\
- & Wax Melded out of the Candle & Melded \\
- & Weird Candle Wick & Weird Wick \\
- & Combined & Combination of Defects \\
-
-\midrule
-\multirow{6}{*}{Capsules}
- & Bubble & Bubble \\
- & Discolor & Color \\
- & Scratch & Scratch \\
- & Leak & Contamination \\
- & Misshape & Deformed \\
- & Combined & Combination of Defects \\
-
-\midrule
-\multirow{9}{*}{Cashew}
- & Burnt & Color \\
- & Corner or Edge Breakage & Broken \\
- & Different Colour Spot & Color \\
- & Middle Breakage & Broken \\
- & Same Colour Spot & Color \\
- & Small Holes & Hole \\
- & Small Scratches & Scratch \\
- & Stuck Together & Misplaced \\
- & Combined & Combination of Defects \\
-
-\midrule
-\multirow{6}{*}{Chewinggum}
- & Chunk of Gum Missing & Broken \\
- & Corner Missing & Broken \\
- & Scratches & Scratch \\
- & Similar Colour Spot & Color \\
- & Small Cracks & Crack \\
- & Combined & Combination of Defects \\
-
-\midrule
-\multirow{8}{*}{Fryum}
- & Burnt & Color \\
- & Corner or Edge Breakage & Broken \\
- & Different Colour Spot & Color \\
- & Fryum Stuck Together & Misplaced \\
- & Middle Breakage & Broken \\
- & Similar Colour Spot & Color \\
- & Small Scratches & Scratch \\
- & Combined & Combination of Defects \\
-
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}
-\centering
-\scriptsize
-\renewcommand{\arraystretch}{0.9}
-\caption{Defect taxonomy for the VisA dataset (Part II).}
-\label{tab:visa-mapping2}
-\begin{tabular}{@{}ccc@{}}
-\toprule
-\textbf{Product} & \textbf{Original Defect Types} & \textbf{Mapped Defect Types} \\
-\midrule
-
-\multirow{7}{*}{Macaroni1}
- & Chip Around Edge and Corner & Broken \\
- & Different Colour Spot & Color \\
- & Similar Colour Spot & Color \\
- & Small Cracks & Crack \\
- & Middle Breakage & Hole \\
- & Small Scratches & Scratch \\
- & Combined & Combination of Defects \\
-
-\midrule
-
-\multirow{7}{*}{Macaroni2}
- & Breakage down the Middle & Hole \\
- & Color Spot Similar to the Object & Color \\
- & Different Color Spot & Color \\
- & Small Chip Around Edge & Broken \\
- & Small Cracks & Crack \\
- & Small Scratches & Scratches \\
- & Combined & Combination of Defects \\
-
-\midrule
-\multirow{5}{*}{pcb1}
- & Bent & Bent \\
- & Melt & Contamination \\
- & Missing & Missing \\
- & Scratch & Scratch \\
- & Combined & Combination of Defects \\
-
-\midrule
-\multirow{5}{*}{pcb2}
- & Bent & Bent \\
- & Melt & Contamination \\
- & Missing & Missing \\
- & Scratch & Scratch \\
- & Combined & Combination of Defects \\
-
-\midrule
-\multirow{5}{*}{pcb3}
- & Bent & Bent \\
- & Melt & Contamination \\
- & Missing & Missing \\
- & Scratch & Scratch \\
- & Combined & Combination of Defects \\
-
-\midrule
-\multirow{8}{*}{pcb4}
- & Burnt & Contamination \\
- & Scratch & Scratch \\
- & Damage & Damaged \\
- & Dirt & Contamination \\
- & Extra & Contamination \\
- & Missing & Missing \\
- & Wrong Place & Contamination \\
- & Combined & Combination of Defects \\
-
-\midrule
-\multirow{8}{*}{Pipe Fryum}
- & Burnt & Color \\
- & Corner and Edge Breakage & Broken \\
- & Different Colour Spot & Color \\
- & Similar Colour Spot & Color \\
- & Small Scratches & Scratch \\
- & Stuck Together & Misplaced \\
- & Small Cracks & Crack \\
- & Combined & Combination of Defects \\
-
-\bottomrule
-\end{tabular}
-\end{table}
-
-% MPDD Mapping
-\begin{table}
-\centering
-\caption{Defect taxonomy for the MPDD dataset.}
-\footnotesize
-\label{tab:mpdd-mapping}
-\begin{tabular}{@{}ccc@{}}
-\toprule
-\textbf{Product} & \textbf{Original Defects Types}                                                 & \textbf{Mapped Defect Types}                                           \\ \midrule
-Bracket Black    & \begin{tabular}[c]{@{}c@{}}Hole\\ Scratch\end{tabular}                           & \begin{tabular}[c]{@{}c@{}}Hole\\ Scratch\end{tabular}                 \\ \midrule
-Bracket Brown    & \begin{tabular}[c]{@{}c@{}}Bend and Parts Mismatch\\ Parts Mismatch\end{tabular} & \begin{tabular}[c]{@{}c@{}}Bent and Misplaced\\ Misplaced\end{tabular} \\ \midrule
-Bracket White    & \begin{tabular}[c]{@{}c@{}}Defective Painting\\ Scratches\end{tabular}           & \begin{tabular}[c]{@{}c@{}}Contamination\\ Scratch\end{tabular}        \\ \midrule
-Connector        & Parts Mismatch                                                                   & Missing                                                                \\ \midrule
-Metal Plate      & \begin{tabular}[c]{@{}c@{}}Major Rust\\ Total Rust\\ Scratch\end{tabular}        & \begin{tabular}[c]{@{}c@{}}Color\\ Color\\ Scratch\end{tabular}        \\ \midrule
-Tubes            & Anomalous                                                                        & Deformed                                                               \\ \bottomrule
-\end{tabular}
-\end{table}
-
-% Real-IAD Mapping
-\begin{table}
-\centering
-\footnotesize
-\renewcommand{\arraystretch}{0.7}
-\caption{Defect taxonomy for the Real-IAD dataset (Part I).}
-\label{tab:real-iad-mapping1}
-\begin{tabular}{@{}ccc@{}}
-\toprule
-\textbf{Product} & \textbf{Original Defect Types} & \textbf{Mapped Defect Types} \\
-\midrule
-
-\multirow{4}{*}{Audiojack}
- & Contamination & Color \\
- & Missing Parts & Broken \\
- & Deformation & Bent \\
- & Scratch & Scratch \\
-
-\midrule
-\multirow{4}{*}{Bottle Cap}
- & Contamination & Color \\
- & Missing Parts & Broken \\
- & Scratch & Scratch \\
- & Pit & Hole \\
-
-\midrule
-\multirow{4}{*}{Button Battery}
- & Scratch & Scratch \\
- & Abrasion & Abrasion \\
- & Contamination & Color \\
- & Pit & Color \\
-
-\midrule
-\multirow{4}{*}{End Cap}
- & Damage & Broken \\
- & Missing Parts & Broken \\
- & Contamination & Color \\
- & Scratch & Scratch \\
-
-\midrule
-\multirow{4}{*}{Eraser}
- & Contamination & Color \\
- & Scratch & Scratch \\
- & Pit & Hole \\
- & Missing Parts & Broken \\
-
-\midrule
-\multirow{4}{*}{Fire Hood}
- & Pit & Hole \\
- & Contamination & Color \\
- & Missing Parts & Broken \\
- & Scratch & Scratch \\
-
-\midrule
-\multirow{3}{*}{Mint}
- & Missing Parts & Broken \\
- & Foreign Objects & Contamination \\
- & Contamination & Contamination \\
-
-\midrule
-\multirow{3}{*}{Mounts}
- & Missing Parts & Broken \\
- & Contamination & Color \\
- & Pit & Hole \\
-
-\midrule
-\multirow{4}{*}{PCB}
- & Missing Parts & Missing \\
- & Scratch & Scratch \\
- & Foreign Objects & Contamination \\
- & Contamination & Contamination \\
-
-\midrule
-\multirow{4}{*}{Phone Battery}
- & Damage & Broken \\
- & Pit & Hole \\
- & Scratch & Scratch \\
- & Contamination & Contamination \\
-
-\midrule
-\multirow{4}{*}{Plastic Nut}
- & Pit & Hole \\
- & Scratch & Scratch \\
- & Contamination & Contamination \\
- & Damage & Broken \\
-
-\midrule
-\multirow{4}{*}{Plastic Plug}
- & Missing Parts & Broken \\
- & Scratch & Scratch \\
- & Pit & Hole \\
- & Contamination & Contamination \\
-
-\midrule
-\multirow{3}{*}{Porcelain Doll}
- & Scratch & Scratch \\
- & Abrasion & Abrasion \\
- & Contamination & Color \\
-
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}
-\centering
-\footnotesize
-\renewcommand{\arraystretch}{0.7}
-\caption{Defect taxonomy for the Real-IAD dataset (Part II).}
-\label{tab:real-iad-mapping2}
-\begin{tabular}{@{}ccc@{}}
-\toprule
-\textbf{Product} & \textbf{Original Defect Types} & \textbf{Mapped Defect Types} \\
-\midrule
-
-\multirow{4}{*}{Regulator}
- & Contamination & Color \\
- & Missing Parts & Broken \\
- & Scratch & Scratch \\
- & Pit & Hole \\
-
-\midrule
-\multirow{3}{*}{Rolled Strip Base}
- & Pit & Hole \\
- & Missing Parts & Broken \\
- & Contamination & Color \\
-
-\midrule
-\multirow{3}{*}{SIM Card Set}
- & Scratch & Scratch \\
- & Abrasion & Scratch \\
- & Contamination & Contamination \\
-
-\midrule
-\multirow{3}{*}{Switch}
- & Missing Parts & Broken \\
- & Contamination & Contamination \\
- & Scratch & Scratch \\
-
-\midrule
-\multirow{4}{*}{Tape}
- & Scratch & Scratch \\
- & Missing Parts & Broken \\
- & Damage & Broken \\
- & Contamination & Color \\
-
-\midrule
-\multirow{3}{*}{Terminalblock}
- & Pit & Hole \\
- & Missing Parts & Broken \\
- & Contamination & Color \\
-
-\midrule
-\multirow{3}{*}{Toothbrush}
- & Missing Parts & Broken \\
- & Contamination & Contamination \\
- & Abrasion & Deformed \\
-
-\midrule
-\multirow{4}{*}{Toy}
- & Scratch & Scratch \\
- & Contamination & Color \\
- & Missing Parts & Broken \\
- & Pit & Hole \\
-
-\midrule
-\multirow{4}{*}{Toy Brick}
- & Contamination & Color \\
- & Pit & Hole \\
- & Missing Parts & Broken \\
- & Scratch & Scratch \\
-
-\midrule
-\multirow{3}{*}{Transistor1}
- & Missing Parts & Broken \\
- & Deformation & Bent \\
- & Contamination & Contamination \\
-
-\midrule
-\multirow{4}{*}{U Block}
- & Missing Parts & Broken \\
- & Scratch & Scratch \\
- & Abrasion & Scratch \\
- & Contamination & Color \\
-
-\midrule
-\multirow{4}{*}{USB}
- & Scratch & Scratch \\
- & Deformation & Bent \\
- & Contamination & Color \\
- & Missing Parts & Broken \\
-
-\midrule
-\multirow{4}{*}{USB Adaptor}
- & Contamination & Color \\
- & Scratch & Scratch \\
- & Abrasion & Scratch \\
- & Pit & Broken \\
-
-\midrule
-\multirow{4}{*}{Vcpill}
- & Contamination & Color \\
- & Scratch & Scratch \\
- & Missing Parts & Broken \\
- & Pit & Broken \\
-
-\midrule
-\multirow{4}{*}{Wooden Beads}
- & Scratch & Scratch \\
- & Contamination & Color \\
- & Pit & Hole \\
- & Missing Parts & Broken \\
-
-\midrule
-\multirow{4}{*}{Woodstick}
- & Contamination & Color \\
- & Scratch & Scratch \\
- & Pit & Hole \\
- & Missing Parts & Broken \\
-
-\midrule
-\multirow{4}{*}{Zipper}
- & Missing Parts & Broken \\
- & Damage & Broken \\
- & Deformation & Deformed \\
- & Contamination & Color \\
-
+MVTec-AD  & source & 15 & 467      & 1{,}258 & 20 \\
+VisA      & target & 12 & 962      & 1{,}200 & 18 \\
+MPDD      & target & 6  & 176      & 282     & 6  \\
+Real-IAD  & target & 30 & 10{,}387 & 9{,}415 & 8  \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -572,51 +34,305 @@ We build GenAU on the LLaVA-OneVision family~\cite{li2025llavaonevision}, which 
 The vision encoder is frozen; the cross-modal projector is trained with a learning rate of $10^{-4}$. The LLM is adapted with rank-stabilized LoRA (rank $r=16$, $\alpha=32$, dropout $0$). The token-embedding table and language-modeling head are fully fine-tuned to integrate the two added segmentation tokens \texttt{[SEG\_normal]} and \texttt{[SEG\_defect]}, and the four segmentation projectors together with the decoder layer-norms are trainable.
 
 \paragraph{Optimization.}
-Training runs for a single epoch with an effective batch size of $32$ (per-device batch $1$, gradient accumulation $4$, across $8$ GPUs with DeepSpeed ZeRO-3), a learning rate of $10^{-4}$ with cosine decay, a warmup ratio of $0.03$, and no weight decay. The segmentation objective sums, over the four stages, a focal term on the upsampled logits, a Tversky term ($\alpha=0.3$, $\beta=0.7$) on the defect channel that up-weights false negatives, and a Dice term on the complementary normal channel; the text-to-segmentation weight is $\lambda=1$.
+Training runs for a single epoch with an effective batch size of $32$ (per-device batch $1$, gradient accumulation $4$, across $8$ GPUs with DeepSpeed ZeRO-3), a learning rate of $10^{-4}$ with cosine decay, a warmup ratio of $0.03$, and no weight decay. The segmentation objective sums, over the four stages, a focal term on the upsampled logits, a Tversky term ($\alpha=0.3$, $\beta=0.7$) on the defect channel that up-weights false negatives, and a Dice term on the complementary normal channel; the text and segmentation losses are weighted equally ($\lambda_{\mathrm{seg}}=1$).
 
 \paragraph{High-resolution readout and image-level fusion.}
-At inference the high-resolution and global-view anomaly maps are fused per stage as $\mathbf{A}=(1-\omega)\,\mathbf{A}^{\mathrm{g}}+\omega\,\mathbf{A}^{\mathrm{hi}}$ with $\omega=0.25$ and a similarity temperature of $20$. The image-level score fuses the spatial maximum of $\mathbf{A}$ with the decoder's normal/defect log-odds, averaged over eight phrasings of the yes/no question (the eight object-naming templates of our VisA and MPDD instruction files, which carry no defect information: ``Is the \{obj\} intact, or are there any anomalies?'', ``Is there anything unusual about the \{obj\} in the image?'', ``Can you identify any defects on the \{obj\}?'', ``Does the \{obj\} shown in the image have any defect?'', ``Is there any anomaly on the \{obj\}?'', ``Inspect the \{obj\}: are there any anomalies present?'', ``Are there any visible anomalies on the \{obj\}?'', and ``Do you see any surface defects on the \{obj\}?''; the image prefix is encoded once and its cache reused for each phrasing). The two are each $z$-score standardized with statistics estimated once on the MVTec-AD source images and averaged with equal weights; the standardization is frozen and shared across target datasets, so no target-domain labels are used. If a generated answer omits the two segmentation tokens, they are appended to it and their hidden states are read with one additional forward pass, so every test image receives a defect map.
+At inference the high-resolution and global-view anomaly maps are fused per stage as $\mathbf{A}=(1-\omega)\,\mathbf{A}^{\mathrm{g}}+\omega\,\mathbf{A}^{\mathrm{hi}}$ with $\omega=0.25$ and a similarity temperature of $20$. The image-level score fuses the spatial maximum of $\mathbf{A}$ with the decoder's normal/defect log-odds, averaged over eight phrasings of the yes/no question (generic templates that name only the object category and carry no defect information: ``Is the \{obj\} intact, or are there any anomalies?'', ``Is there anything unusual about the \{obj\} in the image?'', ``Can you identify any defects on the \{obj\}?'', ``Does the \{obj\} shown in the image have any defect?'', ``Is there any anomaly on the \{obj\}?'', ``Inspect the \{obj\}: are there any anomalies present?'', ``Are there any visible anomalies on the \{obj\}?'', and ``Do you see any surface defects on the \{obj\}?''; the image prefix is encoded once and its cache reused for each phrasing). The two are each $z$-score standardized with statistics estimated once on the MVTec-AD source images and averaged with equal weights; the standardization is frozen and shared across target datasets, so no target-domain labels are used. If a generated answer omits the two segmentation tokens, they are appended to it and their hidden states are read with one additional forward pass, so every test image receives a defect map.
 
 \section{Training Data Construction}
 \label{app:data}
-The segmentation instruction data for the reported cross-dataset experiments use MVTec-AD~\cite{Bergmann_2019_CVPR} as the source benchmark. We retain its images and masks and add instruction--response pairs. Each sample consists of an image, mask, instruction, and response; the instruction asks whether the named object contains an anomaly and requests localization, e.g.\ \texttt{``Is there any anomaly on the \{object\}? If yes, segment it.''}
+The segmentation instruction data for the reported cross-dataset experiments use MVTec-AD~\cite{Bergmann_2019_CVPR} as the source benchmark. We retain its images and masks and add instruction--response pairs. Each sample consists of an image, mask, instruction, and response; the instruction, phrased in several ways, asks whether the named object contains an anomaly and requests localization, e.g.\ \texttt{``Is there any anomaly on the \{object\}? If yes, segment it.''}
 
-The response describes the anomaly in natural language and terminates with the two segmentation tokens \texttt{[SEG\_defect]} and \texttt{[SEG\_normal]}, from which the localization read-out is taken; for a normal image it instead states that no anomaly is present. An example response is:
+The response describes the anomaly in natural language and terminates with the two segmentation tokens \texttt{[SEG\_defect]} and \texttt{[SEG\_normal]}, from which the localization read-out is taken. For a normal image, the response states that no anomaly is present and likewise ends with the two tokens, so that its all-zero mask provides negative supervision. An example response is:
 
 \textit{``Yes, there is an anomaly on the capsule. Specifically, there is a dent on the orange side, affecting the clarity and smoothness of the numeral `0' in the printed number `500.' [SEG\_defect] [SEG\_normal]''}
 
-\paragraph{Reasoning conversations.} For $863$ of the $1{,}725$ training images (drawn at random), the single exchange is replaced by a multi-turn conversation about the same image from the instruction data of Anomaly-OV~\cite{xu2025towards}: an image description, the segmentation request above (answered with the two segmentation tokens), and three to nine follow-up questions on the defect's appearance, significance, likely cause, and prevention. The remaining $862$ images keep the single segmentation exchange. Every image appears exactly once, so the number of samples and optimization steps ($53$ at batch size $32$) matches segmentation-only training; adding the conversations as extra samples instead doubles the steps, to which this recipe is sensitive (Table~2 of the main paper).
+\paragraph{Reasoning conversations.} For $863$ of the $1{,}725$ training images (drawn at random), the single exchange is replaced by a multi-turn conversation about the same image from the instruction data of Anomaly-OV~\cite{xu2025towards}: an image description, the segmentation request above (answered with the two segmentation tokens), and three to nine follow-up questions, which for anomalous images cover the defect's appearance, significance, likely cause, and prevention. The remaining $862$ images keep the single segmentation exchange. Every image appears exactly once, so the number of samples and optimization steps ($53$ at batch size $32$) matches segmentation-only training. Adding the conversations as extra samples instead (the full reasoning mix of Table~2 of the main paper) doubles the number of steps and lowers detection and localization.
 
 \section{Defect Taxonomy}
 \label{app:taxonomy}
-Industrial AD datasets often define highly specific defect categories, which can lead to overfitting and inconsistent label usage~\cite{mokhtar2025detectclassifyactcategorizing}. To improve generalization, we map product-specific labels to a unified, coarser taxonomy, following MultiADS~\cite{sadikaj2025multiadsdefectawaresupervisionmultitype}: e.g., \textit{liquid} and \textit{metal contamination} are merged into \textit{contamination}, and \textit{broken large}/\textit{broken small} are unified as \textit{broken}. The taxonomy is defined per object, so the candidate defect set differs across product categories. This reclassification promotes abstraction over product-specific anomalies and mitigates label imbalance, and it does not affect comparisons with prior binary-detection methods, whose metrics are independent of class granularity. The complete per-object mapping for all four datasets is given in \crefrange{tab:mvtec-mapping1}{tab:real-iad-mapping2}.
+Industrial AD datasets often define highly specific defect categories, which can lead to overfitting and inconsistent label usage~\cite{mokhtar2025detectclassifyactcategorizing}. For conditional defect-type recognition we therefore adopt the per-object taxonomy of MultiADS~\cite{sadikaj2025multiadsdefectawaresupervisionmultitype}, which maps product-specific labels to coarser classes: e.g., \textit{broken large} and \textit{broken small} are unified as \textit{broken}, and \textit{different colour spot} and \textit{similar colour spot} as \textit{spot}. The taxonomy is defined per object, so the candidate defect set differs across product categories; each VisA object additionally has a \emph{combined} class for compound defects. The taxonomy defines the candidate labels and the ground truth of the type-recognition evaluation (Sec.~\ref{app:eval}). GenAU is not trained to output taxonomy labels: its training responses name and describe defects in natural language (Sec.~\ref{app:data}). Binary detection and segmentation are independent of class granularity, so comparisons with prior binary methods are unaffected. \Crefrange{tab:mvtec-mapping1}{tab:mpdd-mapping} give the complete per-object mapping for the source dataset MVTec-AD, which shows which target classes also occur among the source defects, and for the two type-recognition targets, VisA and MPDD.
+
+\begin{table}
+\centering
+\footnotesize
+\caption{Defect taxonomy for MVTec-AD (Part I).}
+\label{tab:mvtec-mapping1}
+\begin{tabular}{@{}ccc@{}}
+\toprule
+\textbf{Product} & \textbf{Original Defect Type} & \textbf{Mapped Label} \\
+\midrule
+\multirow{3}{*}{Bottle} & Broken Large & Broken \\
+ & Broken Small & Broken \\
+ & Contamination & Contamination \\
+\midrule
+\multirow{8}{*}{Cable} & Bent Wire & Bent \\
+ & Cable Swap & Misplaced \\
+ & Cut Inner Insulation & Cut \\
+ & Cut Outer Insulation & Cut \\
+ & Missing Cable & Missing \\
+ & Missing Wire & Missing \\
+ & Poke Insulation & Poke \\
+ & Combined & Combined \\
+\midrule
+\multirow{5}{*}{Capsule} & Crack & Crack \\
+ & Faulty Imprint & Faulty Imprint \\
+ & Poke & Poke \\
+ & Scratch & Scratch \\
+ & Squeeze & Squeeze \\
+\midrule
+\multirow{5}{*}{Carpet} & Color & Color \\
+ & Cut & Cut \\
+ & Hole & Hole \\
+ & Metal Contamination & Contamination \\
+ & Thread & Thread \\
+\midrule
+\multirow{5}{*}{Grid} & Bent & Bent \\
+ & Broken & Broken \\
+ & Glue & Glue \\
+ & Metal Contamination & Contamination \\
+ & Thread & Thread \\
+\midrule
+\multirow{4}{*}{Hazelnut} & Crack & Crack \\
+ & Cut & Cut \\
+ & Hole & Hole \\
+ & Print & Faulty Imprint \\
+\midrule
+\multirow{5}{*}{Leather} & Color & Color \\
+ & Cut & Cut \\
+ & Fold & Misplaced \\
+ & Glue & Glue \\
+ & Poke & Poke \\
+\midrule
+\multirow{4}{*}{Metal Nut} & Bent & Bent \\
+ & Color & Color \\
+ & Flip & Misplaced \\
+ & Scratch & Scratch \\
+\midrule
+\multirow{7}{*}{Pill} & Color & Color \\
+ & Contamination & Contamination \\
+ & Crack & Crack \\
+ & Faulty Imprint & Faulty Imprint \\
+ & Pill Type & Damaged \\
+ & Scratch & Scratch \\
+ & Combined & Combined \\
+\midrule
+\multirow{5}{*}{Screw} & Manipulated Front & Bent \\
+ & Scratch Head & Scratch \\
+ & Scratch Neck & Scratch \\
+ & Thread Side & Thread \\
+ & Thread Top & Thread \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\centering
+\footnotesize
+\caption{Defect taxonomy for MVTec-AD (Part II).}
+\label{tab:mvtec-mapping2}
+\begin{tabular}{@{}ccc@{}}
+\toprule
+\textbf{Product} & \textbf{Original Defect Type} & \textbf{Mapped Label} \\
+\midrule
+\multirow{5}{*}{Tile} & Crack & Crack \\
+ & Glue Strip & Glue \\
+ & Gray Stroke & Damaged \\
+ & Oil & Liquid \\
+ & Rough & Rough \\
+\midrule
+\multirow{1}{*}{Toothbrush} & Defective & Damaged \\
+\midrule
+\multirow{4}{*}{Transistor} & Bent Lead & Bent \\
+ & Cut Lead & Cut \\
+ & Damaged Case & Damaged \\
+ & Misplaced & Misplaced \\
+\midrule
+\multirow{5}{*}{Wood} & Color & Color \\
+ & Hole & Hole \\
+ & Liquid & Liquid \\
+ & Scratch & Scratch \\
+ & Combined & Combined \\
+\midrule
+\multirow{7}{*}{Zipper} & Broken Teeth & Broken \\
+ & Fabric Border & Fabric \\
+ & Fabric Interior & Fabric \\
+ & Split Teeth & Misplaced \\
+ & Squeezed Teeth & Squeezed \\
+ & Rough & Rough \\
+ & Combined & Combined \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\centering
+\footnotesize
+\caption{Defect taxonomy for VisA (Part I).}
+\label{tab:visa-mapping1}
+\begin{tabular}{@{}ccc@{}}
+\toprule
+\textbf{Product} & \textbf{Original Defect Type} & \textbf{Mapped Label} \\
+\midrule
+\multirow{8}{*}{Candle} & Chunk of Wax Missing & Missing \\
+ & Damaged Corner of Packaging & Damaged \\
+ & Different Colour Spot & Spot \\
+ & Extra Wax in Candle & Extra \\
+ & Foreign Particles on Candle & Particles \\
+ & Wax Melded out of the Candle & Melted \\
+ & Weird Candle Wick & Weird Wick \\
+ & Combined & Combined \\
+\midrule
+\multirow{2}{*}{Capsules} & Bubble & Bubble \\
+ & Combined & Combined \\
+\midrule
+\multirow{9}{*}{Cashew} & Burnt & Burnt \\
+ & Corner or Edge Breakage & Broken \\
+ & Middle Breakage & Broken \\
+ & Different Colour Spot & Spot \\
+ & Same Colour Spot & Spot \\
+ & Small Holes & Hole \\
+ & Small Scratches & Scratch \\
+ & Stuck Together & Stuck \\
+ & Combined & Combined \\
+\midrule
+\multirow{5}{*}{Chewing Gum} & Chunk of Gum Missing & Missing \\
+ & Corner Missing & Missing \\
+ & Scratches & Scratch \\
+ & Similar Colour Spot & Spot \\
+ & Combined & Combined \\
+\midrule
+\multirow{8}{*}{Fryum} & Burnt & Burnt \\
+ & Middle Breakage & Broken \\
+ & Corner or Edge Breakage & Broken \\
+ & Different Colour Spot & Spot \\
+ & Similar Colour Spot & Spot \\
+ & Fryum Stuck Together & Stuck \\
+ & Small Scratches & Scratch \\
+ & Combined & Combined \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\centering
+\footnotesize
+\caption{Defect taxonomy for VisA (Part II).}
+\label{tab:visa-mapping2}
+\begin{tabular}{@{}ccc@{}}
+\toprule
+\textbf{Product} & \textbf{Original Defect Type} & \textbf{Mapped Label} \\
+\midrule
+\multirow{6}{*}{Macaroni1} & Chip Around Edge and Corner & Chip \\
+ & Different Colour Spot & Spot \\
+ & Similar Colour Spot & Spot \\
+ & Small Cracks & Crack \\
+ & Small Scratches & Scratch \\
+ & Combined & Combined \\
+\midrule
+\multirow{7}{*}{Macaroni2} & Breakage down the Middle & Broken \\
+ & Different Color Spot & Spot \\
+ & Color Spot Similar to the Object & Spot \\
+ & Small Chip Around Edge & Chip \\
+ & Small Cracks & Crack \\
+ & Small Scratches & Scratch \\
+ & Combined & Combined \\
+\midrule
+\multirow{5}{*}{PCB1} & Bent & Bent \\
+ & Melt & Melt \\
+ & Missing & Missing \\
+ & Scratch & Scratch \\
+ & Combined & Combined \\
+\midrule
+\multirow{5}{*}{PCB2} & Bent & Bent \\
+ & Melt & Melt \\
+ & Missing & Missing \\
+ & Scratch & Scratch \\
+ & Combined & Combined \\
+\midrule
+\multirow{5}{*}{PCB3} & Bent & Bent \\
+ & Melt & Melt \\
+ & Missing & Missing \\
+ & Scratch & Scratch \\
+ & Combined & Combined \\
+\midrule
+\multirow{7}{*}{PCB4} & Burnt & Burnt \\
+ & Scratch & Scratch \\
+ & Damage & Damaged \\
+ & Extra & Extra \\
+ & Missing & Missing \\
+ & Wrong Place & Wrong Place \\
+ & Combined & Combined \\
+\midrule
+\multirow{7}{*}{Pipe Fryum} & Burnt & Burnt \\
+ & Corner and Edge Breakage & Broken \\
+ & Different Colour Spot & Spot \\
+ & Similar Colour Spot & Spot \\
+ & Stuck Together & Stuck \\
+ & Small Scratches & Scratch \\
+ & Combined & Combined \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\centering
+\footnotesize
+\caption{Defect taxonomy for MPDD.}
+\label{tab:mpdd-mapping}
+\begin{tabular}{@{}ccc@{}}
+\toprule
+\textbf{Product} & \textbf{Original Defect Type} & \textbf{Mapped Label} \\
+\midrule
+\multirow{2}{*}{Bracket Black} & Hole & Hole \\
+ & Scratches & Scratch \\
+\midrule
+\multirow{2}{*}{Bracket Brown} & Parts Mismatch & Mismatch \\
+ & Bend and Parts Mismatch & Mismatch \\
+\midrule
+\multirow{2}{*}{Bracket White} & Defective Painting & Defective Painting \\
+ & Scratches & Scratch \\
+\midrule
+\multirow{1}{*}{Connector} & Parts Mismatch & Mismatch \\
+\midrule
+\multirow{3}{*}{Metal Plate} & Major Rust & Rust \\
+ & Total Rust & Rust \\
+ & Scratches & Scratch \\
+\midrule
+\multirow{1}{*}{Tubes} & Anomalous & Flattening \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \section{Evaluation Protocol}
 \label{app:eval}
 All models are evaluated under single-image inference: only the query image is available at test time, with no reference, support, or exemplar images. GenAU is fine-tuned on the MVTec-AD test split (the only MVTec split carrying anomaly masks and defect-type labels, as the train split contains normal images only) and evaluated, without retraining, on the test splits of VisA, MPDD, and Real-IAD; MVTec thus serves purely as the source domain: its images are disjoint from all evaluation targets and no target labels enter training or calibration, although three Real-IAD categories (toothbrush, zipper, transistor) share names with MVTec-AD categories. Design choices were compared on VisA (Table~2 of the main paper and Table~\ref{tab:ablations}), which thus also served as the development target. For Real-IAD we use the single-view setting.
 
 \paragraph{Unified inspection prompt.}
-For binary detection and segmentation, the instruction names the object category and requests an anomaly decision and its localization. The model is trained to follow its answer with both segmentation tokens. If generation omits them, they are appended and read in an extra forward pass. Thus both anchors are always \emph{available}, not necessarily generated spontaneously, and all evaluated images receive maps.
+For binary detection and segmentation, the instruction names the object category and asks for an anomaly decision and its localization: \texttt{``Is there any anomaly on the \{object\}? If yes, segment it.''} The model is trained to follow its answer with both segmentation tokens; tokens that generation omits are appended before readout (Sec.~\ref{app:impl}), so every evaluated image receives an anomaly map.
 
 \paragraph{Product-conditioned multi-type detection.}
-The reported multi-type table evaluates forced-choice recognition on known-anomalous images: $916$ mapped VisA images and all $282$ MPDD anomalous images. The instruction explicitly states anomaly presence, lists the target object's coarse candidate labels, and requests one option; normal is excluded from both the options and scoring. Images whose original label has no coarse mapping are excluded before evaluation. A compound defect may map to one \emph{combined} class; this is not independent multi-label recovery. The supplied object vocabulary is target-domain metadata, not a prediction of the valid vocabulary.
+The reported multi-type table evaluates forced-choice recognition on known-anomalous images. The prompt states that the image contains a defect and lists the object's candidate labels from the taxonomy of Sec.~\ref{app:taxonomy} in alphabetical order: \texttt{``This is an image of a \{object\} that contains a defect. Identify the defect type. Choose exactly one option from this list and answer with only that option, nothing else: \{defect list\}.''} Normal is excluded from both the options and scoring. Images whose original label has no entry in the taxonomy are excluded before evaluation, leaving $916$ VisA images and all $282$ MPDD anomalous images. The \emph{combined} class represents a compound defect as one class; the task does not require recovering multiple independent labels. The supplied object vocabulary is target-domain metadata, not a prediction of the valid vocabulary.
 
-The parser lowercases the response, replaces underscores with spaces, and searches for candidate labels and their mapped fine-label synonyms. The earliest matching substring wins; no match returns \texttt{none}, counted as an incorrect prediction. Weighted precision, recall, and F1 are computed over the pooled images with class-support weights and zero scores for undefined divisions, rather than averaging per-object F1. Every image in each mapped subset has an answer in the reported runs. This protocol does not measure normal-image false positives; the binary task evaluates those separately.
+The parser lowercases the response, replaces underscores with spaces, and searches for candidate labels and their mapped fine-label synonyms. The earliest matching substring wins; no match returns \texttt{none}, counted as an incorrect prediction. Weighted precision, recall, and F1 are computed over the pooled images with class-support weights and zero scores for undefined divisions, rather than averaging per-object F1. Every image in each mapped subset has an answer in the reported runs. Normal images are evaluated by the binary detection task.
 
 \paragraph{Single-checkpoint evaluation.}
-Every task uses the checkpoint of Table~1 of the main paper, without weight changes. Detection and segmentation use their inspection prompt; type recognition uses the forced-choice prompt; VisA-D\&R uses its conversational questions. On VisA-D\&R, GenAU-7B's SBERT similarity to the reference answers is $0.579$ (low-level) and $0.664$ (complex), against $0.590$/$0.576$ for the segmentation-only checkpoint with a frozen projector and $0.571$/$0.666$ for the full reasoning mix of Table~2 of the main paper; the full mix, however, lowers VisA image-AUROC to $87.0\%$, pixel-AUPRO to $85.8\%$, and type-recognition F1 to $29.0\%$/$69.8\%$ (VisA/MPDD). For GenAU-0.5B the three pairs are $0.554$/$0.635$, $0.564$/$0.560$, and $0.565$/$0.656$. These numbers use the plain VisA-D\&R questions; Table~4 of the main paper appends ``If yes, segment it.'' to the first question, giving $0.596$/$0.648$ (7B) and $0.562$/$0.634$ (0.5B).
+Every task uses the checkpoint of Table~1 of the main paper, without weight changes. Detection and segmentation use the inspection prompt, type recognition uses the forced-choice prompt, and VisA-D\&R uses its conversational questions.
+
+\paragraph{Reasoning conversations in training.}
+Training with reasoning conversations preserves the ability to answer causal questions that segmentation-only training loses. On the complex VisA-D\&R questions, GenAU-7B reaches an SBERT similarity to the reference answers of $0.664$, against $0.576$ for the segmentation-only checkpoint with a frozen projector ($0.635$ versus $0.560$ at 0.5B), whereas on the low-level questions, which ask for a description of the anomaly, the two are comparable ($0.579$ versus $0.590$). Giving every training image a conversation (the full reasoning mix of Table~2 of the main paper) brings no further gain at 7B ($0.571$ low-level, $0.666$ complex) but lowers VisA image-AUROC to $87.0\%$, pixel-AUPRO to $85.8\%$, and type-recognition F1 to $29.0\%$ on VisA and $69.8\%$ on MPDD; our default therefore embeds conversations in half of the training samples. These comparisons use the plain VisA-D\&R questions. Table~4 of the main paper appends GenAU's segmentation request ``If yes, segment it.'' to the first question, so that the same conversation also yields the anomaly map, giving $0.596$/$0.648$ (7B) and $0.562$/$0.634$ (0.5B); with the plain questions, GenAU-7B's similarities ($0.579$/$0.664$) likewise exceed those of Anomaly-OV-7B in that table ($0.565$/$0.629$).
 
 \section{Additional Ablations}
 \label{app:ablation}
-Table~\ref{tab:ablations} ablates, on MVTec-AD$\rightarrow$VisA, four training choices of the segmentation-only recipe with a frozen cross-modal projector: the text-to-segmentation loss weight $\lambda$, the number of intermediate vision-encoder stages $m$ supplying the segmentation readout, whether the cross-modal projection to the LLM is trainable, and whether the vision encoder itself is unfrozen. Each row changes a single factor relative to the shaded reference row.
+Table~\ref{tab:ablations} ablates, on MVTec-AD$\rightarrow$VisA, four training choices: the weight of the text loss, the number $m$ of vision-encoder stages supplying the segmentation readout, whether the cross-modal projector is trainable, and whether the vision encoder itself is unfrozen. The ablations use the segmentation-only recipe with a frozen cross-modal projector, which isolates the segmentation pathway from the reasoning data; each row changes a single factor relative to the shaded reference row.
 
-Raising the text-to-segmentation weight to $\lambda=5$ changes little: pixel-AUROC rises by $0.6$, and pixel-AUPRO and image-AUROC each fall by $0.2$ points, so we keep the balanced $\lambda=1$. Reducing the segmentation readout to $m=3$ intermediate stages is also close to neutral (pixel-AUPRO $88.4$ vs.\ $88.7$, image-AUROC $90.7$ vs.\ $90.5$), so the fourth stage adds little. Making the cross-modal projection trainable slightly improves both pixel metrics ($+0.5$ AUROC and AUPRO) but lowers image-AUROC by $0.6$ points; on segmentation-only data the difference is small, and the default recipe trains the projector because, with reasoning conversations in the training data, it recovered localization in our development runs. Finally, unfreezing the vision encoder is markedly harmful, collapsing pixel-AUPRO to $81.8$ and image-AUROC to $75.6$ --- far below every other configuration --- as the encoder over-fits the small fine-tuning set and forgets its general visual features; freezing it is therefore essential.
+Weighting the text loss five times higher ($5\,\mathcal{L}_{\mathrm{txt}}+\mathcal{L}_{\mathrm{seg}}$) changes little: pixel-AUROC rises by $0.6$, and pixel-AUPRO and image-AUROC each fall by $0.2$ points, so we keep equal weights ($\lambda_{\mathrm{seg}}=1$). Reading out $m=3$ instead of four stages slightly raises the image-level scores ($+0.2$ AUROC, $+0.4$ AP) but lowers both pixel metrics (AUROC $94.9$ vs.\ $95.1$, AUPRO $88.4$ vs.\ $88.7$); the readout is thus robust to the number of stages, and the four-stage default localizes better. Making the cross-modal projector trainable improves both pixel metrics ($+0.5$ AUROC and AUPRO) at a cost of $0.6$ points in image-AUROC; the default recipe trains it because, with reasoning conversations in the training data, the trainable projector preserved localization in our development runs. Finally, unfreezing the vision encoder is markedly harmful, lowering pixel-AUPRO to $81.8$ and image-AUROC to $75.6$, far below every other configuration, as the encoder over-fits the small source set; keeping it frozen preserves its pretrained visual features.
 
 \begin{table}[h]
 \centering
 \small
 \setlength{\tabcolsep}{3pt}
-\caption{Ablation of single training factors on MVTec-AD$\rightarrow$VisA. The shaded row is the segmentation-only GenAU-7B with a frozen projector ($m{=}4$, $\lambda{=}1$, vision encoder frozen); each subsequent row changes one factor. Image columns use the fused score of Table~1 of the main paper. All metrics in \%.}
+\caption{Ablation of single training factors on MVTec-AD$\rightarrow$VisA. The shaded row is the segmentation-only GenAU-7B with a frozen projector ($m{=}4$, $\lambda_{\mathrm{seg}}{=}1$, vision encoder frozen); each subsequent row changes one factor. The ``projector trainable'' row is the ``segmentation only'' row of Table~2 of the main paper. Image columns use the fused score of Table~1 of the main paper. All metrics in \%.}
 \label{tab:ablations}
 \begin{tabular}{@{}l|cc|cc@{}}
 \toprule
@@ -625,11 +341,11 @@ Raising the text-to-segmentation weight to $\lambda=5$ changes little: pixel-AUR
  & AUROC & AUPRO & AUROC & AP \\
 \midrule
 \rowcolor{gray!20}
-seg.\ only, frozen projector & 95.1 & 88.7 & 90.5 & 91.9 \\ 
+seg.\ only, frozen projector & 95.1 & 88.7 & 90.5 & 91.9 \\
 \midrule
-\quad $\lambda = 5$            & 95.7 & 88.5 & 90.3 & 91.9 \\ 
-\quad $m = 3$ stages          & 94.9 & 88.4 & 90.7 & 92.3 \\ 
-\quad projection trainable    & 95.6 & 89.2 & 89.9 & 91.5 \\
+\quad text-loss weight $5$    & 95.7 & 88.5 & 90.3 & 91.9 \\
+\quad $m = 3$ stages          & 94.9 & 88.4 & 90.7 & 92.3 \\
+\quad projector trainable     & 95.6 & 89.2 & 89.9 & 91.5 \\
 \quad vision encoder unfrozen & 94.4 & 81.8 & 75.6 & 79.7 \\
 \bottomrule
 \end{tabular}
@@ -637,9 +353,9 @@ seg.\ only, frozen projector & 95.1 & 88.7 & 90.5 & 91.9 \\
 
 \subsection{Decoder-Conditioned versus Learned-Query Anchors}
 \label{app:anchors}
-On the segmentation-only recipe with a frozen projector, we replace the two decoder-conditioned anchors with randomly initialized trainable constant queries, keeping the trainable segmentation projection and matched inference. Both arms receive maps for every image; omitted segmentation tokens in the decoder arm are appended before readout. The queries are learned during training, not fixed random vectors at test time.
+On the segmentation-only recipe with a frozen projector, we replace the two decoder-conditioned anchors with randomly initialized, trainable constant queries, keeping the trainable segmentation projection and matched inference. Both arms receive maps for every image; omitted segmentation tokens in the decoder arm are appended before readout. The queries are learned during training, not fixed random vectors at test time. The control thus compares anchors conditioned on the image, instruction, and response with context-free learned queries.
 
-Table~\ref{tab:anchor_seeds} reports pixel-AUPRO for seeds $42$, $43$, and $44$. Decoder anchors lead on VisA in all three runs, but the $+4.40$-point mean difference is influenced by the learned-query seed-$43$ result of $77.13\%$. On MPDD they lead in two seeds but have a lower mean; on Real-IAD they lead in one. Three seeds characterize training variability, not statistical significance or a guarantee of transfer. The control tests decoder conditioning as a whole, and does not isolate linguistic semantics from image conditioning or optimization effects.
+Table~\ref{tab:anchor_seeds} reports pixel-AUPRO for seeds $42$, $43$, and $44$ on all three targets. On VisA, decoder anchors lead in every seed, by $4.40$ points on average. On MPDD and Real-IAD, the two arms are close on average (differences of $-0.47$ and $-0.68$ points, smaller than the seed standard deviations), so the mean localization benefit is dataset-dependent. Decoder anchors are, however, more stable on all three targets: they show the smaller spread across seeds (standard deviation $0.81$, $1.02$, and $1.27$ versus $6.10$, $1.44$, and $3.94$ points) and the higher worst-seed AUPRO ($87.70$, $87.11$, and $85.38$ versus $77.13$, $86.58$, and $82.80$), whereas learned queries drop by $7$--$11$ points in one seed on VisA and on Real-IAD. The decoder arm also provides the seed variability referred to in Table~1 of the main paper: across the three seeds, the pixel-AUPRO of this segmentation-only recipe varies with a standard deviation of $0.8$--$1.3$ points.
 
 \begin{table}[t]
 \centering
@@ -674,10 +390,10 @@ Real-IAD & 42 & 87.93 & 89.71 & $-1.78$ \\
 We give the full definitions of the three tasks summarized in Section~3 of the main paper.
 
 \paragraph{Binary anomaly detection under distribution shift.}
-Let $\mathcal{D}_{\text{train}}=\{(\boldsymbol{x}_i,y_i)\}_{i=1}^{N_1}$ and $\mathcal{D}_{\text{target}}=\{(\boldsymbol{x}_i,y_i)\}_{i=N_1+1}^{N_1+N_2}$ be two image--label datasets drawn from different input distributions $\mathcal{P}(\mathcal{X}),\mathcal{P}(\mathcal{X}')$: $\forall i\in\{1,\dots,N_1\}$, $\boldsymbol{x}_i\sim\mathcal{P}(\mathcal{X})$, and $\forall i\in\{N_1+1,\dots,N_1+N_2\}$, $\boldsymbol{x}_i\sim\mathcal{P}(\mathcal{X}')$, where $\mathcal{P}(\mathcal{X})\nsim\mathcal{P}(\mathcal{X}')$. Each image $\boldsymbol{x}\in\mathbb{R}^{H\times W}$ is labeled with $y\in\{0,1\}$ indicating anomaly presence. A binary detector $\hat{f}(\cdot)$ is trained solely on $\mathcal{D}_{\mathrm{train}}$; at test time it is optionally adapted to $\hat{f}'(\cdot)$ using auxiliary target-domain metadata such as a product description. For each $\boldsymbol{x}\in\mathcal{D}_{\mathrm{target}}$, the detector classifies it as normal or anomalous.
+Let $\mathcal{D}_{\text{train}}=\{(\boldsymbol{x}_i,y_i)\}_{i=1}^{N_1}$ and $\mathcal{D}_{\text{target}}=\{(\boldsymbol{x}_i,y_i)\}_{i=N_1+1}^{N_1+N_2}$ be two image--label datasets drawn from different input distributions $\mathcal{P}(\mathcal{X}),\mathcal{P}(\mathcal{X}')$: $\forall i\in\{1,\dots,N_1\}$, $\boldsymbol{x}_i\sim\mathcal{P}(\mathcal{X})$, and $\forall i\in\{N_1+1,\dots,N_1+N_2\}$, $\boldsymbol{x}_i\sim\mathcal{P}(\mathcal{X}')$, where $\mathcal{P}(\mathcal{X})\nsim\mathcal{P}(\mathcal{X}')$. Each image $\boldsymbol{x}\in\mathbb{R}^{H\times W\times 3}$ is labeled with $y\in\{0,1\}$, where $y=1$ indicates that it contains at least one anomaly. A binary detector $\hat{f}(\cdot)$ is trained solely on $\mathcal{D}_{\mathrm{train}}$ and applied to $\mathcal{D}_{\mathrm{target}}$ without retraining; at test time it may additionally be conditioned on target-domain metadata such as a product description, but not on target labels. For each $\boldsymbol{x}\in\mathcal{D}_{\mathrm{target}}$, it outputs an anomaly score $s(\boldsymbol{x})\in\mathbb{R}$ and classifies the image as normal or anomalous by thresholding it.
 
 \paragraph{Binary anomaly segmentation under distribution shift.}
-With $\mathcal{D}_{\text{train}}$ and $\mathcal{D}_{\text{target}}$ as above and $\mathcal{P}(\mathcal{X})\nsim\mathcal{P}(\mathcal{X}')$, each image $\boldsymbol{x}\in\mathbb{R}^{H\times W}$ is paired with a binary mask $\boldsymbol{y}\in\{0,1\}^{H\times W}$ indicating the presence of anomalies at each pixel. The segmentation model $\hat{f}(\cdot)$ is trained solely on $\mathcal{D}_{\mathrm{train}}$ and optionally adapted to $\hat{f}'(\cdot)$ with target-domain metadata. For each pixel of $\boldsymbol{x}\in\mathcal{D}_{\mathrm{target}}$, it classifies the pixel as normal or anomalous.
+With $\mathcal{D}_{\text{train}}$ and $\mathcal{D}_{\text{target}}$ as above and $\mathcal{P}(\mathcal{X})\nsim\mathcal{P}(\mathcal{X}')$, each image $\boldsymbol{x}\in\mathbb{R}^{H\times W\times 3}$ is paired with a binary mask $\boldsymbol{y}\in\{0,1\}^{H\times W}$ indicating the presence of anomalies at each pixel; normal images have an all-zero mask. The segmentation model $\hat{f}(\cdot)$ is trained solely on $\mathcal{D}_{\mathrm{train}}$ and applied without retraining, optionally conditioned on target-domain metadata. For each $\boldsymbol{x}\in\mathcal{D}_{\mathrm{target}}$, it produces an anomaly map $\mathbf{A}\in\mathbb{R}^{H\times W}$ and classifies each pixel as normal or anomalous by thresholding the map.
 
 \paragraph{Conditional defect-type recognition under distribution shift.}
 For a known-anomalous target image $\boldsymbol{x}$ of object $o$, the supplied candidate set $C_{\mathrm{target}}(o)$ contains mapped coarse defect labels, including compound classes where defined. The target label is one member $y'\in C_{\mathrm{target}}(o)$, and the model predicts one label through conditional generation and parsing. The target vocabulary mixes labels seen in source training and novel labels; normal images and unmapped defect labels are outside this conditional evaluation. This setting tests cross-dataset type recognition with a supplied vocabulary, not arbitrary multi-label prediction or discovery of the target taxonomy.
@@ -687,24 +403,30 @@ For a known-anomalous target image $\boldsymbol{x}$ of object $o$, the supplied 
 This expands the related-work overview of the main text.
 
 \paragraph{CLIP-based prompt adaptation for anomaly detection and segmentation.}
-Recent advances in industrial anomaly detection/segmentation have largely built upon CLIP due to its strong zero-shot transfer ability, although CLIP was not originally designed for industrial inspection. A major line of work adapts CLIP to industrial AD through normal/abnormal prompts, learnable prompt tokens, or improved visual--text alignment. WinCLIP~\cite{jeong2023winclip} introduces normal and abnormal textual prompts together with window-based feature aggregation for zero-shot anomaly detection. AnomalyCLIP~\cite{zhou2024anomalyclip} learns object-agnostic prompts to capture generic semantics of normality and abnormality, while PromptAD~\cite{Li_2024_WACV} improves state discrimination by adding learnable prefix and suffix tokens. AdaCLIP~\cite{Cao_2024} further combines static and dynamic learnable prompts for adaptive inference across object categories. Beyond prompt learning, CLIP-based methods have been extended to localization and segmentation by improving patch-level alignment or incorporating external modules. APRIL-GAN~\cite{chen2023zero}, AnoCLIP~\cite{deng2024}, and SimCLIP~\cite{simclip} enhance cross-modal alignment for pixel-level anomaly mapping, while CLIP-SAM~\cite{li2024clipsamclipsamcollaboration} and FiLo~\cite{gu2024filozeroshotanomalydetection} combine CLIP with external segmentation or grounding models, and MultiADS~\cite{sadikaj2025multiadsdefectawaresupervisionmultitype} introduces defect-aware textual supervision for multi-type anomaly detection. Other approaches, such as MuSc~\cite{li2024musczeroshotindustrialanomaly}, MAEDAY~\cite{schwartz2024maeday}, and Aota et al.~\cite{aota2023zero}, rely on patch comparison, feature uniformity, or reconstruction difficulty. Despite their effectiveness, these methods largely depend on CLIP-style embedding comparison, external localization modules, or non-generative anomaly scoring, making them less suited for unified defect reasoning and analysis.
+Recent advances in industrial anomaly detection/segmentation have largely built upon CLIP due to its strong zero-shot transfer ability, although CLIP was not originally designed for industrial inspection. A major line of work adapts CLIP to industrial AD through normal/abnormal prompts, learnable prompt tokens, or improved visual--text alignment. WinCLIP~\cite{jeong2023winclip} introduces normal and abnormal textual prompts together with window-based feature aggregation for zero-shot anomaly detection. AnomalyCLIP~\cite{zhou2024anomalyclip} learns object-agnostic prompts to capture generic semantics of normality and abnormality, while PromptAD~\cite{Li_2024_WACV} improves state discrimination by adding learnable prefix and suffix tokens. AdaCLIP~\cite{Cao_2024} further combines static and dynamic learnable prompts for adaptive inference across object categories. Beyond prompt learning, CLIP-based methods have been extended to localization and segmentation by improving patch-level alignment or incorporating external modules. APRIL-GAN~\cite{chen2023zero}, AnoCLIP~\cite{deng2024}, SimCLIP~\cite{simclip}, VCP-CLIP~\cite{qu2024vcpclip}, and AA-CLIP~\cite{ma2025aaclip} enhance cross-modal alignment for pixel-level anomaly mapping, while CLIP-SAM~\cite{li2024clipsamclipsamcollaboration} and FiLo~\cite{gu2024filozeroshotanomalydetection} combine CLIP with external segmentation or grounding models, and MultiADS~\cite{sadikaj2025multiadsdefectawaresupervisionmultitype} introduces defect-aware textual supervision for multi-type anomaly detection. Other approaches, such as MuSc~\cite{li2024musczeroshotindustrialanomaly}, MAEDAY~\cite{schwartz2024maeday}, and Aota et al.~\cite{aota2023zero}, rely on patch comparison, feature uniformity, or reconstruction difficulty. Despite their effectiveness, these methods largely depend on CLIP-style embedding comparison, external localization modules, or non-generative anomaly scoring, making them less suited for unified defect reasoning and analysis.
 
 \paragraph{Autoregressive VLMs for anomaly detection and reasoning.}
-Autoregressive VLMs provide a different paradigm for anomaly understanding by enabling open-ended visual reasoning and instruction-following interaction. Instead of comparing an image embedding with a fixed set of CLIP prompts, they can generate textual descriptions, answer inspection questions, and reason over defect attributes in natural language. AnomalyGPT~\cite{gu2023anomalygptdetectingindustrialanomalies} is an early effort: it introduces an instruction-following VLM for industrial anomaly reasoning and lets users query the model about abnormal regions, but it relies on an external CLIP-based anomaly map combined with the input image and provided to the language model, so the VLM mainly serves as a reasoning interface on top of a separately generated map. More recently, Anomaly-OV~\cite{xu2025towards} specializes multimodal large language models for zero-shot anomaly detection and defect reasoning via Anomaly-Instruct-125k, a large-scale visual instruction-tuning dataset for anomaly-centric understanding; however, it mainly targets image-level detection and explanatory reasoning, while pixel-level segmentation is not explicitly grounded in the autoregressive decoding process.
+Autoregressive VLMs provide a different paradigm for anomaly understanding by enabling open-ended visual reasoning and instruction-following interaction. Instead of comparing an image embedding with a fixed set of CLIP prompts, they can generate textual descriptions, answer inspection questions, and reason over defect attributes in natural language. AnomalyGPT~\cite{gu2023anomalygptdetectingindustrialanomalies} is an early effort: it lets users query an instruction-following VLM about industrial anomalies, but its localization map comes from a dedicated image--text matching decoder and is fed to the language model as prompt embeddings, so the VLM reasons over a map it does not itself produce. Myriad~\cite{li2023myriad} likewise injects anomaly maps from vision experts into the model. MMAD~\cite{jiang2025mmad} benchmarks multimodal large language models on industrial inspection questions and finds even strong models well short of industrial requirements, whereas GenAU reads the VLM's yes/no prior out as a calibrated image-level score (Sec.~4.3 of the main paper). More recently, Anomaly-OV~\cite{xu2025towards} specializes multimodal large language models for zero-shot anomaly detection and defect reasoning via Anomaly-Instruct-125k, a large-scale visual instruction-tuning dataset for anomaly-centric understanding; it targets image-level detection and explanation and produces no pixel-level segmentation.
+
+\paragraph{Reasoning segmentation with VLMs.}
+LISA~\cite{lai2024lisareasoningsegmentationlarge} introduced reasoning segmentation, in which a VLM emits a segmentation token whose hidden state prompts a mask decoder; GLaMM~\cite{rasheed2024glamm} and PixelLM~\cite{ren2024pixellm} extend this paradigm to grounded conversation and multi-object segmentation. GenAU builds on this paradigm but uses the decoder hidden states of two dedicated tokens, \texttt{[SEG\_normal]} and \texttt{[SEG\_defect]}, as decoder-conditioned anchors that are matched directly against frozen multi-scale visual features, without an external mask decoder, and it unifies image-level anomaly detection, anomaly segmentation, defect-type recognition, and textual defect analysis in one instruction-following model.
 
 \section{Detailed Evaluation Metrics}
 \label{app:metrics}
-We adopt standard metrics for each task. For image-level anomaly detection, we report the Area Under the Receiver Operating Characteristic Curve (AUROC) and Average Precision (AP). For segmentation, we report the pixel-level AUROC and the Area Under the Per-Region Overlap (AUPRO). For multi-type anomaly detection, we use weighted Precision, Recall, and F1-score to account for the strong class imbalance across defect categories. For defect reasoning, we follow the VisA-D\&R protocol~\cite{xu2025towards} and report a GPT-Score in which GPT-4o rates each response on a $1$--$10$ scale, separately for low-level (perception) and complex (causal-reasoning) questions.
-The local reference-similarity evaluation uses $1{,}000$ VisA-D\&R entries: turn $0$ is low-level perception and later turns are complex reasoning. SBERT uses \texttt{all-MiniLM-L6-v2} cosine similarity, with low-level/complex scores $0.579$/$0.664$ and overall $0.643$ under the plain questions ($0.596$/$0.648$ with the turn-$0$ segmentation suffix used in Table~4 of the main paper). These metrics quantify reference agreement, not verified root causes. All baselines in Table~4 of the main paper are generated and scored with this same pipeline; published scores are not used.
+\paragraph{Detection and segmentation.}
+For image-level detection we report the area under the receiver operating characteristic curve (AUROC) and the average precision (AP) of the image-level score. For segmentation we report the pixel-level AUROC of the anomaly map and the area under the per-region overlap curve (AUPRO). For a given threshold, the per-region overlap averages, over all annotated defect regions, the fraction of each region covered by the thresholded map; AUPRO integrates it over pixel false-positive rates from $0$ to $0.3$, normalized to that range, so that small and large defects contribute equally.
+
+\paragraph{Defect-type recognition.}
+For multi-type detection we use weighted precision, recall, and F1, computed over the pooled images of a dataset: each class's score is weighted by its number of ground-truth images, which accounts for the strong class imbalance across defect categories.
+
+\paragraph{Defect reasoning.}
+We follow the VisA-D\&R protocol~\cite{xu2025towards} (Sec.~\ref{app:datasets}), with the first question of each conversation counted as low-level perception and all later questions as complex reasoning. For the GPT-Score, GPT-4o rates each answer against the reference answer on a $1$--$10$ scale, with the same judge prompt for every model. SBERT is the cosine similarity between \texttt{all-MiniLM-L6-v2} sentence embeddings of answer and reference. Both are averaged separately over low-level and complex questions, after removing segmentation tokens from the answers. All models in Table~4 of the main paper, including the baselines, are generated and scored with this same pipeline; published scores are not used.
 
 \section{Qualitative Results}
 \label{app:qualitative}
-In this section, we provide additional visualizations of anomaly segmentation results together with example text responses generated by the model. We present eight samples from diverse products, including tubes (\cref{fig:tubes}) from MPDD, capsules (\cref{fig:capsules}) and pipe fryum (\cref{fig:pipe-fryum}) from VisA, and mounts (\cref{fig:mounts}) and rolled strip base (\cref{fig:rolled_strip_base}) from Real-IAD.
+We provide additional anomaly maps of GenAU for five products, each with eight test images: tubes (\cref{fig:tubes}) from MPDD, capsules (\cref{fig:capsules}) and pipe fryum (\cref{fig:pipe-fryum}) from VisA, and mounts (\cref{fig:mounts}) and rolled strip base (\cref{fig:rolled_strip_base}) from Real-IAD.
 
-For the tubes, the model precisely identifies the deformed section and preserves clean boundaries, introducing almost no spurious activations elsewhere in the images. A similar pattern holds for the capsules, where the model distinguishes among different defect manifestations, correctly localizing internal bubbles, subtle surface scratches, and areas showing signs of leakage. For the pipe fryum, the model maintains high confidence across several defect types, producing focused masks for color specks, fine scratches, and fractured edges, and doing so consistently across varying shapes and orientations.
-On the Real-IAD mounts, the model is able to localize defects but introduces substantial prediction noise. It also occasionally assigns elevated similarity scores to background regions, even when those regions are uniform black and contain no structural cues. For the rolled strip base, the model effectively captures the primary defect, although the anomaly map exhibits considerable background noise and incorrectly attributes medium similarity scores to structural features such as the central diagonal ribs, despite these regions being non-defective.
-
-In \cref{fig:text}, we show examples of how the model classifies defects across different products together with the corresponding segmentation masks. For the cashew sample, it correctly notes the presence of a dark region on the surface, corresponding to a \textit{color} defect. For the pipe fryum, it identifies that several pieces are touching and classifies the issue as \textit{misplaced}. For the PCB, it detects the \textit{bent} defect by recognizing the curved pins. Combined with the segmentation masks, these textual explanations provide detailed and actionable information that can support process optimization.
+For the tubes, the model precisely identifies the deformed section and preserves clean boundaries, introducing almost no spurious activations elsewhere in the images. A similar pattern holds for the capsules, where the model distinguishes among different defect manifestations, correctly localizing internal bubbles, subtle surface scratches, and areas showing signs of leakage. For the pipe fryum, the model maintains high confidence across several defect types, producing focused masks for color specks, fine scratches, and fractured edges, and doing so consistently across varying shapes and orientations. On the Real-IAD mounts and rolled strip base, GenAU localizes the annotated defect in every image, including small ones; weaker responses also appear on salient structures such as the diagonal ribs of the rolled strip base, in line with the weak boundary responses noted in Sec.~5.5.1 of the main paper.
 
 \begin{figure*}
   \centering
@@ -744,12 +466,5 @@ from our model.}
   \caption{This visualization showcases the rolled strip base product from the Real-IAD dataset. The first row represents the input with the anomaly highlighted. The second row presents the segmentation results
 from our model.}
    \label{fig:rolled_strip_base}
-\end{figure*}
-
-\begin{figure*}
-  \centering
-  \includegraphics[width=\textwidth]{imgs/GenAU_Dialogue.pdf}
-  \caption{This visualization showcases the abilities of GenAU. Given the input prompt and the image, the model reasons over the possible defects, identifies the correct one and outputs a segmentation mask.}
-   \label{fig:text}
 \end{figure*}
 
