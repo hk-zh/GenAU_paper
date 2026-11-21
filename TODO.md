@@ -24,8 +24,9 @@ Paths starting with `../` are in the parent GenAU repo.
       Check the page count afterwards.
 - [ ] Upload `appendix.pdf` (review format; was 10 pages before the figure update). Anonymity was checked: no author metadata or
       local paths; the only author name is in the MultiADS reference.
-- [ ] Optional: add a language example figure built from real outputs of the reported checkpoint
-      (e.g. VisA-D&R answers), never from `imgs/text.pdf`.
+- [x] Added the language example (Fig. `fig:text`, Qualitative Results): three VisA-D&R conversations of the
+      reported 7B run, verbatim, at the class-median GPT-Score; maps from a re-run of the first turn
+      (`../scripts/figures/render_dialogue.py`). Check its layout when recompiling (never compiled locally).
 
 ## Housekeeping
 

@@ -428,6 +428,8 @@ We provide additional anomaly maps of GenAU-7B for five products, each with eigh
 
 On the tubes, the deformed tube receives the strongest response in most images, while the intact tubes show a weaker, uniform activation. On the capsules, large defects such as leaks and misshapes are localized clearly, but small bubbles and discolorations receive only weak responses, and one map shows a diffuse response over the background. On the pipe fryum, breakage and spots near the edges are localized, while scratches are covered only coarsely and the object surface is moderately activated throughout. On the Real-IAD mounts, missing parts and pits are localized, but a contamination at the inner rim of the hole is missed (first image). On the rolled strip base, the defects are localized, and weaker responses also appear on salient structures such as the screw holes and diagonal ribs, in line with the weak boundary responses noted in Sec.~5.5.1 of the main paper.
 
+\cref{fig:text} shows complete VisA-D\&R conversations, chosen at the class-median GPT-Score rather than as best cases. In the first turn GenAU answers and emits the segmentation tokens; in all three images the strongest response of the resulting map lies on the annotated defect, with weaker responses on the upper lobe of the cashew and on the PCB's LED. The text is less reliable than the maps: GenAU describes the cashew's hole as a dark spot, calls the pipe fryum a pill, and attributes the PCB anomaly to a bent transistor lead, while its own map highlights the excess solder on the potentiometer that the reference names. Once the follow-up question names the defect, the explanations of its significance, causes, and prevention are mostly consistent with the reference, which matches the gap between low-level and complex GPT-Scores in Table~4 of the main paper.
+
 \begin{figure*}
   \centering
   \includegraphics[width=\textwidth]{imgs/tubes.jpg}
@@ -461,5 +463,51 @@ On the tubes, the deformed tube receives the strongest response in most images, 
   \includegraphics[width=\textwidth]{imgs/rolled_strip_base.jpg}
   \caption{Rolled strip base (Real-IAD). Ground truth is outlined in red (small defects are additionally marked with a dashed box); the second row shows the GenAU-7B anomaly maps.}
   \label{fig:rolled_strip_base}
+\end{figure*}
+
+\newcommand{\seg}[1]{{\setlength{\fboxsep}{0.8pt}\fcolorbox{orange!70!black}{orange!12}{\scriptsize\ttfamily #1}}}
+\newcommand{\dlguser}[1]{\par\noindent{\setlength{\fboxsep}{2.5pt}\fcolorbox{black!35}{black!4}{\parbox{\dimexpr\linewidth-2\fboxsep-0.8pt}{\scriptsize\textbf{User:} #1}}}\par\vspace{1.5pt}}
+\newcommand{\dlggenau}[2]{\par\noindent{\setlength{\fboxsep}{2.5pt}\fcolorbox{green!45!black}{green!6}{\parbox{\dimexpr\linewidth-2\fboxsep-0.8pt}{\scriptsize\textbf{GenAU:} #1\hfill{\color{black!55}[GPT-4o: #2]}}}}\par\vspace{3pt}}
+
+\begin{figure*}
+  \centering
+\begin{minipage}[t]{0.325\textwidth}
+  {\small\textbf{Cashew (VisA)}}\\[2pt]
+  \includegraphics[width=0.495\linewidth]{imgs/a6_cashew_input.jpg}\hfill\includegraphics[width=0.495\linewidth]{imgs/a6_cashew_map.jpg}\\[3pt]
+  \dlguser{Does the cashew nut in the image have any anomalies? If yes, segment it.}
+  \dlggenau{Yes, there is a small, dark spot on the upper right side of the cashew nut's surface, which appears as a puncture or blemish \seg{[SEG\_defect]}~\seg{[SEG\_normal]}.}{8}
+  \dlguser{Why is the hole in the cashew nut considered an anomaly?}
+  \dlggenau{The hole is considered an anomaly because it disruptss the smooth, intact surface of the nut, which is typical for a healthy cashew.}{9}
+  \dlguser{What might have caused the anomaly in the cashew nut?}
+  \dlggenau{The anomaly could be caused by a puncture or a natural defect in the nut's shell.}{6}
+  \dlguser{Can you suggest ways to prevent this kind of anomaly in cashew nuts in the future?}
+  \dlggenau{To prevent such anomalies, ensure proper handling and storage to avoid physical damage. Additionally, using protective packaging during transportation can help maintain the nuts' integrity.}{5}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.325\textwidth}
+  {\small\textbf{Pipe fryum (VisA)}}\\[2pt]
+  \includegraphics[width=0.495\linewidth]{imgs/a6_fryum_input.jpg}\hfill\includegraphics[width=0.495\linewidth]{imgs/a6_fryum_map.jpg}\\[3pt]
+  \dlguser{Is there any anomaly visible in the image? If yes, segment it.}
+  \dlggenau{Yes, there is an anomaly. A small, light-colored spot is visible on the upper right section of the pill \seg{[SEG\_defect]}~\seg{[SEG\_normal]}.}{8}
+  \dlguser{What makes this spot on the fryum an anomaly?}
+  \dlggenau{The anomaly is a small, light-colored spot that contrasts with the pill's uniform color.}{1}
+  \dlguser{What could have caused this spot to appear on the fryum?}
+  \dlggenau{The spot could be due to contamination, a manufacturing defect, or an external substance adhering to the pill.}{8}
+  \dlguser{What steps can be taken to prevent such anomalies in the future?}
+  \dlggenau{Enhancing quality control during manufacturing, ensuring cleanliness and sterility, and conducting regular inspections can help prevent such anomalies.}{9}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.325\textwidth}
+  {\small\textbf{PCB (VisA, pcb3)}}\\[2pt]
+  \includegraphics[width=0.495\linewidth]{imgs/a6_pcb_input.jpg}\hfill\includegraphics[width=0.495\linewidth]{imgs/a6_pcb_map.jpg}\\[3pt]
+  \dlguser{Are there any observable anomalies in the PCB image? If yes, segment it.}
+  \dlggenau{Yes, there is an anomaly involving the transistor on the board. The transistor's lead is bent and appears damaged, which could disrupt its functionality \seg{[SEG\_defect]}~\seg{[SEG\_normal]}.}{1}
+  \dlguser{Why is the excessive solder considered an anomaly?}
+  \dlggenau{The excessive solder is considered an anomaly because it can lead to short circuits, improper connections, or overheating issues.}{8}
+  \dlguser{What could be the cause of this soldering error?}
+  \dlggenau{The excessive solder could be caused by improper handling of the soldering iron, insufficient cooling, or a lack of experience in soldering.}{8}
+  \dlguser{What measures could be implemented to prevent such anomalies?}
+  \dlggenau{To prevent such anomalies, it's important to use proper soldering techniques, ensure the board is well-ventilated, and use a soldering iron with a temperature control feature.}{6}
+\end{minipage}
+  \caption{VisA-D\&R conversations of GenAU-7B, verbatim (including errors) from the run scored in Table~4 of the main paper. For each class we show the conversation at the class-median GPT-Score among those whose first answer reports an anomaly; [GPT-4o: $s$] is the judge's score of each answer against the reference ($1$--$10$). Left image: input with the ground truth outlined in red (dashed box around small defects); right image: the anomaly map read out from the segmentation tokens of the first answer, in a re-run of that turn on the same input. Segmentation tokens emitted in later answers are omitted.}
+  \label{fig:text}
 \end{figure*}
 
