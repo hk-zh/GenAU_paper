@@ -1,7 +1,7 @@
 # GenAU (CVPR 2027): supplementary checklist
 
 Status, 2026-11-22: the supplementary sources (`suppl.tex` → `sec/7_appendix.tex`) are final and
-`appendix.pdf` is recompiled from them; `git log -p -- sec/7_appendix.tex` shows the changes.
+`suppl.pdf` is recompiled from them; `git log -p -- sec/7_appendix.tex` shows the changes.
 Paths starting with `../` are in the parent GenAU repo.
 
 ## Before uploading the supplementary
@@ -19,9 +19,9 @@ Paths starting with `../` are in the parent GenAU repo.
       `mounts.jpg`, `rolled_strip_base.jpg`) from the reported 7B halfmix checkpoint
       (`../scripts/figures/suppl_qual_maps.bsub`, `../scripts/figures/select_suppl_qual.py`, `../scripts/figures/render_qual.py`);
       samples spread over defect types and AP quantiles, not best-case. Qualitative Results text and captions rewritten.
-- [x] Recompiled `appendix.pdf` from `suppl.tex` locally (no TeX install works on the cluster: tectonic's
+- [x] Recompiled `suppl.pdf` from `suppl.tex` locally (no TeX install works on the cluster: tectonic's
       bundle is blocked by the proxy, TeX Live 2018 lacks libpoppler): 11 pages (with Tables A7 and A10), no undefined references.
-- [ ] Upload `appendix.pdf` (review format, 11 pages). Anonymity was checked: no author metadata or
+- [ ] Upload `suppl.pdf` (review format, 11 pages). Anonymity was checked: no author metadata or
       local paths; the only author name is in the MultiADS reference.
 - [x] Added the language example (Fig. `fig:text`, Qualitative Results): three VisA-D&R conversations of the
       reported 7B run, verbatim, at the class-median GPT-Score; maps from a re-run of the first turn
