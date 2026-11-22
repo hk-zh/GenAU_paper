@@ -322,6 +322,37 @@ Every task uses the checkpoint of Table~1 of the main paper, without weight chan
 \paragraph{Reasoning conversations in training.}
 Training with reasoning conversations preserves the ability to answer causal questions that segmentation-only training loses. On the complex VisA-D\&R questions, GenAU-7B reaches an SBERT similarity to the reference answers of $0.664$, against $0.576$ for the segmentation-only checkpoint with a frozen projector ($0.635$ versus $0.560$ at 0.5B), whereas on the low-level questions, which ask for a description of the anomaly, the two are comparable ($0.579$ versus $0.590$). Giving every training image a conversation (the full reasoning mix of Table~2 of the main paper) brings no further gain at 7B ($0.571$ low-level, $0.666$ complex) but lowers VisA image-AUROC to $87.0\%$, pixel-AUPRO to $85.8\%$, and type-recognition F1 to $29.0\%$ on VisA and $69.8\%$ on MPDD; our default therefore embeds conversations in half of the training samples. These comparisons use the plain VisA-D\&R questions. Table~4 of the main paper appends GenAU's segmentation request ``If yes, segment it.'' to the first question, so that the same conversation also yields the anomaly map, giving $0.596$/$0.648$ (7B) and $0.562$/$0.634$ (0.5B); with the plain questions, GenAU-7B's similarities ($0.579$/$0.664$) likewise exceed those of Anomaly-OV-7B in that table ($0.565$/$0.629$).
 
+\paragraph{Per-class reasoning scores.}
+Table~\ref{tab:dr_perclass} breaks the 7B GPT-Scores of Table~4 of the main paper down by VisA-D\&R class ($100$ conversations each). On complex questions GenAU-7B scores higher than Anomaly-OV-7B in nine of the ten classes, by up to $0.92$ points (capsules), and trails only on pipe fryum ($6.07$ versus $6.16$). On low-level questions it is ahead in six classes, with the largest gains on chewing gum ($+0.74$) and capsules ($+0.62$), and behind on both macaroni classes and on the two PCB classes, where both models score below $2.3$.
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\caption{Per-class GPT-Scores ($1$--$10$) on VisA-D\&R for the 7B models of Table~4 of the main paper (same runs and judge). Low: first question of each conversation; Complex: all later questions. Bold: higher of the two models.}
+\label{tab:dr_perclass}
+\begin{tabular}{@{}l|cc|cc@{}}
+\toprule
+ & \multicolumn{2}{c|}{\textbf{Low-level}} & \multicolumn{2}{c}{\textbf{Complex}} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+\textbf{Class} & Anomaly-OV & GenAU & Anomaly-OV & GenAU \\
+\midrule
+Candle      & 5.58 & \textbf{5.91} & 6.37 & \textbf{6.76} \\
+Capsules    & 3.23 & \textbf{3.85} & 5.45 & \textbf{6.37} \\
+Cashew      & 3.42 & \textbf{3.77} & 5.28 & \textbf{5.66} \\
+Chewing gum & 2.91 & \textbf{3.65} & 5.72 & \textbf{6.12} \\
+Fryum       & 5.31 & \textbf{5.47} & 6.86 & \textbf{6.93} \\
+Macaroni1   & \textbf{5.20} & 4.29 & 6.27 & \textbf{7.04} \\
+Macaroni2   & \textbf{4.33} & 3.87 & 6.16 & \textbf{6.77} \\
+PCB1        & \textbf{2.22} & 1.97 & 5.96 & \textbf{6.10} \\
+PCB3        & \textbf{1.89} & 1.70 & 6.37 & \textbf{6.50} \\
+Pipe fryum  & 5.18 & \textbf{5.76} & \textbf{6.16} & 6.07 \\
+\midrule
+All         & 3.93 & \textbf{4.02} & 6.06 & \textbf{6.43} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \section{Additional Ablations}
 \label{app:ablation}
 Table~\ref{tab:ablations} ablates, on MVTec-AD$\rightarrow$VisA, four training choices: the weight of the text loss, the number $m$ of vision-encoder stages supplying the segmentation readout, whether the cross-modal projector is trainable, and whether the vision encoder itself is unfrozen. The ablations use the segmentation-only recipe with a frozen cross-modal projector, which isolates the segmentation pathway from the reasoning data; each row changes a single factor relative to the shaded reference row.
@@ -381,6 +412,38 @@ Real-IAD & 42 & 87.93 & 89.71 & $-1.78$ \\
       & 43 & 86.69 & 82.80 & $+3.89$ \\
       & 44 & 85.38 & 89.53 & $-4.15$ \\
       & Mean & $86.67\pm1.27$ & $87.35\pm3.94$ & $-0.68$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Training Length and Text-Loss Weight}
+\label{app:epochs}
+Table~\ref{tab:epochs} retrains the default GenAU-7B recipe (reasoning conversations in half of the samples, trainable projector) with one to three epochs and text-loss weights $w\in\{1,2,5\}$ ($w\,\mathcal{L}_{\mathrm{txt}}+\mathcal{L}_{\mathrm{seg}}$). Because VisA also served as the development target (Sec.~\ref{app:eval}), the table shows how sensitive the result is to these two settings, not an independent test. Longer training fits the source better and transfers worse: on the $1{,}725$ MVTec-AD training images, pixel-AUPRO rises from $89.8$--$90.5$ after one epoch to $93.9$--$94.6$ after three, while VisA pixel-AUPRO falls from $86.0$--$89.4$ to $84.4$--$85.1$ and the fused image-AUROC from $89.1$--$90.0$ to $87.2$--$88.1$. Pixel-AUROC stays within $94.1$--$95.7$ throughout. Within one epoch, raising the text-loss weight lowers VisA AUPRO ($89.4$, $88.6$, $86.0$) and image-AUROC ($90.0$, $89.7$, $89.1$); with reasoning conversations in the data the weight thus matters more than in the segmentation-only recipe of Table~\ref{tab:ablations}. The single-epoch, equal-weight default gives the highest VisA AUPRO and image-AUROC of all nine runs.
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{3pt}
+\caption{Training length and text-loss weight $w$ for GenAU-7B (MVTec-AD$\rightarrow$VisA). All nine runs are retrainings of the default recipe; the shaded default row is therefore a re-run of the GenAU-7B of Table~1 of the main paper and differs from it slightly. MVTec-AD columns are measured on the training images. Image-AUROC uses the fused score. All metrics in \%.}
+\label{tab:epochs}
+\begin{tabular}{@{}cc|c|ccc@{}}
+\toprule
+ & & \textbf{MVTec-AD} & \multicolumn{3}{c}{\textbf{VisA}} \\
+\cmidrule(lr){3-3}\cmidrule(lr){4-6}
+$w$ & Epochs & Px-AUPRO & Px-AUROC & Px-AUPRO & Img-AUROC \\
+\midrule
+\rowcolor{gray!20}
+1 & 1 & 90.5 & 95.6 & \textbf{89.4} & \textbf{90.0} \\
+1 & 2 & 92.7 & 95.5 & 85.9 & 87.4 \\
+1 & 3 & 93.9 & 94.2 & 84.4 & 87.4 \\
+\midrule
+2 & 1 & 90.3 & 95.1 & 88.6 & 89.7 \\
+2 & 2 & 92.3 & 95.4 & 86.4 & 87.9 \\
+2 & 3 & \textbf{94.6} & \textbf{95.7} & 85.1 & 88.1 \\
+\midrule
+5 & 1 & 89.8 & 94.1 & 86.0 & 89.1 \\
+5 & 2 & 93.0 & 95.2 & 86.8 & 87.5 \\
+5 & 3 & \textbf{94.6} & 95.2 & 84.6 & 87.2 \\
 \bottomrule
 \end{tabular}
 \end{table}
