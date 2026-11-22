@@ -1,7 +1,7 @@
 # GenAU (CVPR 2027): supplementary checklist
 
-Status, 2026-11-21: the supplementary sources (`suppl.tex` → `sec/7_appendix.tex`) are final, but
-`appendix.pdf` must be recompiled (qualitative figures updated); `git log -p -- sec/7_appendix.tex` shows the changes.
+Status, 2026-11-22: the supplementary sources (`suppl.tex` → `sec/7_appendix.tex`) are final and
+`appendix.pdf` is recompiled from them; `git log -p -- sec/7_appendix.tex` shows the changes.
 Paths starting with `../` are in the parent GenAU repo.
 
 ## Before uploading the supplementary
@@ -17,16 +17,15 @@ Paths starting with `../` are in the parent GenAU repo.
     not be reproduced from `../anomaly_dataset/`).
 - [x] Re-rendered the five qualitative figures (`imgs/tubes.jpg`, `capsules.jpg`, `pipe-fryum.jpg`,
       `mounts.jpg`, `rolled_strip_base.jpg`) from the reported 7B halfmix checkpoint
-      (`../scripts/figures/suppl_qual_maps.bsub`, `../scripts/figures/select_suppl_qual.py`, `render_qual.py`);
+      (`../scripts/figures/suppl_qual_maps.bsub`, `../scripts/figures/select_suppl_qual.py`, `../scripts/figures/render_qual.py`);
       samples spread over defect types and AP quantiles, not best-case. Qualitative Results text and captions rewritten.
-- [ ] Recompile `appendix.pdf` from `suppl.tex`: the committed PDF still has the old figures (no TeX
-      install works on the cluster: tectonic's bundle is blocked by the proxy, TeX Live 2018 lacks libpoppler).
-      Check the page count afterwards.
+- [x] Recompiled `appendix.pdf` from `suppl.tex` locally (no TeX install works on the cluster: tectonic's
+      bundle is blocked by the proxy, TeX Live 2018 lacks libpoppler): 10 pages, no undefined references.
 - [ ] Upload `appendix.pdf` (review format; was 10 pages before the figure update). Anonymity was checked: no author metadata or
       local paths; the only author name is in the MultiADS reference.
 - [x] Added the language example (Fig. `fig:text`, Qualitative Results): three VisA-D&R conversations of the
       reported 7B run, verbatim, at the class-median GPT-Score; maps from a re-run of the first turn
-      (`../scripts/figures/render_dialogue.py`). Check its layout when recompiling (never compiled locally).
+      (`../scripts/figures/render_dialogue.py`).
 
 ## Housekeeping
 
