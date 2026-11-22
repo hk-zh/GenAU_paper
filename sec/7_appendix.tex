@@ -323,19 +323,19 @@ Every task uses the checkpoint of Table~1 of the main paper, without weight chan
 Training with reasoning conversations preserves the ability to answer causal questions that segmentation-only training loses. On the complex VisA-D\&R questions, GenAU-7B reaches an SBERT similarity to the reference answers of $0.664$, against $0.576$ for the segmentation-only checkpoint with a frozen projector ($0.635$ versus $0.560$ at 0.5B), whereas on the low-level questions, which ask for a description of the anomaly, the two are comparable ($0.579$ versus $0.590$). Giving every training image a conversation (the full reasoning mix of Table~2 of the main paper) brings no further gain at 7B ($0.571$ low-level, $0.666$ complex) but lowers VisA image-AUROC to $87.0\%$, pixel-AUPRO to $85.8\%$, and type-recognition F1 to $29.0\%$ on VisA and $69.8\%$ on MPDD; our default therefore embeds conversations in half of the training samples. These comparisons use the plain VisA-D\&R questions. Table~4 of the main paper appends GenAU's segmentation request ``If yes, segment it.'' to the first question, so that the same conversation also yields the anomaly map, giving $0.596$/$0.648$ (7B) and $0.562$/$0.634$ (0.5B); with the plain questions, GenAU-7B's similarities ($0.579$/$0.664$) likewise exceed those of Anomaly-OV-7B in that table ($0.565$/$0.629$).
 
 \paragraph{Per-class reasoning scores.}
-Table~\ref{tab:dr_perclass} breaks the 7B GPT-Scores of Table~4 of the main paper down by VisA-D\&R class ($100$ conversations each). On complex questions GenAU-7B scores higher than Anomaly-OV-7B in nine of the ten classes, by up to $0.92$ points (capsules), and trails only on pipe fryum ($6.07$ versus $6.16$). On low-level questions it is ahead in six classes, with the largest gains on chewing gum ($+0.74$) and capsules ($+0.62$), and behind on both macaroni classes and on the two PCB classes, where both models score below $2.3$.
+Table~\ref{tab:dr_perclass} breaks the 7B GPT-Scores of Table~4 of the main paper down by VisA-D\&R class ($100$ conversations each). On complex questions GenAU-7B scores higher than Anomaly-OV-7B in nine of the ten classes, by up to $0.92$ points (capsules), and on low-level questions in six, so its overall lead in Table~4 of the main paper holds across most classes rather than coming from a few.
 
 \begin{table}[t]
 \centering
 \small
 \setlength{\tabcolsep}{4pt}
-\caption{Per-class GPT-Scores ($1$--$10$) on VisA-D\&R for the 7B models of Table~4 of the main paper (same runs and judge). Low: first question of each conversation; Complex: all later questions. Bold: higher of the two models.}
+\caption{Per-class GPT-Scores ($1$--$10$) on VisA-D\&R for the 7B models of Table~4 of the main paper (same runs and judge); AOV: Anomaly-OV-7B. Low-level: first question of each conversation; Complex: all later questions. Bold: higher of the two models.}
 \label{tab:dr_perclass}
 \begin{tabular}{@{}l|cc|cc@{}}
 \toprule
  & \multicolumn{2}{c|}{\textbf{Low-level}} & \multicolumn{2}{c}{\textbf{Complex}} \\
 \cmidrule(lr){2-3}\cmidrule(lr){4-5}
-\textbf{Class} & Anomaly-OV & GenAU & Anomaly-OV & GenAU \\
+\textbf{Class} & AOV & GenAU & AOV & GenAU \\
 \midrule
 Candle      & 5.58 & \textbf{5.91} & 6.37 & \textbf{6.76} \\
 Capsules    & 3.23 & \textbf{3.85} & 5.45 & \textbf{6.37} \\
@@ -424,13 +424,14 @@ Table~\ref{tab:epochs} retrains the default GenAU-7B recipe (reasoning conversat
 \centering
 \small
 \setlength{\tabcolsep}{3pt}
-\caption{Training length and text-loss weight $w$ for GenAU-7B (MVTec-AD$\rightarrow$VisA). All nine runs are retrainings of the default recipe; the shaded default row is therefore a re-run of the GenAU-7B of Table~1 of the main paper and differs from it slightly. MVTec-AD columns are measured on the training images. Image-AUROC uses the fused score. All metrics in \%.}
+\caption{Training length and text-loss weight $w$ for GenAU-7B (MVTec-AD$\rightarrow$VisA). All nine runs are retrainings of the default recipe; the shaded default row is therefore a re-run of the GenAU-7B of Table~1 of the main paper and differs from it slightly. The MVTec-AD column is measured on the training images; image-AUROC uses the fused score. All metrics in \%.}
 \label{tab:epochs}
-\begin{tabular}{@{}cc|c|ccc@{}}
+\begin{tabular}{@{}cc|c|cc|c@{}}
 \toprule
  & & \textbf{MVTec-AD} & \multicolumn{3}{c}{\textbf{VisA}} \\
 \cmidrule(lr){3-3}\cmidrule(lr){4-6}
-$w$ & Epochs & Px-AUPRO & Px-AUROC & Px-AUPRO & Img-AUROC \\
+ & & Pixel & \multicolumn{2}{c|}{Pixel} & Image \\
+$w$ & Ep. & AUPRO & AUROC & AUPRO & AUROC \\
 \midrule
 \rowcolor{gray!20}
 1 & 1 & 90.5 & 95.6 & \textbf{89.4} & \textbf{90.0} \\
